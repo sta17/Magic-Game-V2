@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AccessoryData" format=3 uid="uid://65mir5fv7vo8"]
+
+[ext_resource type="Script" uid="uid://bonwm6epatwmq" path="res://scripts/items/accessory_data.gd" id="1"]
+[ext_resource type="Script" uid="uid://b2qi4w3qfafsa" path="res://scripts/abilities/improved_medic_ring_ability.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://d27mgykaoxu4m" path="res://resources/icons/medic_ring.png" id="3"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
+ability_name = "Improved Medic Ring"
+description = "Passive: 5.0 HP/s regeneration while on hotbar"
+is_passive = true
+
+[resource]
+script = ExtResource("1")
+item_name = "Improved Medic Ring"
+description = "Grants an improved regen ability while equipped"
+item_type = 2
+icon = ExtResource("3")
+granted_ability = SubResource("1")

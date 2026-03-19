@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Sniper Rifle"
+description = "Long range, high damage"
+weapon_type = 3
+damage = 75.0
+fire_rate = 1.4
+ammo_max = 5
+ammo_current = 5
+reload_time = 2.8
+bullet_speed = 120.0
+bullet_spread = 0.005
+pellets = 1

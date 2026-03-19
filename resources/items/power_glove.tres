@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/items/accessory_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Power Glove"
+description = "All weapons deal extra damage"
+damage_bonus = 8.0
