@@ -1,5 +1,14 @@
+NinePatchRect
+Label
+TextureRect
+Panel
 Sprite3D
 ProgressBar
-Player
-CollisionShape3D
+SubViewport
+Node3D
 MeshInstance3D
+CollisionShape3D
+CharacterBody3D
+Marker3D
+Area3D
+Control

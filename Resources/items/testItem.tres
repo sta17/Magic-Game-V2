@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c66mox8g666qk"]
+
+[ext_resource type="Script" uid="uid://b86t22j8kw6ob" path="res://Script/Items/item_data.gd" id="1_ekauf"]
+[ext_resource type="Texture2D" uid="uid://bpjv53k8ufds0" path="res://Assets/Icons/Buch's RPG Items/ring.png" id="1_g1u23"]
+
+[resource]
+script = ExtResource("1_ekauf")
+item_name = "Test Item"
+description = "Got No Use"
+item_type = 2
+icon = ExtResource("1_g1u23")
+dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn"
+lore = "Much Ado About Nothing"
+metadata/_custom_type_script = "uid://b86t22j8kw6ob"

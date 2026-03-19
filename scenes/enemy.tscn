@@ -1,70 +1,58 @@
-[gd_scene format=3 uid="uid://cengo1xmmowip"]
+[gd_scene format=3 uid="uid://di8vlpp7u8kso"]
 
-[ext_resource type="Script" uid="uid://csmqc754q4qir" path="res://scripts/core/enemy.gd" id="1"]
+[ext_resource type="StyleBox" uid="uid://cil5dbvueyfjd" path="res://Styleboxes/HPBar Empty.stylebox" id="1_1f0kj"]
+[ext_resource type="Script" uid="uid://b56pfs6mglmgg" path="res://Script/Core/enemy.gd" id="1_afpow"]
+[ext_resource type="StyleBox" uid="uid://duh8rvaj4yqfc" path="res://Styleboxes/HPBar.stylebox" id="2_afpow"]
 
-[sub_resource type="CapsuleShape3D" id="S_col"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_287tu"]
 radius = 0.38
 height = 1.8
 
-[sub_resource type="CapsuleMesh" id="M_body"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0830c"]
 radius = 0.38
 height = 1.8
 
-[sub_resource type="StandardMaterial3D" id="Mat_body"]
-albedo_color = Color(0.8, 0.15, 0.15, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghaa6"]
+albedo_color = Color(0.8, 0.14901961, 0.14901961, 1)
 roughness = 0.7
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7p1mj"]
-bg_color = Color(1, 1, 1, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_md0e3"]
-bg_color = Color(0, 1, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_7p1mj"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_1dp5w"]
 viewport_path = NodePath("HealthBar/HPViewport")
 
-[node name="Enemy" type="CharacterBody3D" unique_id=1261949265]
+[node name="Enemy" type="CharacterBody3D" unique_id=640505128]
 collision_layer = 2
 collision_mask = 5
-script = ExtResource("1")
+script = ExtResource("1_afpow")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1759555164]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2129752839]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("S_col")
+shape = SubResource("CapsuleShape3D_287tu")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=1213467613]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=388999950]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("M_body")
-surface_material_override/0 = SubResource("Mat_body")
+mesh = SubResource("CapsuleMesh_0830c")
+surface_material_override/0 = SubResource("StandardMaterial3D_ghaa6")
 
-[node name="HealthBar" type="Node3D" parent="." unique_id=1448827836]
+[node name="HealthBar" type="Node3D" parent="." unique_id=1565521290]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 
-[node name="HPViewport" type="SubViewport" parent="HealthBar" unique_id=1550951340]
+[node name="HPViewport" type="SubViewport" parent="HealthBar" unique_id=68077965]
 transparent_bg = true
 size = Vector2i(200, 16)
 render_target_update_mode = 4
 
-[node name="ProgressBar" type="ProgressBar" parent="HealthBar/HPViewport" unique_id=1124876699]
+[node name="ProgressBar" type="ProgressBar" parent="HealthBar/HPViewport" unique_id=2005700922]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_styles/background = SubResource("StyleBoxFlat_7p1mj")
-theme_override_styles/fill = SubResource("StyleBoxFlat_md0e3")
-show_percentage = false
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = ExtResource("1_1f0kj")
+theme_override_styles/fill = ExtResource("2_afpow")
 value = 100.0
+show_percentage = false
 
-[node name="HPSprite" type="Sprite3D" parent="HealthBar" unique_id=891380163]
+[node name="HPSprite" type="Sprite3D" parent="HealthBar" unique_id=1477253290]
 pixel_size = 0.005
 billboard = 1
-texture = SubResource("ViewportTexture_7p1mj")
+texture = SubResource("ViewportTexture_1dp5w")

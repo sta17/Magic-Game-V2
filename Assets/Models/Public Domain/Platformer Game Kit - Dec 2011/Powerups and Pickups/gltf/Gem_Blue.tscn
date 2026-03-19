@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c6q8cwu3q8mmu"]
+
+[ext_resource type="PackedScene" uid="uid://cujlxpsv0y87e" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.gltf" id="1_46ynh"]
+[ext_resource type="Shader" uid="uid://wohea1m00f3b" path="res://shaders/gem_shader.tres" id="2_rbtap"]
+[ext_resource type="Texture2D" uid="uid://d8qdwa2i1nk8" path="res://shaders/T_PerlinNoise_Tiled.png" id="3_x73b5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ne25c"]
+render_priority = 0
+shader = ExtResource("2_rbtap")
+shader_parameter/AuraColor = Color(1, 0.94509804, 1, 0.49019608)
+shader_parameter/AuraIntensity = 3.0
+shader_parameter/Speed = Vector2(0.1, 0.1)
+shader_parameter/tex_frg_2 = ExtResource("3_x73b5")
+
+[node name="Node3D" type="Node3D" unique_id=2096202419]
+
+[node name="Gem_Blue2" parent="." unique_id=1098707890 instance=ExtResource("1_46ynh")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Gem_Blue" parent="Gem_Blue2" index="0" unique_id=262867382]
+material_overlay = SubResource("ShaderMaterial_ne25c")
+
+[editable path="Gem_Blue2"]

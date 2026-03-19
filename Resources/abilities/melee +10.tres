@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MeleeAbility" format=3 uid="uid://gk6k6n8dkfyu"]
+
+[ext_resource type="Texture2D" uid="uid://cyfg2vrcer06a" path="res://Assets/Icons/Buch's RPG Items/sword 2.png" id="1_vq4hr"]
+[ext_resource type="Script" uid="uid://bhb08377q0q7n" path="res://Script/Abilities/MeleeAbility.gd" id="2_1pykh"]
+
+[resource]
+script = ExtResource("2_1pykh")
+damage = 10.0
+ability_name = "Melee Strike"
+description = "Deal 10 damage to enemies within 2.5m."
+icon = ExtResource("1_vq4hr")
+metadata/_custom_type_script = "uid://bhb08377q0q7n"

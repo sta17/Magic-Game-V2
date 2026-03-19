@@ -1,84 +1,153 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1773866417
-::res://resources/::1773581028
-::res://resources/icons/::1772973974
-assault_rifle.png::CompressedTexture2D::1345901876007805414::1772973974::1772973974::1::::<><><>0<>0<>1352b7ed76dc789221024ee16302f6ef<>res://.godot/imported/assault_rifle.png-e335f0a726a136c2f923bb8c8b3aba43.ctex::
-grenade.png::CompressedTexture2D::7191887984769154411::1772973974::1772973974::1::::<><><>0<>0<>6c09f98e425561c4eb3722eeb1b292f3<>res://.godot/imported/grenade.png-b4e646d318e90fcc6403601a18714c8e.ctex::
-heavy_armor.png::CompressedTexture2D::5616510018812911712::1772973974::1772973974::1::::<><><>0<>0<>98307bac8009846d2572032d7d4f5b8e<>res://.godot/imported/heavy_armor.png-da99d62e5a5f442157c1e6f7150b8727.ctex::
-light_armor.png::CompressedTexture2D::1274009518987396471::1772973974::1772973974::1::::<><><>0<>0<>826daa2dc8875aeb6af0ace8984b6aa7<>res://.godot/imported/light_armor.png-f2c3b319ed0abcafeb25d60f5ebbbe88.ctex::
-medic_ring.png::CompressedTexture2D::9121161512140801742::1772973974::1772973974::1::::<><><>0<>0<>81aa6c6abd7b8dc423ffe3ac81468904<>res://.godot/imported/medic_ring.png-a6844266a9b925f030f74ff773a1560e.ctex::
-medkit.png::CompressedTexture2D::7841460451496581294::1772973974::1772973974::1::::<><><>0<>0<>e127c1266001a4c883c355d59a24b11f<>res://.godot/imported/medkit.png-6beebace63f7ac958cbe26870f4608c1.ctex::
-pistol.png::CompressedTexture2D::8134146782503622643::1772973974::1772973974::1::::<><><>0<>0<>fa6c67367888899096131573d3694158<>res://.godot/imported/pistol.png-6b2d59e021a07a6cbcac12497bea78b5.ctex::
-power_glove.png::CompressedTexture2D::4824456217480878218::1772973974::1772973974::1::::<><><>0<>0<>40d3853aa9c2d3969c00b7a1679805e2<>res://.godot/imported/power_glove.png-26ee33540180827a4c8ce606807c2078.ctex::
-shotgun.png::CompressedTexture2D::140790923411515244::1772973974::1772973974::1::::<><><>0<>0<>ea1bb17eac864c7fa4822ee509eea73b<>res://.godot/imported/shotgun.png-e4d549d1a88570802f6357cc1e1502cd.ctex::
-sniper_rifle.png::CompressedTexture2D::8018925632674917593::1772973974::1772973974::1::::<><><>0<>0<>f0eb1cba0c530dcc3edef5b625a2b090<>res://.godot/imported/sniper_rifle.png-e264acc496307163b87173c691f4ba49.ctex::
-speed_boots.png::CompressedTexture2D::5639501360537753819::1772973974::1772973974::1::::<><><>0<>0<>515d85b611ce82e7e179b3aac1f0b8ae<>res://.godot/imported/speed_boots.png-8dbce52ab591343dd63804e8590ff04e.ctex::
-::res://resources/items/::1773499766
-assault_rifle.tres::Resource/WeaponData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/weapon_data.gd
-grenade.tres::Resource/GrenadeData::-1::1772976458::0::1::::<><><>0<>0<><>::res://scripts/items/grenade_data.gd
-heavy_armor.tres::Resource/ArmorData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/armor_data.gd
-improved_medic_ring.tres::Resource/AccessoryData::2238529315162841537::1773499766::0::1::::<><><>0<>0<><>::uid://bonwm6epatwmq::::res://scripts/items/accessory_data.gd<>uid://b2qi4w3qfafsa::::res://scripts/abilities/improved_medic_ring_ability.gd<>uid://d27mgykaoxu4m::::res://resources/icons/medic_ring.png
-light_armor.tres::Resource/ArmorData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/armor_data.gd
-medic_ring.tres::Resource/AccessoryData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/accessory_data.gd
-medkit.tres::Resource/MedicineData::-1::1772976456::0::1::::<><><>0<>0<><>::res://scripts/items/medicine_data.gd
-pistol.tres::Resource/WeaponData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/weapon_data.gd
-power_glove.tres::Resource/AccessoryData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/accessory_data.gd
-shotgun.tres::Resource/WeaponData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/weapon_data.gd
-sniper_rifle.tres::Resource/WeaponData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/weapon_data.gd
-speed_boots.tres::Resource/AccessoryData::-1::1772973218::0::1::::<><><>0<>0<><>::res://scripts/items/accessory_data.gd
-::res://resources/styles/::1773581065
-slot_empty.tres::StyleBoxFlat::-1::1773581033::0::1::::<><><>0<>0<><>::
-slot_empty_sel.tres::StyleBoxFlat::-1::1773581052::0::1::::<><><>0<>0<><>::
-slot_equipment.tres::StyleBoxFlat::-1::1773581038::0::1::::<><><>0<>0<><>::
-slot_equipment_sel.tres::StyleBoxFlat::-1::1773581056::0::1::::<><><>0<>0<><>::
-slot_equipped.tres::StyleBoxFlat::-1::1773581043::0::1::::<><><>0<>0<><>::
-slot_equipped_sel.tres::StyleBoxFlat::-1::1773581061::0::1::::<><><>0<>0<><>::
-slot_filled.tres::StyleBoxFlat::-1::1773581047::0::1::::<><><>0<>0<><>::
-slot_filled_sel.tres::StyleBoxFlat::-1::1773581065::0::1::::<><><>0<>0<><>::
-::res://scenes/::1773581077
-bullet.tscn::PackedScene::-1::1773263613::0::1::::<><><>0<>0<><>::res://scripts/gameplay/bullet.gd
-enemy.tscn::PackedScene::5080824357511818471::1773265448::0::1::::<><><>0<>0<><>::uid://csmqc754q4qir::::res://scripts/core/enemy.gd
-inventory_slot.tscn::PackedScene::-1::1773581077::0::1::::<><><>0<>0<><>::uid://41vc0tlji8f0::::res://scripts/ui/inventory_slot.gd<>res://resources/styles/slot_empty.tres<>res://resources/styles/slot_equipment.tres<>res://resources/styles/slot_equipped.tres<>res://resources/styles/slot_filled.tres<>res://resources/styles/slot_empty_sel.tres<>res://resources/styles/slot_equipment_sel.tres<>res://resources/styles/slot_equipped_sel.tres<>res://resources/styles/slot_filled_sel.tres
-main.tscn::PackedScene::9200189425024344040::1773262492::0::1::::<><><>0<>0<><>::uid://bbtr6y8x8hquq::::res://scripts/core/main.gd<>uid://d1y8qbyyu3toe::::res://scenes/player.tscn<>res://scenes/enemy.tscn<>res://scenes/pickup.tscn<>res://resources/items/pistol.tres<>res://resources/items/assault_rifle.tres<>res://resources/items/shotgun.tres<>res://resources/items/sniper_rifle.tres<>res://resources/items/light_armor.tres<>res://resources/items/heavy_armor.tres<>res://resources/items/speed_boots.tres<>res://resources/items/power_glove.tres<>res://resources/items/medic_ring.tres
-pickup.tscn::PackedScene::2272666527783794909::1773515973::0::1::::<><><>0<>0<><>::uid://cf33jaqgyg4s2::::res://scripts/gameplay/pickup.gd
-player.tscn::PackedScene::9035749375946307404::1772972910::0::1::::<><><>0<>0<><>::uid://ytwv2atpe6g1::::res://scripts/core/player.gd<>res://scenes/ui.tscn
-ui.tscn::PackedScene::608577786505683501::1773525391::0::1::::<><><>0<>0<><>::uid://dx0sk0rlos380::::res://scripts/ui/hud.gd<>uid://dcvc1iy88lcoa::::res://scripts/ui/inventory_ui.gd<>uid://bcwxkx2gdyqvw::::res://scripts/ui/hotbar_ui.gd<>res://scenes/inventory_slot.tscn
-::res://scripts/::1773150203
-::res://scripts/abilities/::1773497442
-ability_data.gd::GDScript::3337356228887912561::1772997894::0::1::::AbilityData<>Resource<><>0<>1<><>::
-ability_list.gd::GDScript::803837609337608408::1772996343::0::1::::AbilityList<>Node<><>0<>0<><>::
-energy_bolt_ability.gd::GDScript::3950453739389833395::1773260160::0::1::::EnergyBoltAbility<>AbilityData<><>0<>1<><>::
-grenade_ability.gd::GDScript::8427185699443567251::1772997909::0::1::::GrenadeAbility<>AbilityData<><>0<>1<><>::
-heal_ability.gd::GDScript::85989247740797685::1772997906::0::1::::HealAbility<>AbilityData<><>0<>1<><>::
-improved_medic_ring_ability.gd::GDScript::4315088229452187208::1773150613::0::1::::ImprovedMedicRingAbility<>AbilityData<><>0<>1<><>::
-medic_ring_ability.gd::GDScript::6516369573874812945::1773149696::0::1::::MedicRingAbility<>AbilityData<><>0<>1<><>::
-melee_ability.gd::GDScript::7797136460303415278::1773260459::0::1::::MeleeAbility<>AbilityData<><>0<>1<><>::
-power_glove_ability.gd::GDScript::409630724177387713::1773149692::0::1::::PowerGloveAbility<>AbilityData<><>0<>1<><>::
-speed_boots_ability.gd::GDScript::2030584407039361981::1773497442::0::1::::SpeedBootsAbility<>AbilityData<><>0<>1<><>::
-::res://scripts/core/::1773514828
-enemy.gd::GDScript::6061989857823079913::1773333184::0::1::::Enemy<>CharacterBody3D<><>0<>0<><>::
-main.gd::GDScript::2496921565774708192::1772995377::0::1::::<>Node3D<><>0<>0<><>::
-player.gd::GDScript::1725130119166743250::1773514828::0::1::::Player<>CharacterBody3D<><>0<>0<><>::
-::res://scripts/gameplay/::1773514804
-bullet.gd::GDScript::843301706841946303::1773261571::0::1::::Bullet<>Area3D<><>0<>0<><>::
-grenade_projectile.gd::GDScript::4148804767611866413::1772924924::0::1::::GrenadeProjectile<>RigidBody3D<><>0<>0<><>::
-pickup.gd::GDScript::5183304335654468067::1773514804::0::1::::Pickup<>Area3D<><>0<>0<><>::
-::res://scripts/items/::1773260333
-accessory_data.gd::GDScript::3397260243881428600::1772973934::0::1::::AccessoryData<>ItemData<><>0<>1<><>::
-armor_data.gd::GDScript::1662956682495669513::1772973934::0::1::::ArmorData<>ItemData<><>0<>1<><>::
-consumable_data.gd::GDScript::7369229004380325060::1772976433::0::1::::ConsumableData<>ItemData<><>0<>1<><>::
-equipment_manager.gd::GDScript::5963196838222164907::1772900661::0::1::::EquipmentManager<>Node<><>0<>0<><>::
-grenade_data.gd::GDScript::5753159623031997190::1772976444::0::1::::GrenadeData<>ConsumableData<><>0<>1<><>::
-inventory.gd::GDScript::3572117119328278814::1772900645::0::1::::Inventory<>Node<><>0<>0<><>::
-item_data.gd::GDScript::7315993667541132594::1773260333::0::1::::ItemData<>Resource<><>0<>1<><>::
-medicine_data.gd::GDScript::1141639367333872781::1772976443::0::1::::MedicineData<>ConsumableData<><>0<>1<><>::
-weapon_data.gd::GDScript::5808992578800392369::1772973934::0::1::::WeaponData<>ItemData<><>0<>1<><>::
-::res://scripts/ui/::1773581213
-hotbar_ui.gd::GDScript::2573630280355515152::1773516843::0::1::::HotbarUI<>Control<><>0<>0<><>::
-hud.gd::GDScript::8826327002279055739::1772926910::0::1::::HUD<>CanvasLayer<><>0<>0<><>::
-inventory_slot.gd::GDScript::2090430258491605815::1773581213::0::1::::InventorySlot<>Panel<><>0<>0<><>::
-inventory_ui.gd::GDScript::7343159994623693804::1773524248::0::1::::InventoryUI<>Control<><>0<>0<><>::
-passive_hotbar.gd::GDScript::2433726211999115147::1773516870::0::1::::PassiveHotbar<>Control<><>0<>0<><>::
-::res://tools/::1772976490
-export_icons.gd::GDScript::3157482067001414356::1772976490::0::1::::<>EditorScript<><>0<>1<><>::
-icon_painter.gd::GDScript::4154167049296939482::1772974465::0::1::::<>RefCounted<><>0<>1<><>::
+::res://::1773488391
+icon.svg::CompressedTexture2D::1790880795757653::1773488416::1773488430::1::::<><><>0<>0<>1d558fff71561543e2cf7e0d300c3350<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+::res://Assets/::1773509725
+::res://Assets/Icons/::1773509751
+::res://Assets/Icons/Buch's RPG Items/::1773509778
+bottle 2.png::CompressedTexture2D::1470435056784235513::1729373202::1773509868::1::::<><><>0<>0<>02b901a17ea5c6a489b4e4ca73425a94<>res://.godot/imported/bottle 2.png-9be84308ef2d8b2823655f4e53d01fa3.ctex::
+bottle 3.png::CompressedTexture2D::4639078904085541916::1729373202::1773509868::1::::<><><>0<>0<>1c08d451ccadd4697925825395f69c96<>res://.godot/imported/bottle 3.png-94d4cec976f7a171a6792fd6d886a459.ctex::
+bottle 4.png::CompressedTexture2D::3036017485940312998::1729373202::1773509868::1::::<><><>0<>0<>07f5b79de8763574f26de9debac21820<>res://.godot/imported/bottle 4.png-0890d7d8b71101bd7e03e141f3321324.ctex::
+bottle 5.png::CompressedTexture2D::7323786218951779315::1729373202::1773509868::1::::<><><>0<>0<>cafc1a84a71d3a234fe1b6ec1d8b9c6c<>res://.godot/imported/bottle 5.png-583afaffce99ed5f24ad220e06b504e9.ctex::
+bottle 6.png::CompressedTexture2D::307524041154353929::1729373202::1773509868::1::::<><><>0<>0<>e61431a99427205d0d5b87ef8511df62<>res://.godot/imported/bottle 6.png-ca9d44618314119d8870e07045c81b19.ctex::
+bottle 32.png::CompressedTexture2D::2263377699944731632::1729373202::1773509868::1::::<><><>0<>0<>0d38be4858746fe645dc307a518574ac<>res://.godot/imported/bottle 32.png-62ce3f340b1a543abd9db0600b1a80a9.ctex::
+bottle.png::CompressedTexture2D::5325048287601570125::1729373202::1773509868::1::::<><><>0<>0<>26c2357ba21676a5023a47561089036e<>res://.godot/imported/bottle.png-d50f7b416c9a0556fd70c34de08afc5f.ctex::
+Frame.png::CompressedTexture2D::815863960375763611::1729373202::1773509868::1::::<><><>0<>0<>d896aced85a9cddd2236a44c7361ee87<>res://.godot/imported/Frame.png-cbe58d98a92f490d554d8f4abaea5b56.ctex::
+ring 2.png::CompressedTexture2D::523319497991531690::1729373202::1773509868::1::::<><><>0<>0<>763a7bdd87f74771b66af8005503038a<>res://.godot/imported/ring 2.png-5581790585bf8ae445446c623baed184.ctex::
+ring 3.png::CompressedTexture2D::2875530576485527157::1729373202::1773509868::1::::<><><>0<>0<>c22952ba92f06aaa5c57e79f07e6a6b3<>res://.godot/imported/ring 3.png-085cddc531db1110e0d8b70b97148a46.ctex::
+ring 4.png::CompressedTexture2D::673414419661541965::1729373202::1773509868::1::::<><><>0<>0<>7b1f81e96819d801e9e1e81947ab4fff<>res://.godot/imported/ring 4.png-8e48b6385af5baa1a6e7590e0d8504c4.ctex::
+ring 5.png::CompressedTexture2D::5108049904192122341::1729373202::1773509868::1::::<><><>0<>0<>81f063f034ccea5a8ce7374e2e10e676<>res://.godot/imported/ring 5.png-1172768fb4660d6dc1777c2cb96a4acf.ctex::
+ring 6.png::CompressedTexture2D::5046045313971306463::1729373202::1773509868::1::::<><><>0<>0<>576ce9ff03e45a3191114011342a3f13<>res://.godot/imported/ring 6.png-3a67f97d715fc133c134452351fb006d.ctex::
+ring 7.png::CompressedTexture2D::8447681367486385917::1729373202::1773509868::1::::<><><>0<>0<>01e553ad280b2e5932f66d00d0a9fc43<>res://.godot/imported/ring 7.png-61c9d0f5c894e3819131eac9d20928a4.ctex::
+ring 8.png::CompressedTexture2D::8970424772876902171::1729373202::1773509868::1::::<><><>0<>0<>61ca3d257393ca13f990efcab6a21d52<>res://.godot/imported/ring 8.png-aa1c8d43be2b77b80a04bb37d4994e6b.ctex::
+ring 32.png::CompressedTexture2D::5764599829386962495::1729373202::1773509868::1::::<><><>0<>0<>43c228adc11788945a6d3c829c83ac38<>res://.godot/imported/ring 32.png-9af6190305fe4a2f50009324836d471d.ctex::
+ring.png::CompressedTexture2D::3459162856343511953::1729373202::1773509868::1::::<><><>0<>0<>e592dbf021353071f260c2bb3d6e94c8<>res://.godot/imported/ring.png-74e52be7c44fc3a78d8eaf0373f69af3.ctex::
+staff2.png::CompressedTexture2D::6163559523325942205::1729373202::1773509868::1::::<><><>0<>0<>e44a66884c25a47a0351da53667518e6<>res://.godot/imported/staff2.png-abdbec71ee78e74fcc95d489a0cbfe57.ctex::
+staff3.png::CompressedTexture2D::8230417646698215791::1729373202::1773509868::1::::<><><>0<>0<>527711e215953103b015b45272629657<>res://.godot/imported/staff3.png-3cdbd87a40c4bcbd4bcd164c94d3083e.ctex::
+staff4.png::CompressedTexture2D::5509261491430431288::1729373202::1773509868::1::::<><><>0<>0<>bb974ea218ab23b163a173d1f156faef<>res://.godot/imported/staff4.png-674be145a1ce016a356309f8f4fc16c0.ctex::
+staff5.png::CompressedTexture2D::4829547533576273346::1729373202::1773509868::1::::<><><>0<>0<>119e8f74a2bd4c8b9d0cb63554c6e98e<>res://.godot/imported/staff5.png-d4c43feca04b3814955435dbc4b9ed3f.ctex::
+staff6.png::CompressedTexture2D::999650416963901446::1729373202::1773509868::1::::<><><>0<>0<>8eccaaa150aefd7246218de5745ea83f<>res://.godot/imported/staff6.png-363cccf4219c4f87b96225f9e186faa8.ctex::
+staff 32.png::CompressedTexture2D::2770112483886906027::1729373202::1773509868::1::::<><><>0<>0<>30d487a1558b857571d6a0df8f7f01bf<>res://.godot/imported/staff 32.png-d17ff770f74a2412223acd64c28a3cb4.ctex::
+Staff in Frame.png::CompressedTexture2D::5010250893613838541::1729373202::1773509868::1::::<><><>0<>0<>f6cbfa4f20591fb2926f2361ca0250f1<>res://.godot/imported/Staff in Frame.png-08459663c898af99c3282dac8adde414.ctex::
+staff.png::CompressedTexture2D::3947684871525499141::1729373202::1773509868::1::::<><><>0<>0<>a06baf2f077c478f949f6032ac33303a<>res://.godot/imported/staff.png-4f916afccab9c45210b8c938797bae1e.ctex::
+sword 2.png::CompressedTexture2D::6468109151210251594::1729373202::1773509868::1::::<><><>0<>0<>482fdfd3a24f8b2fb3dd9a2b5591ba11<>res://.godot/imported/sword 2.png-66ac9e37d1d2d20ebaa49411d795477f.ctex::
+sword 3.png::CompressedTexture2D::2917255891242972202::1729373202::1773509868::1::::<><><>0<>0<>614d3f55a56426f6fde0508579b97e1d<>res://.godot/imported/sword 3.png-a062fce1994c82d1e0eb1e682d0156d2.ctex::
+sword 4.png::CompressedTexture2D::269970106740811254::1729373202::1773509868::1::::<><><>0<>0<>7ef3efca4ff1bd8cdbc7800d1638837a<>res://.godot/imported/sword 4.png-3b42aff68e28b096392d8ebc119831ab.ctex::
+sword 5.png::CompressedTexture2D::3212700816001234126::1729373202::1773509868::1::::<><><>0<>0<>60de5105245569d79a15b8c91cc58d38<>res://.godot/imported/sword 5.png-ea9b4695d43d421dd0d9b7211f7e0d39.ctex::
+sword 6.png::CompressedTexture2D::2412784692458808486::1729373202::1773509868::1::::<><><>0<>0<>924691b5dd675e27c21948da0276df7e<>res://.godot/imported/sword 6.png-ce1da8309b444a601415c8fd846c691e.ctex::
+sword 32.png::CompressedTexture2D::1290821935939346314::1729373202::1773509868::1::::<><><>0<>0<>51b6b6eb100f4801fa045ff0e26770df<>res://.godot/imported/sword 32.png-0e1f16b97d0bb3456b32b10dfec09e94.ctex::
+Sword in Frame.png::CompressedTexture2D::504032279184237932::1729373202::1773509868::1::::<><><>0<>0<>289ec24408c93d9de54a13d4f1c6eaa0<>res://.godot/imported/Sword in Frame.png-216f4fbde25e346c54f63eb65f2a4db8.ctex::
+sword.png::CompressedTexture2D::1504294827393050277::1729373202::1773509868::1::::<><><>0<>0<>559115777127c9de2a5c4d8a522a7a88<>res://.godot/imported/sword.png-98c2e5488c93a7a6ac0f3a181d2af2a7.ctex::
+::res://Assets/Models/::1773510037
+::res://Assets/Models/Public Domain/::1773510179
+::res://Assets/Models/Public Domain/KayKit/::1773510411
+::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/::1773510438
+License.txt::TextFile::-1::1730299918::0::1::::<><><>0<>0<><>::
+::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/::1773510529
+::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/gltf/::1773510548
+Can_A.gltf::PackedScene::5299174954584055913::1773510852::1773511084::1::::<><><>0<>0<>66bf02d7c6e64bdbd5a4469824748730<>res://.godot/imported/Can_A.gltf-0c7105585e0729e79e99551e06f80eed.scn::uid://cutjlx0mgj2tv::::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/gltf/prototypebits_texture.png
+Can_A.tscn::PackedScene::8781542402615636140::1773511182::0::1::::<><><>0<>0<><>::uid://chq7vwx1apwij::::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/gltf/Can_A.gltf
+Can_B.gltf::PackedScene::8016892401403851923::1773510852::1773511088::1::::<><><>0<>0<>a392a21ec4d808de7b2016f79304c688<>res://.godot/imported/Can_B.gltf-151050720ed396694a7f71dd8f87194b.scn::uid://cutjlx0mgj2tv::::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/gltf/prototypebits_texture.png
+Can_B.tscn::PackedScene::4431794336272241768::1773511250::0::1::::<><><>0<>0<><>::uid://dmhpbt3le1fxb::::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/gltf/Can_B.gltf
+prototypebits_texture.png::CompressedTexture2D::6216408761352629999::1730299916::1773511014::1::::<><><>0<>0<>a90298a884d9cc613ffdfc65bc006de6<>res://.godot/imported/prototypebits_texture.png-38bbf2c3c416f3037f1f501e16e44488.s3tc.ctex::
+prototypebits_texture_modified.png::CompressedTexture2D::6477285094947113591::1730378130::1773511012::1::::<><><>0<>0<>000ef3ebf5b709a7270466f4d8f2d563<>res://.godot/imported/prototypebits_texture_modified.png-ecc8bb0e6093dc88ce437ceefa9b43d1.ctex::
+::res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/textures/::1773510541
+prototypebits_texture.png::CompressedTexture2D::7822655432091390171::1730299918::1773510606::1::::<><><>0<>0<>692d2f19fefb3eeaf3fbdb7b549650db<>res://.godot/imported/prototypebits_texture.png-3a4ad066800ecc7195122b8b3cbefbf5.ctex::
+::res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/::1773510212
+License.txt::TextFile::-1::1730296456::0::1::::<><><>0<>0<><>::
+::res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/::1773510264
+::res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/::1773511367
+Coin.gltf::PackedScene::2851254748173226195::1730296456::1773511388::1::::<><><>0<>0<>2710f1b046b49d0df2ae14de666d5fcb<>res://.godot/imported/Coin.gltf-d96c624557890c3f430b42b09e5e002b.scn::
+Gem_Blue.gltf::PackedScene::6195907416758897976::1730296456::1773511388::1::::<><><>0<>0<>3c35a66bad190b815d4053d6c3fc2406<>res://.godot/imported/Gem_Blue.gltf-bbfa6114f8d7a486720dfdaee3581ee5.scn::
+Gem_Blue.tscn::PackedScene::6983733984283941604::1773512802::0::1::::<><><>0<>0<><>::uid://cujlxpsv0y87e::::res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.gltf<>uid://wohea1m00f3b::::res://shaders/gem_shader.tres<>uid://d8qdwa2i1nk8::::res://shaders/T_PerlinNoise_Tiled.png
+Gem_Green.gltf::PackedScene::849991489113499789::1730296456::1773511388::1::::<><><>0<>0<>78b345eba10da7c7c0906869e7e7563b<>res://.godot/imported/Gem_Green.gltf-6baffbd3ea290b6bf5b4b0eddf00eb9e.scn::
+Gem_Green.tscn::PackedScene::5056849712745923778::1773512716::0::1::::<><><>0<>0<><>::uid://md0ianuy75vl::::res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.gltf<>uid://wohea1m00f3b::::res://shaders/gem_shader.tres<>uid://d8qdwa2i1nk8::::res://shaders/T_PerlinNoise_Tiled.png
+Gem_Pink.gltf::PackedScene::963563880821079411::1730296456::1773511388::1::::<><><>0<>0<>2f48696ed37aba52db5464db874aad39<>res://.godot/imported/Gem_Pink.gltf-3e2acd9b6c74750d9af61e265fc21a82.scn::
+Gem_Pink.tscn::PackedScene::6640224753238920571::1773512734::0::1::::<><><>0<>0<><>::uid://ny00yleuskjj::::res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Pink.gltf<>uid://wohea1m00f3b::::res://shaders/gem_shader.tres<>uid://d8qdwa2i1nk8::::res://shaders/T_PerlinNoise_Tiled.png
+Heart.gltf::PackedScene::3681510354661777278::1730296456::1773511388::1::::<><><>0<>0<>f86d05002f5705cf2c045b9039758dfa<>res://.godot/imported/Heart.gltf-a77884bf5d6692cac54a837cf0195b76.scn::
+Key.gltf::PackedScene::5767179924532190297::1730296456::1773511388::1::::<><><>0<>0<>272e16f5386e690c8f95293a8308b9fc<>res://.godot/imported/Key.gltf-b79264b0e0f9d8c9a359b81ff64454e4.scn::
+Thunder.gltf::PackedScene::6369626779664411197::1730296456::1773511388::1::::<><><>0<>0<>c248009b451c994af1f07a4e3bfad61a<>res://.godot/imported/Thunder.gltf-1022682f23895545b657d80586b840da.scn::
+::res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/meshes/::1773510283
+::res://LabelSettings/::1773582058
+BlackAndWhite10px.tres::LabelSettings::1405456553670150132::1773582084::0::1::::<><><>0<>0<><>::
+::res://Resources/::1773488855
+::res://Resources/abilities/::1773528615
+heal +60.tres::Resource/HealAbility::604613569374012575::1773577150::0::1::::<><><>0<>0<><>::uid://ch4q1c84jsibl::::res://Assets/Icons/Buch's RPG Items/bottle.png<>uid://ew7l5wuj11s8::::res://Script/Abilities/HealAbility.gd
+medic ring +2.tres::Resource/MedicRingAbility::2958483950794528618::1773866478::0::1::::<><><>0<>0<><>::uid://c5e4pldhdky75::::res://Script/Abilities/MedicRingAbility.gd
+melee +10.tres::Resource/MeleeAbility::443678573893690936::1773572332::0::1::::<><><>0<>0<><>::uid://cyfg2vrcer06a::::res://Assets/Icons/Buch's RPG Items/sword 2.png<>uid://bhb08377q0q7n::::res://Script/Abilities/MeleeAbility.gd
+melee +20.tres::Resource/MeleeAbility::7199171934336574446::1773572326::0::1::::<><><>0<>0<><>::uid://voxrsr6m0xmj::::res://Assets/Icons/Buch's RPG Items/sword.png<>uid://bhb08377q0q7n::::res://Script/Abilities/MeleeAbility.gd
+Speed Armor +1,8.tres::Resource/SpeedBootsAbility::6340792437085334480::1773868040::0::1::::<><><>0<>0<><>::uid://d02lt50dtgdtj::::res://Assets/Icons/Buch's RPG Items/ring 8.png<>uid://cck0t3u35appd::::res://Script/Abilities/SpeedBootsAbility.gd
+::res://Resources/items/::1773499509
+GrandSword.tres::Resource/WeaponData::2515350208983810249::1773572350::0::1::::<><><>0<>0<><>::uid://datlkskepnjso::::res://Resources/abilities/melee +20.tres<>uid://voxrsr6m0xmj::::res://Assets/Icons/Buch's RPG Items/sword.png<>uid://byigr6urkxofs::::res://Script/Items/WeaponData.gd
+LightArmor.tres::Resource/ArmorData::1414736540831037397::1773867820::0::1::::<><><>0<>0<><>::uid://d02lt50dtgdtj::::res://Assets/Icons/Buch's RPG Items/ring 8.png<>uid://cwlr6plw2xnqu::::res://Resources/abilities/Speed Armor +1,8.tres<>uid://6al0ersmcfg0::::res://Script/Items/ArmorData.gd
+Medicine +60.tres::Resource/ConsumableData::2857137302554162094::1773577226::0::1::::<><><>0<>0<><>::uid://iu45rdxduhat::::res://Resources/abilities/heal +60.tres<>uid://ch4q1c84jsibl::::res://Assets/Icons/Buch's RPG Items/bottle.png<>uid://dk8jyeradclb3::::res://Script/Items/ConsumableData.gd
+MedicRing.tres::Resource/AccessoryData::2810043739629514243::1773866572::0::1::::<><><>0<>0<><>::uid://juhbi5mn65th::::res://Assets/Icons/Buch's RPG Items/ring 4.png<>uid://c5e4pldhdky75::::res://Script/Abilities/MedicRingAbility.gd<>uid://bdthlms0bkvqv::::res://Script/Items/AccessoryData.gd
+Sword.tres::Resource/WeaponData::480078819542553992::1773575088::0::1::::<><><>0<>0<><>::uid://gk6k6n8dkfyu::::res://Resources/abilities/melee +10.tres<>uid://cyfg2vrcer06a::::res://Assets/Icons/Buch's RPG Items/sword 2.png<>uid://byigr6urkxofs::::res://Script/Items/WeaponData.gd
+testItem.tres::Resource/ItemData::7013446094899817998::1773513064::0::1::::<><><>0<>0<><>::uid://b86t22j8kw6ob::::res://Script/Items/item_data.gd<>uid://bpjv53k8ufds0::::res://Assets/Icons/Buch's RPG Items/ring.png
+UnknwnItem.tres::Resource/AccessoryData::1763784300518472794::1773527958::0::1::::<><><>0<>0<><>::uid://bpjv53k8ufds0::::res://Assets/Icons/Buch's RPG Items/ring.png<>uid://bdthlms0bkvqv::::res://Script/Items/AccessoryData.gd
+Wand.tres::Resource/WeaponData::438704273315214515::1773852960::0::1::::<><><>0<>0<><>::uid://bwij1713b34ir::::res://Assets/Icons/Buch's RPG Items/staff.png<>uid://7vmu0ns121oa::::res://Script/Abilities/EnergyBoltAbility.gd<>uid://byigr6urkxofs::::res://Script/Items/WeaponData.gd
+::res://Scenes/::1773488861
+bullet.tscn::PackedScene::3115496007521289187::1773573192::0::1::::<><><>0<>0<><>::uid://c0rh841crhkru::::res://Script/GamePlay/Bullet.gd
+enemy.tscn::PackedScene::7790192779152872354::1773572032::0::1::::<><><>0<>0<><>::uid://cil5dbvueyfjd::::res://Styleboxes/HPBar Empty.stylebox<>uid://b56pfs6mglmgg::::res://Script/Core/enemy.gd<>uid://duh8rvaj4yqfc::::res://Styleboxes/HPBar.stylebox
+PickUpItem.tscn::PackedScene::9175983715831830500::1773527068::0::1::::<><><>0<>0<><>::uid://xwh7416cx8xk::::res://Script/GamePlay/PickUpItem.gd
+Player.tscn::PackedScene::2736274442581612719::1773864342::0::1::::<><><>0<>0<><>::uid://xrp1hjsdghu3::::res://Script/Core/Player.gd<>uid://eo30kruldshw::::res://Scenes/UI/HUD.tscn
+TestWorld.tscn::PackedScene::1363033578383613044::1773868468::0::1::::<><><>0<>0<><>::uid://be8qbmt0fe144::::res://Scenes/Player.tscn<>uid://d3y6d1rq2wq5i::::res://Scenes/PickUpItem.tscn<>uid://girno7k6iixv::::res://Resources/items/Wand.tres<>uid://di8vlpp7u8kso::::res://Scenes/enemy.tscn<>uid://g3s3fgns7cuy::::res://Resources/items/Sword.tres<>uid://bgbhalmyo304f::::res://Resources/items/MedicRing.tres<>uid://bgyavs3m7pwgs::::res://Resources/items/Medicine +60.tres<>uid://ufkre1nuiwob::::res://Resources/items/LightArmor.tres
+::res://Scenes/UI/::1773864327
+ability_card.tscn::PackedScene::39607550661842196::1773868938::0::1::::<><><>0<>0<><>::uid://lvhfphuw7l3x::::res://Assets/Icons/Buch's RPG Items/Frame.png<>uid://746g7eh8m5xx::::res://Script/UI/ability_card.gd<>uid://cytmj3iylfg8k::::res://Scenes/UI/InventorySlot.tscn
+act_abi_label.tscn::PackedScene::9160257425301249883::1773864330::0::1::::<><><>0<>0<><>::
+HUD.tscn::PackedScene::311401936172773460::1773866886::0::1::::<><><>0<>0<><>::uid://dqpbgie26b4sx::::res://Script/UI/HUD.gd<>uid://ckai2wns8hetp::::res://Script/UI/fpsmeter.gd<>uid://diunbmd80jn4m::::res://Themes/Standard.tres<>uid://cala1yfb72t6l::::res://Script/UI/InventoryUI.gd<>uid://lvhfphuw7l3x::::res://Assets/Icons/Buch's RPG Items/Frame.png<>uid://cytmj3iylfg8k::::res://Scenes/UI/InventorySlot.tscn<>uid://d3rkdpj7p44rn::::res://Scenes/UI/act_abi_label.tscn<>uid://bxdp14nxvsvke::::res://Scenes/UI/pas_abi_label.tscn<>uid://cg3mqiekwco05::::res://Script/UI/HotbarUI.gd
+InventorySlot.tscn::PackedScene::6497342952202050524::1773867470::0::1::::<><><>0<>0<><>::uid://ci8o7qb05qshd::::res://Script/UI/InventorySlot.gd<>uid://casbn2k5ryv88::::res://Styleboxes/slot_empty.tres<>res://Styleboxes/slot_equipment.tres<>res://Styleboxes/slot_equipped.tres<>uid://c7sufrcigtjtr::::res://Styleboxes/slot_filled.tres<>res://Styleboxes/slot_empty_sel.tres<>res://Styleboxes/slot_equipment_sel.tres<>res://Styleboxes/slot_equipped_sel.tres<>res://Styleboxes/slot_filled_sel.tres<>uid://lvhfphuw7l3x::::res://Assets/Icons/Buch's RPG Items/Frame.png<>uid://ua2wtx0vujwu::::res://LabelSettings/BlackAndWhite10px.tres
+PassiveHotbar.tscn::PackedScene::2344183588992590399::1773865342::0::1::::<><><>0<>0<><>::uid://ce7c3nf37m1ow::::res://Script/UI/passiveHotbar.gd
+pas_abi_label.tscn::PackedScene::4007915950496470956::1773864336::0::1::::<><><>0<>0<><>::
+::res://Script/::1773488873
+::res://Script/Abilities/::1773525573
+AbilityData.gd::GDScript::5002192082503044803::1773593152::0::1::::AbilityData<>Slot<><>0<>1<><>::
+AbilityList.gd::GDScript::1489676847174602757::1773525610::0::1::::AbilityList<>Node<><>0<>0<><>::
+EnergyBoltAbility.gd::GDScript::2290160583063472188::1773527006::0::1::::EnergyBoltAbility<>AbilityData<><>0<>1<><>::
+HealAbility.gd::GDScript::328135883250914893::1773528090::0::1::::HealAbility<>AbilityData<><>0<>1<><>::
+MedicRingAbility.gd::GDScript::6888552349955957342::1773528070::0::1::::MedicRingAbility<>AbilityData<><>0<>1<><>::
+MeleeAbility.gd::GDScript::2881385344495273173::1773528522::0::1::::MeleeAbility<>AbilityData<><>0<>1<><>::
+PowerGloveAbility.gd::GDScript::1815781444234846786::1773528038::0::1::::PowerGloveAbility<>AbilityData<><>0<>1<><>::
+SpeedBootsAbility.gd::GDScript::4935416189968411421::1773528054::0::1::::SpeedBootsAbility<>AbilityData<><>0<>1<><>::
+::res://Script/Core/::1773527032
+enemy.gd::GDScript::4557002380933876090::1773572026::0::1::::Enemy<>CharacterBody3D<><>0<>0<><>::
+Player.gd::GDScript::1650395393415567296::1773853238::0::1::::Player<>CharacterBody3D<><>0<>0<><>::
+::res://Script/GamePlay/::1773527050
+Bullet.gd::GDScript::6563142393760199558::1773527088::0::1::::Bullet<>Area3D<><>0<>0<><>::
+PickUpItem.gd::GDScript::1660243443372564564::1773849546::0::1::::PickUpItem<>Area3D<><>0<>0<><>::
+::res://Script/Items/::1773499235
+AccessoryData.gd::GDScript::2636655713840974089::1773519318::0::1::::AccessoryData<>ItemData<><>0<>1<><>::
+ArmorData.gd::GDScript::2176566921736091337::1773519250::0::1::::ArmorData<>ItemData<><>0<>1<><>::
+ConsumableData.gd::GDScript::7929864501691391338::1773526388::0::1::::ConsumableData<>ItemData<><>0<>1<><>::
+EquipmentManager.gd::GDScript::5694322449487593187::1773596508::0::1::::EquipmentManager<>Node<><>0<>0<><>::
+Inventory.gd::GDScript::991089253782731161::1773597298::0::1::::Inventory<>Node<><>0<>0<><>::
+item_data.gd::GDScript::4767851506969344777::1773593140::0::1::::ItemData<>Slot<><>0<>0<><>::
+MedicineData.gd::GDScript::3893860692923600240::1773526406::0::1::::MedicineData<>ConsumableData<><>0<>1<><>::
+QuantitySlot.gd::GDScript::3233615028092189587::1773594048::0::1::::QuantitySlot<>Slot<><>0<>0<><>::
+Slot.gd::GDScript::3514870717779965445::1773593108::0::1::::Slot<>Resource<><>0<>0<><>::
+WeaponData.gd::GDScript::4087864273397967212::1773576384::0::1::::WeaponData<>ItemData<><>0<>1<><>::
+::res://Script/UI/::1773499230
+ability_card.gd::GDScript::2307804580113036013::1773868890::0::1::::AbilityCard<>NinePatchRect<><>0<>0<><>::
+fpsmeter.gd::GDScript::5475264932602467565::1773499038::0::1::::<>Label<><>0<>0<><>::
+HotbarUI.gd::GDScript::5252534609793614168::1773864574::0::1::::HotbarUI<>Panel<><>0<>0<><>::
+HUD.gd::GDScript::8313321074989188935::1773574122::0::1::::HUD<>CanvasLayer<><>0<>0<><>::
+InventorySlot.gd::GDScript::5403384608773153273::1773861756::0::1::::InventorySlot<>Panel<><>0<>0<><>::
+InventoryUI.gd::GDScript::4795597221696094893::1773868300::0::1::::InventoryUI<>Control<><>0<>0<><>::
+passiveHotbar.gd::GDScript::5119828958126145274::1773864568::0::1::::PassiveHotbar<>Control<><>0<>0<><>::
+::res://shaders/::1773511613
+gem_shader.tres::Shader::1573488051463071781::1773847834::0::1::::<><><>0<>0<><>::
+T_PerlinNoise_Tiled.png::CompressedTexture2D::279668982816235481::1730471696::1773512158::1::::<><><>0<>0<>47cecb912fd641f18a798d37accca8ef<>res://.godot/imported/T_PerlinNoise_Tiled.png-661f523a54b8d0b0f3ab376a56aceeb2.s3tc.ctex::
+::res://Styleboxes/::1773498315
+Frame_style_box_texture.tres::StyleBoxTexture::6878941546741970397::1773851946::0::1::::<><><>0<>0<><>::uid://lvhfphuw7l3x::::res://Assets/Icons/Buch's RPG Items/Frame.png
+HPBar Empty.stylebox::StyleBoxFlat::5358887224829073417::1773571628::0::1::::<><><>0<>0<><>::
+HPBar.stylebox::StyleBoxFlat::8579524690815033372::1773571584::0::1::::<><><>0<>0<><>::
+new_style_box_flat.tres::StyleBoxFlat::5758693177570383180::1773498320::0::1::::<><><>0<>0<><>::
+slot_empty.tres::StyleBoxFlat::4810085534238055399::1773861714::0::1::::<><><>0<>0<><>::
+slot_empty_sel.tres::StyleBoxFlat::-1::1773581054::0::1::::<><><>0<>0<><>::
+slot_equipment.tres::StyleBoxFlat::-1::1773581040::0::1::::<><><>0<>0<><>::
+slot_equipment_sel.tres::StyleBoxFlat::-1::1773581058::0::1::::<><><>0<>0<><>::
+slot_equipped.tres::StyleBoxFlat::-1::1773581044::0::1::::<><><>0<>0<><>::
+slot_equipped_sel.tres::StyleBoxFlat::-1::1773581062::0::1::::<><><>0<>0<><>::
+slot_filled.tres::StyleBoxFlat::7057267328559988659::1773863346::0::1::::<><><>0<>0<><>::
+slot_filled_sel.tres::StyleBoxFlat::-1::1773581066::0::1::::<><><>0<>0<><>::
+::res://Themes/::1773851615
+Standard.tres::Theme::7762852098412388818::1773851966::0::1::::<><><>0<>0<><>::uid://c5ahfrtbbw4u8::::res://Styleboxes/Frame_style_box_texture.tres<>uid://lvhfphuw7l3x::::res://Assets/Icons/Buch's RPG Items/Frame.png

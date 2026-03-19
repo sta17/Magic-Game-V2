@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://toi71i5vkmv1"]
+
+[ext_resource type="PackedScene" uid="uid://be8qbmt0fe144" path="res://Scenes/Player.tscn" id="1_k2eo1"]
+[ext_resource type="PackedScene" uid="uid://d3y6d1rq2wq5i" path="res://Scenes/PickUpItem.tscn" id="2_se0eo"]
+[ext_resource type="Resource" uid="uid://girno7k6iixv" path="res://Resources/items/Wand.tres" id="3_rdsav"]
+[ext_resource type="PackedScene" uid="uid://di8vlpp7u8kso" path="res://Scenes/enemy.tscn" id="4_ed2pg"]
+[ext_resource type="Resource" uid="uid://g3s3fgns7cuy" path="res://Resources/items/Sword.tres" id="4_rdsav"]
+[ext_resource type="Resource" uid="uid://bgbhalmyo304f" path="res://Resources/items/MedicRing.tres" id="5_7oy3y"]
+[ext_resource type="Resource" uid="uid://bgyavs3m7pwgs" path="res://Resources/items/Medicine +60.tres" id="5_g0pj6"]
+[ext_resource type="Resource" uid="uid://ufkre1nuiwob" path="res://Resources/items/LightArmor.tres" id="6_4e6cy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k2eo1"]
+sky_top_color = Color(0.14399998, 0.4567999, 0.96, 1)
+sky_horizon_color = Color(1.038568, 1.0821531, 1.1683931, 1)
+ground_bottom_color = Color(0.69, 0.55154, 0.3933, 1)
+ground_horizon_color = Color(1.038568, 1.0821531, 1.1683931, 1)
+
+[sub_resource type="Sky" id="Sky_se0eo"]
+sky_material = SubResource("ProceduralSkyMaterial_k2eo1")
+
+[sub_resource type="Environment" id="Environment_4snwc"]
+background_mode = 2
+sky = SubResource("Sky_se0eo")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k2eo1"]
+size = Vector3(5, 0.5, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tw8nc"]
+albedo_color = Color(0.26, 1, 0.34633344, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tw8nc"]
+material = SubResource("StandardMaterial3D_tw8nc")
+size = Vector3(5, 0.5, 15)
+
+[node name="TestWorld" type="Node3D" unique_id=669506941]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=980176290]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=665199601]
+environment = SubResource("Environment_4snwc")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1045160816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1324316876]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_k2eo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1923146671]
+transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_tw8nc")
+
+[node name="Player" parent="." unique_id=367495546 instance=ExtResource("1_k2eo1")]
+
+[node name="PickUpItem7" parent="." unique_id=2079250956 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.312032, 1, -8.4473095)
+item = ExtResource("3_rdsav")
+
+[node name="PickUpItem2" parent="." unique_id=1115689084 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -10.930335)
+item = ExtResource("4_rdsav")
+
+[node name="PickUpItem3" parent="." unique_id=421350946 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -13.990257)
+item = ExtResource("5_7oy3y")
+
+[node name="PickUpItem6" parent="." unique_id=191530703 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -16.882881)
+item = ExtResource("6_4e6cy")
+
+[node name="PickUpItem4" parent="." unique_id=847800547 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.297807, 1, -7.8397417)
+item = ExtResource("5_g0pj6")
+
+[node name="PickUpItem5" parent="." unique_id=226722985 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.297807, 1, -10.917204)
+item = ExtResource("5_g0pj6")
+
+[node name="Enemy" parent="." unique_id=640505128 instance=ExtResource("4_ed2pg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.113573074, 0, -56.257034)

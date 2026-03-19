@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dxd3yq0quu75q"]
+
+[ext_resource type="PackedScene" uid="uid://chq7vwx1apwij" path="res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/gltf/Can_A.gltf" id="1_bx7xd"]
+
+[node name="Node3D" type="Node3D" unique_id=1876209217]
+
+[node name="Can_A2" parent="." unique_id=129612338 instance=ExtResource("1_bx7xd")]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, -0.163, -0.16)

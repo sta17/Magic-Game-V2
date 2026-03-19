@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SpeedBootsAbility" format=3 uid="uid://cwlr6plw2xnqu"]
+
+[ext_resource type="Texture2D" uid="uid://d02lt50dtgdtj" path="res://Assets/Icons/Buch's RPG Items/ring 8.png" id="1_eqppk"]
+[ext_resource type="Script" uid="uid://cck0t3u35appd" path="res://Script/Abilities/SpeedBootsAbility.gd" id="2_ymgjp"]
+
+[resource]
+script = ExtResource("2_ymgjp")
+ability_name = "Speed Armor"
+is_passive = true
+description = "Passive: +1.8 movement speed while on hotbar"
+icon = ExtResource("1_eqppk")
+metadata/_custom_type_script = "uid://cck0t3u35appd"

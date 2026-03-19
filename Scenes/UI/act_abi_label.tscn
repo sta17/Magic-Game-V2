@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://d3rkdpj7p44rn"]
+
+[node name="ACT_ABI_Label" type="Label" unique_id=2000494667]
+offset_right = 138.0
+offset_bottom = 22.0
+theme_override_colors/font_color = Color(1, 0.8823829, 0.48452926, 1)
+theme_override_font_sizes/font_size = 13
+text = "— ACTIVE ABILITIES —"

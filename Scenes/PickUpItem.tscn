@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://d3y6d1rq2wq5i"]
+
+[ext_resource type="Script" uid="uid://xwh7416cx8xk" path="res://Script/GamePlay/PickUpItem.gd" id="1_fajek"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fajek"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_oelv3"]
+
+[sub_resource type="Animation" id="Animation_sa426"]
+resource_name = "ItemIdle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Geometry:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.4, 0), Vector3(0, 0.6, 0), Vector3(0, 0.4, 0), Vector3(0, 0.2, 0), Vector3(0, 0.4, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Geometry:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.2831855, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_uryxf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Geometry:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Geometry:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xvlqx"]
+_data = {
+&"ItemIdle": SubResource("Animation_sa426"),
+&"RESET": SubResource("Animation_uryxf")
+}
+
+[node name="PickUpItem" type="Area3D" unique_id=2079250956]
+monitoring = false
+script = ExtResource("1_fajek")
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1112960121]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry" unique_id=1958504819]
+mesh = SubResource("BoxMesh_fajek")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1919710599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_oelv3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2071186404]
+root_node = NodePath("../CollisionShape3D")
+libraries/ = SubResource("AnimationLibrary_xvlqx")

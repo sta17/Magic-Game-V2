@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AccessoryData" format=3 uid="uid://0enjf203n20u"]
+
+[ext_resource type="Texture2D" uid="uid://bpjv53k8ufds0" path="res://Assets/Icons/Buch's RPG Items/ring.png" id="1_6an8c"]
+[ext_resource type="Script" uid="uid://bdthlms0bkvqv" path="res://Script/Items/AccessoryData.gd" id="2_jjo6p"]
+
+[resource]
+script = ExtResource("2_jjo6p")
+item_type = 2
+icon = ExtResource("1_6an8c")
+dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn"
+metadata/_custom_type_script = "uid://bdthlms0bkvqv"

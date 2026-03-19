@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MedicRingAbility" format=3 uid="uid://bifd2e8qkv6ks"]
+
+[ext_resource type="Script" uid="uid://c5e4pldhdky75" path="res://Script/Abilities/MedicRingAbility.gd" id="1_s3ik7"]
+
+[resource]
+script = ExtResource("1_s3ik7")
+ability_name = "Medic Ring"
+is_passive = true
+description = "Passive: 2.0 HP/s regeneration while on hotbar"
+metadata/_custom_type_script = "uid://c5e4pldhdky75"

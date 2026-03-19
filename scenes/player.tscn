@@ -1,67 +1,50 @@
-[gd_scene format=3 uid="uid://d1y8qbyyu3toe"]
+[gd_scene format=3 uid="uid://be8qbmt0fe144"]
 
-[ext_resource type="Script" uid="uid://ytwv2atpe6g1" path="res://scripts/core/player.gd" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/ui.tscn" id="2"]
+[ext_resource type="Script" uid="uid://xrp1hjsdghu3" path="res://Script/Core/Player.gd" id="1_rpqav"]
+[ext_resource type="PackedScene" uid="uid://eo30kruldshw" path="res://Scenes/UI/HUD.tscn" id="2_kyqiw"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
-radius = 0.38
-height = 1.8
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_1"]
-radius = 0.38
-height = 1.8
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rpqav"]
 
-[sub_resource type="StandardMaterial3D" id="PlayerMat_1"]
-albedo_color = Color(0.2, 0.4, 0.85, 1)
-roughness = 0.7
+[sub_resource type="BoxMesh" id="BoxMesh_kyqiw"]
+size = Vector3(0.25, 0.25, 0.5)
 
-[sub_resource type="BoxMesh" id="BoxMesh_head"]
-size = Vector3(0.42, 0.42, 0.42)
+[sub_resource type="SphereShape3D" id="SphereShape3D_kyqiw"]
+radius = 2.5
 
-[sub_resource type="StandardMaterial3D" id="HeadMat_1"]
-albedo_color = Color(0.9, 0.75, 0.6, 1)
+[node name="Player" type="CharacterBody3D" unique_id=367495546]
+script = ExtResource("1_rpqav")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_interact"]
-radius = 2.2
-
-[node name="Player" type="CharacterBody3D" unique_id=1418941312]
-collision_mask = 7
-script = ExtResource("1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1117342921]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_1")
-
-[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=1648356297]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_1")
-surface_material_override/0 = SubResource("PlayerMat_1")
-
-[node name="HeadMesh" type="MeshInstance3D" parent="BodyMesh" unique_id=1267545703]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=264806240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("BoxMesh_head")
-surface_material_override/0 = SubResource("HeadMat_1")
+shape = SubResource("CapsuleShape3D_qbkls")
 
-[node name="MuzzlePoint" type="Marker3D" parent="BodyMesh" unique_id=676794000]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.55, -0.55)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1289236605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_rpqav")
 
-[node name="CameraPivot" type="Node3D" parent="." unique_id=1013818034]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=809973281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51175356, -0.47734976)
+mesh = SubResource("BoxMesh_kyqiw")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=207694981]
-transform = Transform3D(1, 0, 0, 0, 0.8848007, 0.46596974, 0, -0.46596974, 0.8848007, 0.028979361, 0.9271622, 1.6664329)
-spring_length = 3.5
+[node name="Marker3D" type="Marker3D" parent="MeshInstance3D/MeshInstance3D" unique_id=401951563]
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" unique_id=1197682457]
-fov = 70.0
+[node name="HUD" parent="." unique_id=1587741402 instance=ExtResource("2_kyqiw")]
 
-[node name="InteractArea" type="Area3D" parent="." unique_id=1883858879]
-collision_layer = 0
-collision_mask = 8
-monitorable = false
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1807946482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.468526, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea" unique_id=1620948599]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("SphereShape3D_interact")
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=1952980131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.113541, 1.9100047)
 
-[node name="HUD" parent="." unique_id=967065946 instance=ExtResource("2")]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" unique_id=1955407376]
+transform = Transform3D(1, 0, 0, 0, 0.96598, 0.25861675, 0, -0.25861675, 0.96598, 0, 0, 0)
+
+[node name="InteractArea" type="Area3D" parent="." unique_id=926139748]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea" unique_id=1394137700]
+shape = SubResource("SphereShape3D_kyqiw")
+
+[connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_area_entered"]
+[connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_area_exited"]

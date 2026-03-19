@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c1utscpr36wal"]
+
+[ext_resource type="PackedScene" uid="uid://ny00yleuskjj" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Pink.gltf" id="1_1eynl"]
+[ext_resource type="Shader" uid="uid://wohea1m00f3b" path="res://shaders/gem_shader.tres" id="2_p74ww"]
+[ext_resource type="Texture2D" uid="uid://d8qdwa2i1nk8" path="res://shaders/T_PerlinNoise_Tiled.png" id="3_5r66m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g4lx0"]
+render_priority = 0
+shader = ExtResource("2_p74ww")
+shader_parameter/AuraColor = Color(1, 0.94509804, 1, 0.49019608)
+shader_parameter/AuraIntensity = 3.0
+shader_parameter/Speed = Vector2(0.1, 0.1)
+shader_parameter/tex_frg_2 = ExtResource("3_5r66m")
+
+[node name="Node3D" type="Node3D" unique_id=1230423489]
+
+[node name="Gem_Pink2" parent="." unique_id=248593969 instance=ExtResource("1_1eynl")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Gem_Pink" parent="Gem_Pink2" index="0" unique_id=1601280559]
+material_overlay = SubResource("ShaderMaterial_g4lx0")
+
+[editable path="Gem_Pink2"]

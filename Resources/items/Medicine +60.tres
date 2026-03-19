@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ConsumableData" format=3 uid="uid://bgyavs3m7pwgs"]
+
+[ext_resource type="Resource" uid="uid://iu45rdxduhat" path="res://Resources/abilities/heal +60.tres" id="1_e2x1b"]
+[ext_resource type="Texture2D" uid="uid://ch4q1c84jsibl" path="res://Assets/Icons/Buch's RPG Items/bottle.png" id="2_7nrg6"]
+[ext_resource type="Script" uid="uid://dk8jyeradclb3" path="res://Script/Items/ConsumableData.gd" id="3_qkuk1"]
+
+[resource]
+script = ExtResource("3_qkuk1")
+item_name = "Medicine"
+description = "Restores 60 HP instantly."
+stackable = true
+max_stack = 5
+icon = ExtResource("2_7nrg6")
+dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn"
+granted_ability = ExtResource("1_e2x1b")
+metadata/_custom_type_script = "uid://dk8jyeradclb3"

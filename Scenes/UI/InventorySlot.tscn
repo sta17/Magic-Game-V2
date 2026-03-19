@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://cytmj3iylfg8k"]
+
+[ext_resource type="Script" uid="uid://ci8o7qb05qshd" path="res://Script/UI/InventorySlot.gd" id="1_0uri3"]
+[ext_resource type="StyleBox" uid="uid://casbn2k5ryv88" path="res://Styleboxes/slot_empty.tres" id="2_mtqxk"]
+[ext_resource type="StyleBox" path="res://Styleboxes/slot_equipment.tres" id="3_bc3oj"]
+[ext_resource type="StyleBox" path="res://Styleboxes/slot_equipped.tres" id="4_wkkn0"]
+[ext_resource type="StyleBox" uid="uid://c7sufrcigtjtr" path="res://Styleboxes/slot_filled.tres" id="5_650f2"]
+[ext_resource type="StyleBox" path="res://Styleboxes/slot_empty_sel.tres" id="6_7r0mc"]
+[ext_resource type="StyleBox" path="res://Styleboxes/slot_equipment_sel.tres" id="7_ihkg2"]
+[ext_resource type="StyleBox" path="res://Styleboxes/slot_equipped_sel.tres" id="8_l5t7r"]
+[ext_resource type="StyleBox" path="res://Styleboxes/slot_filled_sel.tres" id="9_5vpkq"]
+[ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="10_8pusc"]
+[ext_resource type="LabelSettings" uid="uid://ua2wtx0vujwu" path="res://LabelSettings/BlackAndWhite10px.tres" id="11_d0q3x"]
+
+[node name="InventorySlot" type="Panel" unique_id=568371529]
+clip_contents = true
+custom_minimum_size = Vector2(60, 60)
+offset_right = 60.0
+offset_bottom = 60.0
+script = ExtResource("1_0uri3")
+_style_empty = ExtResource("2_mtqxk")
+_style_equipment = ExtResource("3_bc3oj")
+_style_equipped = ExtResource("4_wkkn0")
+_style_filled = ExtResource("5_650f2")
+_style_empty_sel = ExtResource("6_7r0mc")
+_style_equipment_sel = ExtResource("7_ihkg2")
+_style_equipped_sel = ExtResource("8_l5t7r")
+_style_filled_sel = ExtResource("9_5vpkq")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=788941851]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_8pusc")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Coloring" type="Panel" parent="." unique_id=1608578036]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("5_650f2")
+
+[node name="IconRect" type="TextureRect" parent="." unique_id=303018450]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="SlotLabel" type="Label" parent="." unique_id=1203786829]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+
+[node name="AmountLabel" type="Label" parent="." unique_id=727848151]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "222"
+label_settings = ExtResource("11_d0q3x")
+horizontal_alignment = 2
+vertical_alignment = 2

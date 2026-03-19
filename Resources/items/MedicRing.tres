@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AccessoryData" format=3 uid="uid://bgbhalmyo304f"]
+
+[ext_resource type="Texture2D" uid="uid://juhbi5mn65th" path="res://Assets/Icons/Buch's RPG Items/ring 4.png" id="1_vvvev"]
+[ext_resource type="Script" uid="uid://c5e4pldhdky75" path="res://Script/Abilities/MedicRingAbility.gd" id="2_akyaq"]
+[ext_resource type="Script" uid="uid://bdthlms0bkvqv" path="res://Script/Items/AccessoryData.gd" id="3_jd432"]
+
+[sub_resource type="Resource" id="Resource_m3ig3"]
+script = ExtResource("2_akyaq")
+ability_name = "Medic Ring"
+is_passive = true
+description = "Passive: 2.0 HP/s regeneration while on hotbar"
+icon = ExtResource("1_vvvev")
+metadata/_custom_type_script = "uid://c5e4pldhdky75"
+
+[resource]
+script = ExtResource("3_jd432")
+item_name = "Medic Ring"
+item_type = 2
+dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Pink.tscn"
+granted_ability = SubResource("Resource_m3ig3")
+lore = "A Minor ring of Healing"
+description = "Slowly regenerates health"
+icon = ExtResource("1_vvvev")
+metadata/_custom_type_script = "uid://bdthlms0bkvqv"

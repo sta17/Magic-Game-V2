@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://tglie3fgwfs"]
+
+[ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="1_11k4t"]
+[ext_resource type="Script" uid="uid://746g7eh8m5xx" path="res://Script/UI/ability_card.gd" id="2_skifu"]
+[ext_resource type="PackedScene" uid="uid://cytmj3iylfg8k" path="res://Scenes/UI/InventorySlot.tscn" id="2_y8xts"]
+
+[node name="Card" type="NinePatchRect" unique_id=260759856]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -915.0
+offset_bottom = -630.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_11k4t")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+script = ExtResource("2_skifu")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=2116308376]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_11k4t")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="InventorySlot" parent="." unique_id=568371529 instance=ExtResource("2_y8xts")]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 70.0
+offset_bottom = 70.0
+slot_type = 5
+
+[node name="Title_lbl" type="Label" parent="." unique_id=371884077]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 12.0
+offset_right = 133.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(1, 0.9260749, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 16
+text = "Ability"
+
+[node name="Desc_lbl" type="Label" parent="." unique_id=2104935772]
+clip_contents = true
+layout_mode = 0
+offset_left = 84.0
+offset_top = 40.0
+offset_right = 357.0
+offset_bottom = 80.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 12
+text = "Ability_Desc"
+autowrap_mode = 3
