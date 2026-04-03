@@ -2,15 +2,17 @@
 
 [ext_resource type="Resource" uid="uid://iu45rdxduhat" path="res://Resources/abilities/heal +60.tres" id="1_e2x1b"]
 [ext_resource type="Texture2D" uid="uid://ch4q1c84jsibl" path="res://Assets/Icons/Buch's RPG Items/bottle.png" id="2_7nrg6"]
+[ext_resource type="PackedScene" uid="uid://b4e2agbms2tkq" path="res://Assets/Models/Public Domain/KayKit/KayKit_Prototype_Bits_1.0_FREE/Assets/gltf/Can_B.tscn" id="3_7nrg6"]
 [ext_resource type="Script" uid="uid://dk8jyeradclb3" path="res://Script/Items/ConsumableData.gd" id="3_qkuk1"]
 
 [resource]
 script = ExtResource("3_qkuk1")
-item_name = "Medicine"
-description = "Restores 60 HP instantly."
 stackable = true
 max_stack = 5
-icon = ExtResource("2_7nrg6")
-dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn"
+dropped_item_model = ExtResource("3_7nrg6")
+scene = ExtResource("3_7nrg6")
 granted_ability = ExtResource("1_e2x1b")
+slot_name = "Medicine"
+description = "Restores 60 HP instantly."
+icon = ExtResource("2_7nrg6")
 metadata/_custom_type_script = "uid://dk8jyeradclb3"

@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bt4xxsjwo4nrw"]
+
+[ext_resource type="Script" uid="uid://rbf7lj1fyqx4" path="res://Script/Items/box.gd" id="1_y6vpp"]
+[ext_resource type="PackedScene" uid="uid://bbofpv0kl4x6n" path="res://Assets/Models/Public Domain/Kenney/Kenney Keep/Models/box-open.glb" id="2_y7274"]
+[ext_resource type="PackedScene" uid="uid://dd5qdl3rcug4i" path="res://Assets/Models/Public Domain/Kenney/Kenney Keep/Models/box.glb" id="3_4pvdy"]
+[ext_resource type="Script" uid="uid://bmcnfxe0fgpm6" path="res://Script/Items/QuantitySlot.gd" id="5_4pvdy"]
+[ext_resource type="Script" uid="uid://oeddicel435v" path="res://Script/Items/Inventory.gd" id="5_7ilgn"]
+
+[sub_resource type="Resource" id="Resource_mrpb5"]
+script = ExtResource("5_7ilgn")
+capacity = 5
+items = Array[ExtResource("5_4pvdy")]([null, null, null, null, null])
+metadata/_custom_type_script = "uid://oeddicel435v"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y6vpp"]
+size = Vector3(1, 2, 1)
+
+[node name="Box" type="StaticBody3D" unique_id=1707355263]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_y6vpp")
+inventory = SubResource("Resource_mrpb5")
+
+[node name="box-open2" parent="." unique_id=1893599481 instance=ExtResource("2_y7274")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+visible = false
+
+[node name="box2" parent="." unique_id=1065399535 instance=ExtResource("3_4pvdy")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=403300085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_y6vpp")

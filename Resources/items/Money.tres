@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://b32hg0dpktr7r"]
+
+[ext_resource type="Texture2D" uid="uid://bcyigxs6ylooa" path="res://Assets/Icons/Icons34x34byAilsEnglish2013/I_GoldCoin.png" id="1_qfuds"]
+[ext_resource type="PackedScene" uid="uid://cmflyf6oxr2d1" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Coin.tscn" id="2_qfuds"]
+[ext_resource type="Script" uid="uid://b86t22j8kw6ob" path="res://Script/Items/item_data.gd" id="3_apoqc"]
+
+[resource]
+script = ExtResource("3_apoqc")
+item_type = 4
+stackable = true
+max_stack = 5000
+dropped_item_model = ExtResource("2_qfuds")
+slot_name = "Money"
+description = "Its Money"
+icon = ExtResource("1_qfuds")
+metadata/_custom_type_script = "uid://b86t22j8kw6ob"

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AccessoryData" format=3 uid="uid://2o8eeih50d0j"]
+
+[ext_resource type="Resource" uid="uid://c6kkpe3qnhmbx" path="res://Resources/abilities/PowerPunch +80.tres" id="1_0b4c5"]
+[ext_resource type="PackedScene" uid="uid://c6q8cwu3q8mmu" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn" id="1_674lu"]
+[ext_resource type="Texture2D" uid="uid://doo2bqmpjbon5" path="res://Assets/Icons/Pixel-Boy/node_3D/icon_projectile.png" id="2_674lu"]
+[ext_resource type="PackedScene" uid="uid://cujlxpsv0y87e" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.gltf" id="3_5g5j2"]
+[ext_resource type="Script" uid="uid://bdthlms0bkvqv" path="res://Script/Items/AccessoryData.gd" id="4_h4wbt"]
+
+[resource]
+script = ExtResource("4_h4wbt")
+item_type = 2
+dropped_item_model = ExtResource("1_674lu")
+scene = ExtResource("3_5g5j2")
+granted_ability = ExtResource("1_0b4c5")
+lore = "Power Punch"
+slot_name = "Power Punch"
+description = "Power Punch"
+icon = ExtResource("2_674lu")
+metadata/_custom_type_script = "uid://bdthlms0bkvqv"

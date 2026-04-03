@@ -16,20 +16,19 @@ enum WeaponType {
 @export var bullet_spread: float = 0.03
 @export var pellets: int = 1             # shotgun fires multiple
 
-func _init():
+func _init() -> void:
 	item_type = ItemType.WEAPON
 
 func get_tooltip() -> String:
-	var txt = "[b]" + item_name + "[/b]\n" + description
-	txt += "\n[color=orange]DMG:[/color] " + str(damage)
-	txt += "  [color=yellow]ROF:[/color] " + ("%.1f" % (1.0 / fire_rate)) + "/s"
-	if pellets > 1:
-		txt += "\n[color=red]PELLETS:[/color] " + str(pellets)
-	txt += get_lore()
+	var txt: String 
+	txt = "[b]" + slot_name + "[/b]\n" 
+	txt += get_tooltipWithoutTitle()
 	return txt
 
 func get_tooltipWithoutTitle() -> String:
-	var txt = description
+	var txt: String 
+	txt += get_type_String_color() + "\n"
+	txt += description
 	txt += "\n[color=orange]DMG:[/color] " + str(damage)
 	txt += "  [color=yellow]ROF:[/color] " + ("%.1f" % (1.0 / fire_rate)) + "/s"
 	if pellets > 1:

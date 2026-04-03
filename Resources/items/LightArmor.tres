@@ -3,13 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://d02lt50dtgdtj" path="res://Assets/Icons/Buch's RPG Items/ring 8.png" id="1_f5krq"]
 [ext_resource type="Resource" uid="uid://cwlr6plw2xnqu" path="res://Resources/abilities/Speed Armor +1,8.tres" id="1_xbwo2"]
 [ext_resource type="Script" uid="uid://6al0ersmcfg0" path="res://Script/Items/ArmorData.gd" id="2_xbwo2"]
+[ext_resource type="PackedScene" uid="uid://c6q8cwu3q8mmu" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn" id="3_ah4hh"]
 
 [resource]
 script = ExtResource("2_xbwo2")
 defense = 6.0
-item_name = "Light Armor"
 item_type = 1
-dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn"
+dropped_item_model = ExtResource("3_ah4hh")
+scene = ExtResource("3_ah4hh")
 granted_ability = ExtResource("1_xbwo2")
 slot_name = "Light Armor"
 description = "+6 Defense and +1.8 movement speed while on hotbar"

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cmflyf6oxr2d1"]
+
+[ext_resource type="PackedScene" uid="uid://bgvf0p805lm5p" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Coin.gltf" id="1_qhvid"]
+
+[node name="Node3D" type="Node3D" unique_id=1290601530]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Coin2" parent="." unique_id=1075078303 instance=ExtResource("1_qhvid")]

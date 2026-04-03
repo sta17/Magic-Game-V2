@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PowerPunchAbility" format=3 uid="uid://c6kkpe3qnhmbx"]
+
+[ext_resource type="Texture2D" uid="uid://doo2bqmpjbon5" path="res://Assets/Icons/Pixel-Boy/node_3D/icon_projectile.png" id="1_ixxfw"]
+[ext_resource type="Script" uid="uid://dk5dfxsxyhraw" path="res://Script/Abilities/PowerPunchAbility.gd" id="2_yhpis"]
+
+[resource]
+script = ExtResource("2_yhpis")
+ability_name = "Power Punch"
+slot_name = "Power Punch"
+description = "Damage: 80   Up to distance in front: 10 m   "
+icon = ExtResource("1_ixxfw")
+metadata/_custom_type_script = "uid://dk5dfxsxyhraw"

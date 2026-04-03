@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://b220tjburyhsl"]
+
+[ext_resource type="Script" uid="uid://b3embovyhdpuq" path="res://Script/Core/health_bar.gd" id="1_qay8w"]
+[ext_resource type="StyleBox" uid="uid://cil5dbvueyfjd" path="res://GodotSettings/Styleboxes/HPBar Empty.stylebox" id="2_wjrfg"]
+[ext_resource type="StyleBox" uid="uid://duh8rvaj4yqfc" path="res://GodotSettings/Styleboxes/HPBar.stylebox" id="3_ap322"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qay8w"]
+viewport_path = NodePath("HPViewport")
+
+[node name="HealthBar" type="Node3D" unique_id=905334040]
+script = ExtResource("1_qay8w")
+
+[node name="HPViewport" type="SubViewport" parent="." unique_id=1240260050]
+transparent_bg = true
+size = Vector2i(200, 16)
+render_target_update_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="HPViewport" unique_id=1196338729]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = ExtResource("2_wjrfg")
+theme_override_styles/fill = ExtResource("3_ap322")
+value = 100.0
+show_percentage = false
+
+[node name="HPSprite" type="Sprite3D" parent="." unique_id=254206312]
+pixel_size = 0.005
+billboard = 1
+texture = SubResource("ViewportTexture_qay8w")

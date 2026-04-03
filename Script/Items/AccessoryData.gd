@@ -6,11 +6,19 @@ class_name AccessoryData
 @export var damage_bonus: float = 0.0  # added to all weapon damage
 @export var health_regen: float = 0.0  # HP restored per second
 
-func _init():
+func _init() -> void:
 	item_type = ItemType.ACCESSORY
 
 func get_tooltip() -> String:
-	var txt = "[b]" + item_name + "[/b]\n" + description
+	var txt: String 
+	txt = "[b]" + slot_name + "[/b]\n" 
+	txt += get_tooltipWithoutTitle()
+	return txt
+
+func get_tooltipWithoutTitle() -> String:
+	var txt: String 
+	txt += get_type_String_color() + "\n"
+	txt += description
 	if speed_bonus != 0.0:
 		txt += "\n[color=yellow]SPD:[/color] +" + ("%.1f" % speed_bonus)
 	if damage_bonus != 0.0:

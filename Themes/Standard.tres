@@ -1,9 +1,0 @@
-[gd_resource type="Theme" format=3 uid="uid://diunbmd80jn4m"]
-
-[ext_resource type="StyleBox" uid="uid://c5ahfrtbbw4u8" path="res://Styleboxes/Frame_style_box_texture.tres" id="1_ebc52"]
-[ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="1_lc2hs"]
-
-[resource]
-Panel/styles/panel = ExtResource("1_ebc52")
-RichTextLabel/icons/horizontal_rule = ExtResource("1_lc2hs")
-RichTextLabel/styles/background = ExtResource("1_ebc52")

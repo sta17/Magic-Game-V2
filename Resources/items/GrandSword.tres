@@ -2,24 +2,23 @@
 
 [ext_resource type="Resource" uid="uid://datlkskepnjso" path="res://Resources/abilities/melee +20.tres" id="1_vvira"]
 [ext_resource type="Texture2D" uid="uid://voxrsr6m0xmj" path="res://Assets/Icons/Buch's RPG Items/sword.png" id="2_bk1yu"]
+[ext_resource type="PackedScene" uid="uid://cebttt2j8j3p3" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn" id="3_bk1yu"]
 [ext_resource type="Script" uid="uid://byigr6urkxofs" path="res://Script/Items/WeaponData.gd" id="3_ggx4v"]
 
 [resource]
 script = ExtResource("3_ggx4v")
 damage = 20.0
 fire_rate = 0.0
-ammo_max = 0
-ammo_current = 0
-reload_time = 0.0
+weapon_range = 0.0
 bullet_speed = 0.0
 bullet_spread = 0.0
 pellets = 0
-weapon_range = 0.0
-item_name = "Grand Sword"
-description = "A Grand Sword"
 item_type = 0
-icon = ExtResource("2_bk1yu")
-dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn"
+dropped_item_model = ExtResource("3_bk1yu")
+scene = ExtResource("3_bk1yu")
 granted_ability = ExtResource("1_vvira")
 lore = "A Grand Sword of Legend"
+slot_name = "Grand Sword"
+description = "A Grand Sword"
+icon = ExtResource("2_bk1yu")
 metadata/_custom_type_script = "uid://byigr6urkxofs"

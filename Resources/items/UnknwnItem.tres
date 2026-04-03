@@ -6,6 +6,8 @@
 [resource]
 script = ExtResource("2_jjo6p")
 item_type = 2
-icon = ExtResource("1_6an8c")
 dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn"
+slot_name = "Unknown Item"
+description = "An unknown item"
+icon = ExtResource("1_6an8c")
 metadata/_custom_type_script = "uid://bdthlms0bkvqv"

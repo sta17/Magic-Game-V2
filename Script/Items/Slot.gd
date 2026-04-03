@@ -1,10 +1,9 @@
 extends Resource
 class_name Slot
 
-@export var slot_name: String = ""
-@export var description: String = ""
-#@export var quantity: int = 1
-@export var icon:         Texture2D = null
+@export var slot_name:		String		= ""
+@export var description:	String		= ""
+@export var icon:			Texture2D	= null
 
 func get_tooltip() -> String:
 	return "[b]" + slot_name + "[/b]\n" + description

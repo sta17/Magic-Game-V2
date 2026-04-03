@@ -3,6 +3,7 @@
 [ext_resource type="Resource" uid="uid://gk6k6n8dkfyu" path="res://Resources/abilities/melee +10.tres" id="1_65ipf"]
 [ext_resource type="Texture2D" uid="uid://cyfg2vrcer06a" path="res://Assets/Icons/Buch's RPG Items/sword 2.png" id="1_b3i6j"]
 [ext_resource type="Script" uid="uid://byigr6urkxofs" path="res://Script/Items/WeaponData.gd" id="2_65ipf"]
+[ext_resource type="PackedScene" uid="uid://cebttt2j8j3p3" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn" id="3_i0y7l"]
 
 [resource]
 script = ExtResource("2_65ipf")
@@ -12,10 +13,11 @@ weapon_range = 2.5
 bullet_speed = 0.0
 bullet_spread = 0.0
 pellets = 0
-item_name = "Simple Sword"
-description = "A Simple Sword"
 item_type = 0
-icon = ExtResource("1_b3i6j")
-dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn"
+dropped_item_model = ExtResource("3_i0y7l")
+scene = ExtResource("3_i0y7l")
 granted_ability = ExtResource("1_65ipf")
+slot_name = "Simple Sword"
+description = "A Simple Sword"
+icon = ExtResource("1_b3i6j")
 metadata/_custom_type_script = "uid://byigr6urkxofs"

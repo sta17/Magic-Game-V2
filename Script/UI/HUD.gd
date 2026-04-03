@@ -1,11 +1,29 @@
+@icon("res://Assets/Icons/Mine/UI.png")
 extends CanvasLayer
 class_name HUD
 
-@onready var _hp_bar:       ProgressBar = $HPPanel/HPBar
-@onready var _hp_label:     Label       = $HPPanel/HPLabel
-@onready var _notif_label:  Label       = $NotifLabel
-@onready var inv_panel:     Control     = $InvPanel
-@onready var hotbar_panel:  Control     = $HotbarPanel
+@onready var _hp_bar:		ProgressBar		= $HPPanel/HPBar
+@onready var _hp_label:		Label			= $HPPanel/HPLabel
+@onready var _notif_label:	Label			= $NotifLabel
+@onready var inv_panel:		Control			= $InvPanel
+@onready var hotbar_panel:	HotbarUI		= $HotbarPanel
+@onready var dialogWindow:	DialogWindow	= $DialogWindow
+@onready var tooltip: 		Tooltip			= $Tooltip
+@onready var screen: 		Control			= $Screen
+
+@export var default_cursor: Texture
+@export var cross_cursor: Texture
+
+func _ready() -> void:	
+	Input.set_custom_mouse_cursor(default_cursor, Input.CURSOR_ARROW,Vector2(7, 6))
+	Input.set_custom_mouse_cursor(default_cursor, Input.CURSOR_CAN_DROP,Vector2(7, 6))
+	Input.set_custom_mouse_cursor(cross_cursor, Input.CURSOR_FORBIDDEN,Vector2(7, 6))
+
+
+func _process(_delta:float) -> void:
+	if tooltip.visible:
+		tooltip.position = screen.get_global_mouse_position()
+		tooltip.position = tooltip.position + Vector2(6,8)
 
 func update_hp(health: float, max_hp: float) -> void:
 	var ratio := health / max_hp
@@ -32,3 +50,36 @@ func flash_damage() -> void:
 	var tw := create_tween()
 	tw.tween_property(flash, "color:a", 0.0, 0.3)
 	tw.tween_callback(flash.queue_free)
+
+func Show_Text_Interact(player: Player, otherInteracter: NPC) -> void:
+	hotbar_panel.visible = not hotbar_panel.visible
+	dialogWindow.visible = not dialogWindow.visible
+	dialogWindow.startChat(player,otherInteracter)
+
+func Hide_Text_Interact() -> void:
+	hotbar_panel.visible = not hotbar_panel.visible
+	dialogWindow.visible = not dialogWindow.visible
+
+func ShowHide_Inventory() -> void:
+	inv_panel.visible = not inv_panel.visible
+	if inv_panel.visible:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func ShowHide_Inventory_Box(interactble_entity: Box) -> void:
+	inv_panel.visible = not inv_panel.visible
+	if inv_panel.visible:
+		interactble_entity._on_open()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		interactble_entity._on_close()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	inv_panel.ShowHide_Inventory_Box(interactble_entity)
+
+func _on_slot_mouse_item_hover(status: bool, currentSlot: Slot) -> void:
+	if status and currentSlot != null:
+		tooltip.visible = true
+		tooltip.setTooltip(currentSlot)
+	else:
+		tooltip.visible = false

@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dd5jc8ratkrej"]
+
+[ext_resource type="Texture2D" uid="uid://cqe6k6pduq4kd" path="res://Assets/Models/Public Domain/Kenney/Kenney Keep/Models/Textures/colormap (2).png" id="1_51mad"]
+
+[resource]
+resource_name = "colormap"
+cull_mode = 2
+albedo_texture = ExtResource("1_51mad")
+texture_filter = 2

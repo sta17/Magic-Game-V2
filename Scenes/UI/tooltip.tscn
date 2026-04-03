@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://csfwqxs7p2o2c"]
+
+[ext_resource type="Script" uid="uid://b6rcl2kyoaha3" path="res://Script/UI/tooltip.gd" id="1_twg4b"]
+[ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="2_346dn"]
+
+[node name="Tooltip" type="NinePatchRect" unique_id=477103866]
+custom_minimum_size = Vector2(148, 148)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1132.0
+offset_bottom = -572.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_346dn")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+script = ExtResource("1_twg4b")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=172735659]
+custom_minimum_size = Vector2(148, 148)
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 120.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer" unique_id=2128237052]
+layout_mode = 2
+
+[node name="tooltip_text" type="RichTextLabel" parent="MarginContainer/GridContainer" unique_id=839951905]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+theme_override_font_sizes/bold_italics_font_size = 12
+theme_override_font_sizes/italics_font_size = 12
+theme_override_font_sizes/mono_font_size = 12
+bbcode_enabled = true

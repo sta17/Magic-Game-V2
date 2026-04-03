@@ -1,39 +1,30 @@
-extends CharacterBody3D
+@icon("res://Assets/Icons/Pixel-Boy/node_3D/icon_skull.png")
+extends NPC
 class_name Enemy
 
-enum State { IDLE, PATROL, CHASE, ATTACK, DEAD }
-
-@export var max_health: float      = 50.0
-@export var move_speed: float      = 3.5
-@export var attack_damage: float   = 10.0
-@export var attack_range: float    = 2.2
-@export var detection_range: float = 16.0
+@export var melee_attack_damage: float   = 10.0
+@export var ranged_attack_damage: float   = 20.0
+@export var melee_attack_range: float    = 2.2
+@export var ranged_attack_range: float    = 4.4
 @export var attack_cooldown: float = 1.2
-@export var patrol_radius: float   = 8.0
 @export var drop_table: Array[ItemData] = []
+@export var bullet_speed: float = 20.0
+@export var _ranged_icon: Texture2D
+@export var _melee_icon: Texture2D
 
-const GRAVITY:      float = -9.8
 const DROP_CHANCE:  float = 0.6
 
 const _PickupScene := preload("res://Scenes/PickUpItem.tscn")
+const _BulletScene  := preload("res://Scenes/bullet.tscn")
 
-var health: float
-var state: State = State.PATROL
-var _spawn_pos: Vector3
-var _patrol_target: Vector3
 var _attack_timer: float = 0.0
-var _patrol_wait: float  = 0.0
-var _player: Node3D      = null
 
 # Visuals — nodes come from enemy.tscn, visible in the editor
-@onready var _mesh:        MeshInstance3D = $MeshInstance3D
-@onready var _hp_viewport: SubViewport = $HealthBar/HPViewport
-@onready var _hp_bar:      ProgressBar = $HealthBar/HPViewport/ProgressBar
-@onready var _hp_sprite:   Sprite3D    = $HealthBar/HPSprite
+@onready var _mesh:			MeshInstance3D	= $MeshInstance3D
+@onready var _muzzle:		Marker3D		= $Marker3D
+@onready var _hp_bar:		Health_Bar		= $HealthBar
 
-signal enemy_died(drop_position: Vector3)
-
-func _ready():
+func _ready() -> void:
 	add_to_group("enemy")
 	health = max_health
 	_spawn_pos     = global_position
@@ -41,15 +32,13 @@ func _ready():
 	call_deferred("_find_player")
 	call_deferred("_setup_hp_sprite")
 
-func _find_player():
+func _setup_hp_sprite() -> void:
+	_hp_bar._setup_hp_sprite(health,max_health)
+
+func _find_player() -> void:
 	_player = get_tree().get_first_node_in_group("player")
 
-func _setup_hp_sprite():
-	_hp_bar.max_value = 100.0
-	_hp_bar.value = 100.0
-	_hp_sprite.texture = _hp_viewport.get_texture()
-
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	if state == State.DEAD:
 		return
 
@@ -59,14 +48,16 @@ func _physics_process(delta: float):
 	_attack_timer -= delta
 
 	match state:
-		State.IDLE:   _do_idle(delta)
-		State.PATROL: _do_patrol(delta)
-		State.CHASE:  _do_chase(delta)
-		State.ATTACK: _do_attack(delta)
+		State.IDLE:		_do_idle(delta)
+		State.PATROL:	_do_patrol(delta)
+		State.CHASE:	_do_chase(delta)
+		State.ATTACK:	_do_attack(delta)
+		State.STAND:	_do_stand(delta)
+		State.WANDER:	_do_wander(delta)
 
 	move_and_slide()
 
-func _do_idle(delta: float):
+func _do_idle(delta: float) -> void:
 	velocity.x = 0.0; velocity.z = 0.0
 	_patrol_wait += delta
 	if _patrol_wait > 2.0:
@@ -74,30 +65,30 @@ func _do_idle(delta: float):
 		state = State.PATROL
 	_check_detect()
 
-func _do_patrol(delta: float):
+func _do_patrol(delta: float) -> void:
 	_check_detect()
-	var dist_to_target = global_position.distance_to(_patrol_target)
+	var dist_to_target:float = global_position.distance_to(_patrol_target)
 	if dist_to_target < 0.8:
 		_set_patrol_target()
 		state = State.IDLE
 		return
 	_move_toward(_patrol_target, move_speed * 0.6, delta)
 
-func _do_chase(delta: float):
+func _do_chase(delta: float) -> void:
 	if not _player:
 		state = State.PATROL; return
-	var dist = global_position.distance_to(_player.global_position)
+	var dist:float = global_position.distance_to(_player.global_position)
 	if dist > detection_range * 1.6:
 		state = State.PATROL; return
-	if dist <= attack_range:
+	if dist <= melee_attack_range:
 		state = State.ATTACK; return
 	_move_toward(_player.global_position, move_speed, delta)
 
-func _do_attack(delta: float):
+func _do_attack(delta: float) -> void:
 	if not _player:
 		state = State.PATROL; return
-	var dist = global_position.distance_to(_player.global_position)
-	if dist > attack_range * 1.3:
+	var dist:float = global_position.distance_to(_player.global_position)
+	if dist > ranged_attack_range * 1.3:
 		state = State.CHASE; return
 
 	velocity.x = 0.0; velocity.z = 0.0
@@ -105,60 +96,61 @@ func _do_attack(delta: float):
 
 	if _attack_timer <= 0.0:
 		_attack_timer = attack_cooldown
-		_do_melee_hit()
+		if dist < ranged_attack_range * 1.3:
+			_head_icon.texture = _ranged_icon
+			_do_ranged_attack()
+		if dist < melee_attack_range * 1.3:
+			_head_icon.texture = _melee_icon
+			_do_melee_attack()
 
-func _move_toward(target: Vector3, speed: float, delta: float):
-	var flat_dir = (target - global_position)
-	flat_dir.y = 0.0
-	if flat_dir.length() < 0.01:
-		velocity.x = 0.0; velocity.z = 0.0
+func _do_stand(_delta: float) -> void:
+	# Stand Still and Do Nothing
+	pass
+
+func _do_wander(delta: float) -> void:
+	var dist_to_target: float = global_position.distance_to(_patrol_target)
+	if dist_to_target < 0.8:
+		_set_patrol_target()
+		state = State.IDLE
 		return
-	flat_dir = flat_dir.normalized()
-	velocity.x = flat_dir.x * speed
-	velocity.z = flat_dir.z * speed
-	_face_target(target, delta * 6.0)
+	_move_toward(_patrol_target, move_speed * 0.6, delta)
 
-func _face_target(target: Vector3, weight: float):
-	var dir = (target - global_position)
-	dir.y = 0.0
-	if dir.length() < 0.01:
-		return
-	var target_angle = atan2(dir.x, dir.z)
-	rotation.y = lerp_angle(rotation.y, target_angle, weight)
-
-func _check_detect():
+func _check_detect() -> void:
 	if not _player:
 		return
 	if global_position.distance_to(_player.global_position) <= detection_range:
 		state = State.CHASE
 
-func _set_patrol_target():
-	var offset = Vector3(
-		randf_range(-patrol_radius, patrol_radius),
-		0.0,
-		randf_range(-patrol_radius, patrol_radius)
-	)
-	_patrol_target = _spawn_pos + offset
+func _do_ranged_attack() -> void:
+	var bullet: Bullet = _BulletScene.instantiate()
+	get_tree().current_scene.add_child(bullet)
 
-func _do_melee_hit():
+	var dir: Vector3 = (_muzzle.global_transform.basis.z).normalized()
+
+	bullet.global_position = _muzzle.global_position
+	bullet.direction = dir
+	bullet.speed     = bullet_speed
+	bullet.damage    = ranged_attack_damage
+	bullet.shooter   = self
+
+func _do_melee_attack() -> void:
 	if _player and _player.has_method("take_damage"):
-		_player.take_damage(attack_damage)
+		_player.take_damage(melee_attack_damage)
 	# Lunge visual: quick position shift
-	var original = global_position
-	var tween = create_tween()
-	var lunge_pos = global_position + (-global_transform.basis.z) * 0.4
+	var original: Vector3 = global_position
+	var tween: Tween = create_tween()
+	var lunge_pos: Vector3 = global_position + (-global_transform.basis.z) * 0.4
 	tween.tween_property(self, "global_position", lunge_pos, 0.07)
 	tween.tween_property(self, "global_position", original, 0.12)
 
-func take_damage(amount: float):
+func take_damage(amount: float) -> void:
 	if state == State.DEAD:
 		return
-	health -= amount
-	_update_health_bar()
+	_hp_bar._update_health_bar(-amount)
 	_spawn_damage_number(amount)
 	if state == State.PATROL or state == State.IDLE:
 		state = State.CHASE
-	if health <= 0.0:
+	if _hp_bar._is_dead():
 		_die()
 
 func _spawn_damage_number(amount: float) -> void:
@@ -176,36 +168,31 @@ func _spawn_damage_number(amount: float) -> void:
 	tween.tween_property(label, "modulate:a", 0.0, 0.8)
 	tween.tween_callback(label.queue_free).set_delay(0.8)
 
-func _update_health_bar():
-	if not _hp_bar:
-		return
-	_hp_bar.value = (health / max_health) * 100.0
-
-func _die():
+func _die() -> void:
 	state = State.DEAD
 	velocity = Vector3.ZERO
 
 	# Flash red then fade
 	if _mesh:
-		var mat = StandardMaterial3D.new()
+		var mat: StandardMaterial3D = StandardMaterial3D.new()
 		mat.albedo_color = Color(0.6, 0.0, 0.0)
 		_mesh.set_surface_override_material(0, mat)
 
-	enemy_died.emit(global_position)
+	creature_died.emit(global_position)
 	_try_drop_items()
 
-	var tween = create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_interval(1.5)
 	tween.tween_callback(queue_free)
 
-func _try_drop_items():
+func _try_drop_items() -> void:
 	for item in drop_table:
 		if randf() < DROP_CHANCE:
 			_spawn_pickup(item.duplicate(true))
 
-func _spawn_pickup(item: ItemData):
+func _spawn_pickup(item: ItemData) -> void:
 	var pickup: PickUpItem = _PickupScene.instantiate()
-	pickup.item_data = item
+	pickup.item = item
 	# Set position BEFORE add_child so _ready() captures the correct bob base Y
 	pickup.position = global_position + Vector3(
 		randf_range(-0.6, 0.6), 0.8, randf_range(-0.6, 0.6)

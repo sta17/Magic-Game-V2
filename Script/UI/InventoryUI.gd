@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Mine/UI.png")
 extends Control
 class_name InventoryUI
 
@@ -8,57 +9,40 @@ const _PAS_HOT_SCENE := preload("res://Scenes/UI/PassiveHotbar.tscn")
 const _ABI_CARD_SCENE := preload("res://Scenes/UI/ability_card.tscn")
 
 var _inventory: Inventory = null
+var _secondary_inventory: Inventory = null
 var _equipment: EquipmentManager = null
 var _ability_list: AbilityList = null
 var _grid_slots: Array[InventorySlot] = []
+var _grid_slots2: Array[InventorySlot] = []
 var _player: Player = null
-var _hotbar = null
+var _hotbar: HotbarUI = null
 var _selected_slot: InventorySlot = null
 var _active_tab: int = 0
 
-var passive_hotbar: PassiveHotbar = null
-
 #region Scene node references
 
-@onready var _tab_inv_btn: Button          = $InvBox/TabInvBtn
-@onready var _tab_abi_btn: Button          = $InvBox/TabAbiBtn
-@onready var _inv_content: Control         = $InvBox/InvContent
-@onready var _abi_content: Control         = $InvBox/AbiContent
+@onready var _tab_inv_btn: Button          = $TabInvBtn
+@onready var _tab_abi_btn: Button          = $TabAbiBtn
+@onready var _inv_content: Control         = $InvContent
+@onready var _abi_content: Control         = $AbiContent
 
-@onready var _eq_weapon_slot: InventorySlot    = $InvBox/InvContent/WpnSlot
-@onready var _eq_armor_slot: InventorySlot     = $InvBox/InvContent/ArmSlot
-@onready var _eq_accessory_slot: InventorySlot = $InvBox/InvContent/AccSlot
-@onready var _count_label: Label           = $InvBox/InvContent/InvCountLabel
-@onready var _grid_root: Control           = $InvBox/InvContent/GridRoot
-@onready var _tooltip: RichTextLabel       = $InvBox/InvContent/Tooltip
-@onready var _use_btn: Button              = $InvBox/InvContent/UseBtn
-@onready var _drop_btn: Button             = $InvBox/InvContent/DropBtn
+@onready var _eq_weapon_slot: InventorySlot    = $InvContent/WpnSlot
+@onready var _eq_armor_slot: InventorySlot     = $InvContent/ArmSlot
+@onready var _eq_accessory_slot: InventorySlot = $InvContent/AccSlot
+@onready var _count_label: Label           = $InvContent/InvCountLabel
+@onready var _grid_root: Control           = $InvContent/GridRoot
+@onready var _use_btn: Button              = $InvContent/UseBtn
+@onready var _drop_btn: Button             = $InvContent/DropBtn
 
-@onready var _abilities_container: Control = $InvBox/AbiContent/AbiScroll/AbilitiesContainer
+@onready var _second_inventory_label: Label = $InvContent/InvCountLabel2
+@onready var _grid2_root: Control           = $InvContent/GridRoot2
+
+@onready var passive_hotbar: PassiveHotbar = $AbiContent/AbiScroll/PassiveHotbar
+@onready var _abilities_container: Control = $AbiContent/AbiScroll/AbilitiesContainer
 
 #endregion
 
-#region Public API
-
-func set_hotbar(h) -> void:
-	_hotbar = h
-
-func get_passive_speed_bonus() -> float:
-	return passive_hotbar.get_passive_speed_bonus() if passive_hotbar else 0.0
-
-func get_passive_damage_bonus() -> float:
-	return passive_hotbar.get_passive_damage_bonus() if passive_hotbar else 0.0
-
-func get_passive_health_regen() -> float:
-	return passive_hotbar.get_passive_health_regen() if passive_hotbar else 0.0
-
-func auto_add_passive(ability: AbilityData) -> void:
-	if passive_hotbar:
-		passive_hotbar.auto_add(ability)
-
-func auto_remove_passive(ability: AbilityData) -> void:
-	if passive_hotbar:
-		passive_hotbar.remove_ability_ref(ability)
+#region Setup
 
 func init(player: Player) -> void:
 	_player    = player
@@ -66,13 +50,13 @@ func init(player: Player) -> void:
 	_equipment = player.equipment
 
 	_inventory.inventory_changed.connect(_rebuild)
-	_equipment.weapon_equipped.connect(func(_w): _rebuild())
-	_equipment.armor_equipped.connect(func(_a): _rebuild())
-	_equipment.accessory_equipped.connect(func(_ac): _rebuild())
-	_equipment.slot_cleared.connect(func(_s): _rebuild())
+	_equipment.weapon_equipped.connect(_rebuild)
+	_equipment.armor_equipped.connect(_rebuild)
+	_equipment.accessory_equipped.connect(_rebuild)
+	_equipment.slot_cleared.connect(_rebuild)
 
-	_tab_inv_btn.pressed.connect(func(): _set_tab(0))
-	_tab_abi_btn.pressed.connect(func(): _set_tab(1))
+	_tab_inv_btn.pressed.connect(func() -> void: _set_tab(0))
+	_tab_abi_btn.pressed.connect(func() -> void: _set_tab(1))
 
 	_eq_weapon_slot.slot_clicked.connect(_on_slot_clicked)
 	_eq_armor_slot.slot_clicked.connect(_on_slot_clicked)
@@ -86,76 +70,77 @@ func init(player: Player) -> void:
 	_ability_list = player.ability_list
 	_ability_list.changed.connect(_rebuild_abilities)
 
-	passive_hotbar = _PAS_HOT_SCENE.instantiate()
-	_abilities_container.add_child(passive_hotbar)
-	#passive_hotbar = PassiveHotbar.new()
-	#_abilities_container.add_child(passive_hotbar)
-
-	_build_grid()
+	_build_grid(_grid_root,_grid_slots,_inventory,InventorySlot.SlotType.ANY)
 	_rebuild_abilities()
 	_set_tab(0)
 	_refresh_eq_slots()
 	_refresh_grid_slots()
 
-func _build_grid() -> void:
-	_grid_slots.clear()
+func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inventory, type: InventorySlot.SlotType) -> void:
+	for n in _root.get_children(): n.queue_free()
+	_slots.clear()
 	var cols := 6
 	var step := 66.0  # slot size (60) + gap (6)
-	for i in range(_inventory.capacity):
+	for i in range(_l_inventory.capacity):
 		var slot := _SLOT_SCENE.instantiate() as InventorySlot
-		slot.slot_type = InventorySlot.SlotType.ANY
+		slot.slot_type = type
 		@warning_ignore("integer_division")
 		slot.position  = Vector2((i % cols) * step, (i / cols) * step)
 		slot.slot_clicked.connect(_on_slot_clicked)
-		_grid_root.add_child(slot)
-		_grid_slots.append(slot)
+		slot.mouse_item_hover.connect((self.get_parent() as HUD)._on_slot_mouse_item_hover)
+		slot.index = i
+		_root.add_child(slot)
+		_slots.append(slot)
 
-func _rebuild_abilities() -> void:
-	# Clear dynamic nodes but keep the persistent passive_hotbar
-	for child in _abilities_container.get_children():
-		if child != passive_hotbar:
-			child.queue_free()
+#endregion
 
-	var stride  := 100.0
-	var col_w   := 365.0
-	var col_gap := 10.0
-	var left_x  := 0.0
-	var right_x := col_w + col_gap
+#region Box Inventory
 
-	var active_abs  := _ability_list.abilities.filter(func(a: AbilityData): return not a.is_passive)
-	var passive_abs := _ability_list.abilities.filter(func(a: AbilityData): return a.is_passive)
-
-	# ── Left column: Active abilities ────────────────────────────────
-	var lbl_act := _ACT_SCENE.instantiate() as Label
-	_abilities_container.add_child(lbl_act)
+func ShowHide_Inventory_Box(interactble_entity: Box) -> void:
+	# make visible
+	_second_inventory_label.visible = not _second_inventory_label.visible
+	_grid2_root.visible = not _grid2_root.visible
+	if _grid2_root.visible:
+		_secondary_inventory = interactble_entity.get_inventory()
+		_secondary_inventory.inventory_changed.connect(_rebuild)
+		# fill in new slots
+		_build_grid(_grid2_root,_grid_slots2,_secondary_inventory,InventorySlot.SlotType.SECONDARY)
+		_refresh_grid_slots2()
+		# set name
+		_second_inventory_label.text = interactble_entity.labelText
+	else:
+		_secondary_inventory.inventory_changed.disconnect(_rebuild)
+		_secondary_inventory = null
+	pass
 	
-	var y_left = 28.0
-	for ab in active_abs:
-		var _ABI_CARD := _ABI_CARD_SCENE.instantiate()
-		_ABI_CARD.initalise(ab, col_w)
-		_ABI_CARD.position = Vector2(left_x, y_left)
-		_abilities_container.add_child(_ABI_CARD)
-		y_left += stride
-	if active_abs.is_empty():
-		y_left += 30.0
 
-	# ── Right column: Passive hotbar + abilities ─────────────────────
-	var lbl_pas := _PAS_SCENE.instantiate() as Label
-	_abilities_container.add_child(lbl_pas)
-	
-	var y_right = 28.0
-	passive_hotbar.position = Vector2(right_x, y_right)
-	y_right += 70.0
-	y_right += 8.0
+#endregion
 
-	for ab in passive_abs:
-		var _ABI_CARD := _ABI_CARD_SCENE.instantiate()
-		_ABI_CARD.initalise(ab, col_w)
-		_ABI_CARD.position = Vector2(right_x, y_right)
-		_abilities_container.add_child(_ABI_CARD)
-		y_right += stride
+#region Bonuses
 
-	_abilities_container.custom_minimum_size = Vector2(0, 0)
+func get_passive_speed_bonus() -> float:
+	return passive_hotbar.get_passive_speed_bonus() if passive_hotbar else 0.0
+
+func get_passive_damage_bonus() -> float:
+	return passive_hotbar.get_passive_damage_bonus() if passive_hotbar else 0.0
+
+func get_passive_health_regen() -> float:
+	return passive_hotbar.get_passive_health_regen() if passive_hotbar else 0.0
+
+#endregion
+
+#region Hotbars and Ability
+
+func auto_add_passive(ability: AbilityData) -> void:
+	if passive_hotbar:
+		passive_hotbar.auto_add(ability)
+
+func auto_remove_passive(ability: AbilityData) -> void:
+	if passive_hotbar:
+		passive_hotbar.remove_ability_ref(ability)
+
+func set_hotbar(h: HotbarUI) -> void:
+	_hotbar = h
 
 #endregion
 
@@ -177,20 +162,67 @@ func _set_tab(idx: int) -> void:
 func _rebuild() -> void:
 	_refresh_grid_slots()
 	_refresh_eq_slots()
+	if _grid2_root.visible == true:
+		_refresh_grid_slots2()
 
 func _refresh_eq_slots() -> void:
-	_eq_weapon_slot.set_item(_equipment.equipped_weapon)
-	_eq_armor_slot.set_item(_equipment.equipped_armor)
-	_eq_accessory_slot.set_item(_equipment.equipped_accessory)
+	_eq_weapon_slot.set_item(_equipment.equipped_weapon_wrapper,true)
+	_eq_armor_slot.set_item(_equipment.equipped_armor_wrapper,true)
+	_eq_accessory_slot.set_item(_equipment.equipped_accessory_wrapper,true)
 
 func _refresh_grid_slots() -> void:
 	_count_label.text = "INVENTORY  (%d / %d)" % [_inventory.items.size(), _inventory.capacity]
-	var visible_items := _inventory.items.filter(func(it): return not _equipment.is_equipped_wrapper(it))
+	var visible_items : Array[QuantitySlot] = _inventory.items.filter(func(it: QuantitySlot) -> bool: return not _equipment.is_equipped_wrapper(it))
 	for i in range(_grid_slots.size()):
 		if i < visible_items.size():
 			_grid_slots[i].set_item(visible_items[i])
 		else:
 			_grid_slots[i].set_item(null)
+
+func _refresh_grid_slots2() -> void:
+	_count_label.text = "INVENTORY  (%d / %d)" % [_secondary_inventory.items.size(), _secondary_inventory.capacity]
+	#var visible_items : Array[QuantitySlot] = _secondary_inventory.items.filter(func(it: QuantitySlot) -> bool: return not _equipment.is_equipped_wrapper(it))
+	var visible_items : Array[QuantitySlot] = _secondary_inventory.items
+	for i in range(_grid_slots2.size()):
+		if i < visible_items.size():
+			_grid_slots2[i].set_item(visible_items[i])
+		else:
+			_grid_slots2[i].set_item(null)
+
+func _rebuild_abilities() -> void:
+	# Clear dynamic nodes but keep the persistent passive_hotbar
+	for child in _abilities_container.get_children():
+		child.queue_free()
+
+	var stride  := 100.0
+	var col_w   := 365.0
+	var col_gap := 20.0
+	var left_x  := 0.0
+	var right_x := col_w + col_gap
+
+	var active_abs  : Array[AbilityData] = _ability_list.abilities.filter(func(a: AbilityData) -> bool: return not a.is_passive)
+	var passive_abs : Array[AbilityData] = _ability_list.abilities.filter(func(a: AbilityData) -> bool: return a.is_passive)
+	
+	var y_left:float = 11
+	for ab: AbilityData in active_abs:
+		var _ABI_CARD := _ABI_CARD_SCENE.instantiate()
+		_ABI_CARD.initalise(ab)
+		_ABI_CARD.position = Vector2(left_x, y_left)
+		_abilities_container.add_child(_ABI_CARD)
+		y_left += stride
+	if active_abs.is_empty():
+		y_left += 30.0
+	
+	var y_right:float = 90.0
+
+	for ab:AbilityData in passive_abs:
+		var _ABI_CARD : AbilityCard = _ABI_CARD_SCENE.instantiate()
+		_ABI_CARD.initalise(ab)
+		_ABI_CARD.position = Vector2(right_x, y_right)
+		_abilities_container.add_child(_ABI_CARD)
+		y_right += stride
+
+	_abilities_container.custom_minimum_size = Vector2(0, 0)
 
 #endregion
 
@@ -199,14 +231,9 @@ func _refresh_grid_slots() -> void:
 func _on_slot_clicked(slot: InventorySlot) -> void:
 	_selected_slot = slot
 	if slot.item:
-		_tooltip.text = "[color=#%s][b]%s[/b][/color]\n%s" % [
-			slot.item.get_type_color().to_html(false),
-			slot.item.getName(),
-			slot.item.get_tooltipWithoutTitle(),
-		]
 		var is_eq := _is_eq_slot(slot)
 		
-		var tempitem
+		var tempitem:Slot
 		if slot.item is QuantitySlot:
 			tempitem = slot.item.item
 		else:
@@ -214,7 +241,6 @@ func _on_slot_clicked(slot: InventorySlot) -> void:
 		_use_btn.visible  = not is_eq and tempitem.item_type == ItemData.ItemType.CONSUMABLE
 		_drop_btn.visible = not is_eq
 	else:
-		_tooltip.text     = ""
 		_use_btn.visible  = false
 		_drop_btn.visible = false
 
@@ -236,7 +262,6 @@ func _on_drop_pressed() -> void:
 
 func _clear_selection() -> void:
 	_selected_slot    = null
-	_tooltip.text     = ""
 	_use_btn.visible  = false
 	_drop_btn.visible = false
 
@@ -245,7 +270,7 @@ func _clear_selection() -> void:
 #region Drag-and-drop handler (called by InventorySlot._drop_data)
 
 func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
-	var from_item = from_slot.itemQuantity
+	var from_item:QuantitySlot = from_slot.itemQuantity
 	if from_item == null:
 		return
 
@@ -265,6 +290,29 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 	elif from_slot.slot_type == InventorySlot.SlotType.PASSIVE_HOTBAR:
 		if passive_hotbar:
 			passive_hotbar.unassign_slot(from_slot)
+	elif from_slot.slot_type == InventorySlot.SlotType.SECONDARY or to_slot.slot_type == InventorySlot.SlotType.SECONDARY:
+		var to_item:QuantitySlot = to_slot.itemQuantity
+		
+		if from_slot.slot_type == InventorySlot.SlotType.SECONDARY:
+			if to_item == null:
+				_secondary_inventory.remove_item_quantity(from_item)
+				_inventory.add_item_with_quantity_at_index(from_item,to_slot.index)
+			else:
+				_secondary_inventory.remove_item_quantity(from_item)
+				_inventory.remove_item_quantity(to_item)
+				_secondary_inventory.add_item_with_quantity_at_index(from_item,from_slot.index)
+				_inventory.add_item_with_quantity_at_index(to_item,to_slot.index)
+		elif to_slot.slot_type == InventorySlot.SlotType.SECONDARY:
+			if to_item == null:
+				_inventory.remove_item_quantity(from_item)
+				_secondary_inventory.add_item_with_quantity_at_index(from_item,to_slot.index)
+			else:
+				_secondary_inventory.remove_item_quantity(from_item)
+				_inventory.remove_item_quantity(to_item)
+				_secondary_inventory.add_item_with_quantity_at_index(from_item,from_slot.index)
+				_inventory.add_item_with_quantity_at_index(to_item,to_slot.index)
+		_secondary_inventory.inventory_changed.emit()
+		_inventory.inventory_changed.emit()
 	else:
 		# Inventory ↔ Inventory swap (reorder by item reference, not slot index)
 		var fi := _inventory.items.find(from_slot.itemQuantity)

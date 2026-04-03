@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://201eymim8evx"]
+
+[ext_resource type="Script" uid="uid://ep1ce3kn6nmu" path="res://Script/UI/DialogOption.gd" id="1_qq1sn"]
+[ext_resource type="Texture2D" uid="uid://bn1c728l4fgac" path="res://Assets/Icons/Mine/Arrow Right.png" id="2_b125j"]
+[ext_resource type="LabelSettings" uid="uid://ua2wtx0vujwu" path="res://GodotSettings/LabelSettings/BlackAndWhite10px.tres" id="2_i0m05"]
+[ext_resource type="Texture2D" uid="uid://d2bdc05bwcjo4" path="res://Assets/Icons/Mine/Arrow Right 2.png" id="3_b125j"]
+
+[node name="DialogOption" type="Control" unique_id=142612760]
+custom_minimum_size = Vector2(355, 50)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -925.0
+offset_bottom = -670.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qq1sn")
+select_icon = ExtResource("2_b125j")
+normal_icon = ExtResource("3_b125j")
+
+[node name="Label" type="Label" parent="." unique_id=119661200]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 5.0
+offset_right = 350.0
+offset_bottom = 45.0
+text = "Label"
+label_settings = ExtResource("2_i0m05")
+vertical_alignment = 1
+autowrap_mode = 3
+clip_text = true
+
+[node name="Button" type="Button" parent="." unique_id=45935451]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 45.0
+offset_bottom = 45.0
+icon = ExtResource("3_b125j")
+flat = true
+alignment = 0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

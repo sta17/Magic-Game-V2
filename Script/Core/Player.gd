@@ -1,58 +1,60 @@
+@icon("res://Assets/Icons/Pixel-Boy/node_3D/icon_character.png")
 extends CharacterBody3D
 class_name Player
 
 const _BulletScene  := preload("res://Scenes/bullet.tscn")
+enum PlayerState { ACTIVE, UI, DIALOG }
 
 #region Movement
-@export var WALK_SPEED:   float = 10
-@export var SPRINT_SPEED: float = 15
-@export var JUMP_FORCE:   float = 5.5
-@export var GRAVITY:      float = ProjectSettings.get_setting("physics/3d/default_gravity")
-@export var MOUSE_SENS:   float = 0.0025
+@export var WALK_SPEED:		float = 10
+@export var SPRINT_SPEED:	float = 15
+@export var JUMP_FORCE:		float = 5.5
+@export var GRAVITY:		float = ProjectSettings.get_setting("physics/3d/default_gravity")
+@export var MOUSE_SENS:		float = 0.0025
+@export var PLAYER_STATE: PlayerState = PlayerState.ACTIVE
 #endregion
 
 #region Player Stats
-@export var health:float = 0
-@export var health_max:float = 100
-var _is_dead: bool = false
-var _allow_movement:bool = true
-var _ui_mode:bool = false
+@export var health:		float = 0
+@export var health_max:	float = 100
+var _is_dead: 			bool  = false
+var special_key_pressed:bool  = false
 
-var _shoot_cooldown: float = 0.0
+var _shoot_cooldown:	float = 0.0
 @export var cooldown_sec: float = 0.7
 #endregion
 
 #region Scene nodes
-@onready var _pivot:     Node3D        = $CameraPivot
-@onready var _cam:       Camera3D      = $CameraPivot/SpringArm3D/Camera3D
-@onready var _muzzle:    Marker3D      = $MeshInstance3D/MeshInstance3D/Marker3D
-@onready var _hud = $HUD
+@onready var _pivot:	Node3D		= $CameraPivot
+@onready var _muzzle:	Marker3D	= $MeshInstance3D/MeshInstance3D/Marker3D
+@onready var _hud:		HUD 		= $HUD
 #endregion
 
 #region Systems
-var inventory: Inventory
-var equipment: EquipmentManager
-var ability_list: AbilityList
-var _equipment_abilities: Dictionary = {}
-var inv_ui: InventoryUI
+@export var inventory: Inventory
+@export var equipment: EquipmentManager
+@export var ability_list: AbilityList
+@export var _equipment_abilities: Dictionary = {}
+@export var inv_ui: InventoryUI
 #endregion
 
 #region Other
 const INTERACT_RANGE: float = 2.2
-var _nearby_pickups: Array = []
+var _nearby_pickups: Array[PickUpItem] = []
 signal health_changed(current: float, maximum: float)
 signal player_died
+var interactble_entity: Object
 #endregion
 
-func _ready():
+func _ready() -> void:
 	add_to_group("player")
 	if health == 0:
 		health = health_max
-		
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	inventory = Inventory.new()
-	add_child(inventory)
+	#add_child(inventory)
 
 	equipment = EquipmentManager.new()
 	add_child(equipment)
@@ -74,61 +76,91 @@ func _ready():
 
 #region Input
 
-func _input(event: InputEvent):
+func _input(event: InputEvent) -> void:
 	if _is_dead:
 		return
 	
 	if event is InputEventMouseMotion and \
 	   Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.relative.x * MOUSE_SENS)
-		_pivot.rotate_x(-event.relative.y * MOUSE_SENS)
-		_pivot.rotation.x = clampf(_pivot.rotation.x, -PI * 0.38, PI * 0.30)
+		if PLAYER_STATE == PlayerState.ACTIVE:
+			CameraRotate(event)
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			_hud.hotbar_panel.scroll(-1)
+			if PLAYER_STATE == PlayerState.DIALOG:
+				_hud.dialogWindow.scroll(-1)
+			else:
+				_hud.hotbar_panel.scroll(-1)
 			get_viewport().set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			_hud.hotbar_panel.scroll(1)
+			if PLAYER_STATE == PlayerState.DIALOG:
+				_hud.dialogWindow.scroll(1)
+			else:
+				_hud.hotbar_panel.scroll(1)
 			get_viewport().set_input_as_handled()
 
-func _unhandled_input(event: InputEvent):
+func _unhandled_input(event: InputEvent) -> void:
 	if _is_dead:
 		return
 
 	if event.is_action_pressed("toggle_inventory"):
-		_ui_mode = true
-		_toggle_inventory()
+		if PLAYER_STATE == PlayerState.ACTIVE:
+			PLAYER_STATE = PlayerState.UI
+		else:
+			PLAYER_STATE = PlayerState.ACTIVE
+		_hud.ShowHide_Inventory()
 
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_Q:
 			_hud.hotbar_panel.use_selected()
 
+	if event.is_action_pressed("special Action"):
+		special_key_pressed = true
+	elif event.is_action_released("special Action"):
+		special_key_pressed = false
+		
 	if event.is_action_pressed("interact"):
-		_try_interact()
-
-	if event.is_action_pressed("toggle_main_menu"):
-		_ui_mode = true
+		if PLAYER_STATE == PlayerState.ACTIVE:
+			_try_interact()
+		elif PLAYER_STATE == PlayerState.DIALOG:
+			_hud.dialogWindow.promptLine()
+		elif PLAYER_STATE == PlayerState.UI and interactble_entity is Box:
+			_try_interact()
+	if event.is_action_pressed("next_page"):
+		if PLAYER_STATE == PlayerState.DIALOG:
+			_hud.dialogWindow.promptLine()
+	if event.is_action_pressed("attack"):
+		if PLAYER_STATE == PlayerState.DIALOG:
+			_hud.dialogWindow.sendSelection()
+	if event.is_action_pressed("negative_interact"):
+		if PLAYER_STATE == PlayerState.DIALOG: 
+			ExitDialogeUI()
+		elif  PLAYER_STATE == PlayerState.ACTIVE: 
+			get_tree().quit()
+		elif  PLAYER_STATE == PlayerState.UI: 
+			get_tree().quit()
+	elif event.is_action_pressed("toggle_main_menu"):
+		PLAYER_STATE = PlayerState.ACTIVE
 		get_tree().quit()
 
 #endregion
 
 #region Physics
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	if _is_dead:
 		return
 	
-	if not is_on_floor():
-		velocity.y += (GRAVITY * -1) * delta
-
-	_shoot_cooldown -= delta
-
 	# Health regen from accessory and passive ability slots
 	var regen: float = equipment.get_health_regen() + inv_ui.get_passive_health_regen()
 	if regen > 0.0 and health < _max_hp():
 		health = minf(health + regen * delta, _max_hp())
 		_hud.update_hp(health, _max_hp())
 
-	if _allow_movement:
+	if PLAYER_STATE == PlayerState.ACTIVE:
+		if not is_on_floor():
+			velocity.y += (GRAVITY * -1) * delta
+
+		_shoot_cooldown -= delta
+		
 		var spd := SPRINT_SPEED if Input.is_action_pressed("sprint") else WALK_SPEED
 		spd += equipment.get_speed_bonus() + inv_ui.get_passive_speed_bonus()
 		
@@ -147,11 +179,22 @@ func _physics_process(delta: float):
 		if Input.is_action_just_pressed("jump") and is_on_floor():
 			velocity.y = JUMP_FORCE
 		
-		if Input.is_action_pressed("attack") and !_ui_mode:
+		if Input.is_action_pressed("attack"):
 			_try_attack()
 		
 		move_and_slide()
-		
+
+func CameraRotate(event: InputEvent) -> void:
+	
+	if !special_key_pressed:
+		rotate_y(-event.relative.x * MOUSE_SENS)
+		_pivot.rotation.y = 0
+		_pivot.rotate_x(-event.relative.y * MOUSE_SENS)
+	else:
+		_pivot.rotate_y(-event.relative.x * MOUSE_SENS)
+	
+	_pivot.rotation.x = clampf(_pivot.rotation.x, -PI * 0.38, PI * 0.30)
+
 #endregion
 
 #region Interaction
@@ -162,26 +205,55 @@ func _on_interact_area_area_entered(area: Area3D) -> void:
 			(area as PickUpItem).Collect(self)
 		else:
 			_nearby_pickups.append(area)
+			area.show_label(true)
 
 func _on_interact_area_area_exited(area: Area3D) -> void:
 	if area is PickUpItem:
 		_nearby_pickups.erase(area)
+		area.show_label(false)
 
-func _try_interact():
-	for pickup in _nearby_pickups:
-		if is_instance_valid(pickup):
-			if pickup is PickUpItem:
+func _on_interact_area_body_entered(body: Node3D) -> void:
+	if body is NPC:
+		interactble_entity = body
+	if body is Box:
+		interactble_entity = body
+
+func _on_interact_area_body_exited(body: Node3D) -> void:
+	if interactble_entity == body:
+		interactble_entity = null
+
+func _try_interact() -> void:
+	if !_nearby_pickups.is_empty():
+		for pickup: PickUpItem in _nearby_pickups:
+			if is_instance_valid(pickup):
 				(pickup as PickUpItem).Collect(self)
 				return
-			
+	if interactble_entity:
+		if interactble_entity is NPC:
+			if (interactble_entity as NPC).interact_script != null:
+				PLAYER_STATE = PlayerState.DIALOG
+				(interactble_entity as NPC).interact(self)
+		elif  interactble_entity is Box:
+			if PLAYER_STATE == PlayerState.ACTIVE:
+				PLAYER_STATE = PlayerState.UI
+			else:
+				PLAYER_STATE = PlayerState.ACTIVE
+			# Pass the interactble_entity for access of its inventory.
+			_hud.ShowHide_Inventory_Box(interactble_entity)
 
-func pickup_item_quantiy(quantityCounter : QuantitySlot) -> bool:
+func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool:
 	if inventory.is_full():
 		_hud.show_notif("Inventory full!", Color.RED)
 		return false
-	if not inventory.add_item_with_quantity(quantityCounter):
+	if !quantityCounter:
 		return false
-	_hud.show_notif("Picked up: " + quantityCounter.item.item_name, quantityCounter.get_type_color())
+	
+	var result: bool = inventory.add_item_with_quantity(quantityCounter)
+	if not result and not autoUse:
+		return false
+	if autoUse:
+		use_item(quantityCounter)
+		return true
 
 	# Auto-equip empty slots
 	match quantityCounter.item.item_type:
@@ -194,13 +266,16 @@ func pickup_item_quantiy(quantityCounter : QuantitySlot) -> bool:
 		ItemData.ItemType.ACCESSORY:
 			if not equipment.equipped_accessory:
 				equipment.equip_item(quantityCounter)
+				
+	_hud.show_notif("Picked up: " + quantityCounter.getName(), quantityCounter.get_type_color())
+
 	return true
-	
+
 #endregion
 
 #region Attack
 
-func _try_attack():
+func _try_attack() -> void:
 	if not equipment.equipped_weapon or _shoot_cooldown > 0.0:
 		return
 	var w: WeaponData = equipment.equipped_weapon
@@ -209,14 +284,15 @@ func _try_attack():
 	if w.get_weapon_type_name() == "Ranged":
 		try_ranged(w)
 
-func try_ranged(equipped_weapon: WeaponData):
+func try_ranged(equipped_weapon: WeaponData) -> void:
 	_shoot_cooldown = equipped_weapon.fire_rate
 	for _i in range(equipped_weapon.pellets):
 		var bullet: Bullet = _BulletScene.instantiate()
 		get_tree().current_scene.add_child(bullet)
 
 		var spread := equipped_weapon.bullet_spread *  2.0
-		var dir := -_cam.global_transform.basis.z
+		#var dir := -_cam.global_transform.basis.z
+		var dir := -_muzzle.global_transform.basis.z
 		dir += Vector3(randf_range(-spread, spread),
 					   randf_range(-spread, spread),
 					   randf_range(-spread, spread))
@@ -229,7 +305,7 @@ func try_ranged(equipped_weapon: WeaponData):
 			+ (_hud.inv_panel as InventoryUI).get_passive_damage_bonus()
 		bullet.shooter   = self
 
-func try_melee(equipped_weapon: WeaponData):
+func try_melee(equipped_weapon: WeaponData) -> void:
 	_shoot_cooldown = equipped_weapon.fire_rate
 
 	var forward: Vector3 = -global_transform.basis.z
@@ -254,7 +330,7 @@ func try_melee(equipped_weapon: WeaponData):
 
 #region Combat
 
-func take_damage(amount: float):
+func take_damage(amount: float) -> void:
 	if _is_dead:
 		return
 	var reduced := maxf(0.0, amount - equipment.get_defense())
@@ -269,7 +345,7 @@ func take_damage(amount: float):
 func _max_hp() -> float:
 	return health_max #+ equipment.get_health_bonus()
 
-func _die():
+func _die() -> void:
 	_is_dead = true
 	player_died.emit()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -279,19 +355,19 @@ func _die():
 
 #region Equipment callbacks
 
-func _on_weapon_equipped(w: QuantitySlot):
+func _on_weapon_equipped(w: QuantitySlot) -> void:
 	_update_granted_ability("weapon", w)
 	_update_hud_all()
 
-func _on_armor_equipped(a: QuantitySlot):
+func _on_armor_equipped(a: QuantitySlot) -> void:
 	_update_granted_ability("armor", a)
 	_update_hud_all()
 
-func _on_accessory_equipped(ac: QuantitySlot):
+func _on_accessory_equipped(ac: QuantitySlot) -> void:
 	_update_granted_ability("accessory", ac)
 	_update_hud_all()
 
-func _on_slot_cleared(slot: String):
+func _on_slot_cleared(slot: String) -> void:
 	_remove_granted_ability(slot)
 	_update_hud_all()
 	
@@ -316,43 +392,38 @@ func _remove_granted_ability(slot: String) -> void:
 
 #region HUD helpers
 
-func _update_hud_all():
+func _update_hud_all() -> void:
 	_hud.update_hp(health, _max_hp())
 
-#endregion
-
-#region Inventory
-
-func _toggle_inventory():
-	var inv: Control = _hud.inv_panel
-	inv.visible = not inv.visible
-	if inv.visible:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+func _chat_window(otherInteracter: NPC) -> void:
+	_hud.Show_Text_Interact(self,otherInteracter)
+	
+func ExitDialogeUI() -> void:
+	PLAYER_STATE = PlayerState.ACTIVE
+	_hud.Hide_Text_Interact()
 
 #endregion
 
 #region Consumable use
 
 func use_item(item: QuantitySlot) -> void:
+	#check for consumable for now
 	if not item.item is ConsumableData:
 		return
-	#var c := item as ConsumableData
-	#match c.consumable_type:
-	#	ConsumableData.ConsumableType.MEDICINE:
-	#		heal((c as MedicineData).heal_amount)
-	item.item.granted_ability.execute(self)
-	# Decrement stack; only remove when stack is empty
-	if item.item.stackable and item.quantity > 1:
-		item.quantity -= 1
-		inventory.inventory_changed.emit()
-	else:
-		inventory.remove_item_quantity(item)
+		#item.item.granted_ability.execute(self)
+	if item.item is ConsumableData:
+		item.item.granted_ability.execute(self)
+
+		#Being a consumable, it should remove a charge
+		if item.item.stackable and item.quantity > 1:
+			item.quantity -= 1
+			inventory.inventory_changed.emit()
+		else:
+			inventory.remove_item_quantity(item)
 
 func heal(amount: float) -> void:
 	health = minf(health + amount, _max_hp())
 	_hud.update_hp(health, _max_hp())
 	_hud.show_notif("+%d HP restored" % int(amount), Color(0.3, 1.0, 0.4))
-	
+
 #endregion

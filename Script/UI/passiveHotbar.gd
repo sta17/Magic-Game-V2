@@ -6,7 +6,7 @@ const _SLOT_SCENE := preload("res://Scenes/UI/InventorySlot.tscn")
 ## A row of dedicated slots for passive abilities, visible only in the ability UI.
 ## Passive abilities placed here apply their bonuses automatically.
 
-const SLOT_COUNT: int = 4
+const SLOT_COUNT: int = 5
 const SLOT_W:     float = 60.0
 const SLOT_H:     float = 60.0
 const SLOT_GAP:   float = 6.0
@@ -37,7 +37,7 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 		var from_idx := _slots.find(from_slot)
 		if from_idx == -1:
 			return
-		var tmp      = _items[from_idx]
+		var tmp:Slot      = _items[from_idx]
 		_items[from_idx] = _items[to_idx]
 		_items[to_idx]   = tmp
 	else:
@@ -84,21 +84,21 @@ func _refresh_display() -> void:
 ## Passive stat aggregation — queried by player every physics frame.
 func get_passive_speed_bonus() -> float:
 	var total := 0.0
-	for ab in _items:
+	for ab:Slot  in _items:
 		if ab is AbilityData:
 			total += ab.get_speed_bonus()
 	return total
 
 func get_passive_damage_bonus() -> float:
 	var total := 0.0
-	for ab in _items:
+	for ab:Slot  in _items:
 		if ab is AbilityData:
 			total += ab.get_damage_bonus()
 	return total
 
 func get_passive_health_regen() -> float:
 	var total := 0.0
-	for ab in _items:
+	for ab:Slot  in _items:
 		if ab is AbilityData:
 			total += ab.get_health_regen()
 	return total

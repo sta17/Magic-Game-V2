@@ -1,13 +1,46 @@
 [gd_scene format=3 uid="uid://toi71i5vkmv1"]
 
+[ext_resource type="Script" uid="uid://cekqvlcg4fpgy" path="res://Script/Core/Map.gd" id="1_77oos"]
 [ext_resource type="PackedScene" uid="uid://be8qbmt0fe144" path="res://Scenes/Player.tscn" id="1_k2eo1"]
 [ext_resource type="PackedScene" uid="uid://d3y6d1rq2wq5i" path="res://Scenes/PickUpItem.tscn" id="2_se0eo"]
 [ext_resource type="Resource" uid="uid://girno7k6iixv" path="res://Resources/items/Wand.tres" id="3_rdsav"]
+[ext_resource type="Script" uid="uid://b86t22j8kw6ob" path="res://Script/Items/item_data.gd" id="4_0rqgs"]
 [ext_resource type="PackedScene" uid="uid://di8vlpp7u8kso" path="res://Scenes/enemy.tscn" id="4_ed2pg"]
 [ext_resource type="Resource" uid="uid://g3s3fgns7cuy" path="res://Resources/items/Sword.tres" id="4_rdsav"]
 [ext_resource type="Resource" uid="uid://bgbhalmyo304f" path="res://Resources/items/MedicRing.tres" id="5_7oy3y"]
 [ext_resource type="Resource" uid="uid://bgyavs3m7pwgs" path="res://Resources/items/Medicine +60.tres" id="5_g0pj6"]
 [ext_resource type="Resource" uid="uid://ufkre1nuiwob" path="res://Resources/items/LightArmor.tres" id="6_4e6cy"]
+[ext_resource type="Resource" uid="uid://2o8eeih50d0j" path="res://Resources/items/PowerPunchGloves.tres" id="9_1jowa"]
+[ext_resource type="Resource" uid="uid://b32hg0dpktr7r" path="res://Resources/items/Money.tres" id="11_5f2ua"]
+[ext_resource type="PackedScene" uid="uid://cwysljf0khfbw" path="res://Scenes/npc.tscn" id="12_icgjy"]
+[ext_resource type="Script" uid="uid://cbxbu5mura66g" path="res://Script/Dialog/dialog_stage.gd" id="13_d5oxj"]
+[ext_resource type="Texture2D" uid="uid://bhlbnyx7h1yec" path="res://Assets/Icons/Buch's RPG Items/Frame 2 64.png" id="13_hlj8m"]
+[ext_resource type="Script" uid="uid://q5eprh5d22t7" path="res://Script/Dialog/dialog_script.gd" id="13_l0hd3"]
+[ext_resource type="Script" uid="uid://badiu5n4ekqpr" path="res://Script/Dialog/dialog_option_result.gd" id="15_bnm2d"]
+[ext_resource type="Script" uid="uid://dkgf3abyjjx0r" path="res://Script/Dialog/QuitDialog.gd" id="16_1dj0o"]
+[ext_resource type="PackedScene" uid="uid://bt4xxsjwo4nrw" path="res://Scenes/box.tscn" id="19_p5ob5"]
+[ext_resource type="Script" uid="uid://bmcnfxe0fgpm6" path="res://Script/Items/QuantitySlot.gd" id="20_8a0ub"]
+[ext_resource type="Script" uid="uid://oeddicel435v" path="res://Script/Items/Inventory.gd" id="21_08jhs"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k2eo1"]
+size = Vector3(5, 0.5, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tw8nc"]
+albedo_color = Color(0.26, 1, 0.34633344, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tw8nc"]
+material = SubResource("StandardMaterial3D_tw8nc")
+size = Vector3(5, 0.5, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4e6cy"]
+size = Vector3(0.5, 15, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_77oos"]
+albedo_color = Color(0.53622025, 0.40614194, 0.038898215, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1jowa"]
+material = SubResource("StandardMaterial3D_77oos")
+size = Vector3(0.5, 15, 15)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k2eo1"]
 sky_top_color = Color(0.14399998, 0.4567999, 0.96, 1)
@@ -24,61 +57,179 @@ sky = SubResource("Sky_se0eo")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_k2eo1"]
-size = Vector3(5, 0.5, 15)
+[sub_resource type="Resource" id="Resource_bnm2d"]
+script = ExtResource("15_bnm2d")
+nextStage = 0
+metadata/_custom_type_script = "uid://badiu5n4ekqpr"
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tw8nc"]
-albedo_color = Color(0.26, 1, 0.34633344, 1)
+[sub_resource type="Resource" id="Resource_5f2ua"]
+script = ExtResource("16_1dj0o")
+functionCall = true
+metadata/_custom_type_script = "uid://dkgf3abyjjx0r"
 
-[sub_resource type="BoxMesh" id="BoxMesh_tw8nc"]
-material = SubResource("StandardMaterial3D_tw8nc")
-size = Vector3(5, 0.5, 15)
+[sub_resource type="Resource" id="Resource_p5ob5"]
+script = ExtResource("16_1dj0o")
+functionCall = true
+metadata/_custom_type_script = "uid://dkgf3abyjjx0r"
+
+[sub_resource type="Resource" id="Resource_hlj8m"]
+script = ExtResource("13_d5oxj")
+text = Array[String](["line 1of text", "line 2 of text"])
+icon = ExtResource("13_hlj8m")
+options = Array[String](["Back to Start", "Quit", "Quit"])
+results = Array[ExtResource("15_bnm2d")]([SubResource("Resource_bnm2d"), SubResource("Resource_5f2ua"), SubResource("Resource_p5ob5")])
+metadata/_custom_type_script = "uid://cbxbu5mura66g"
+
+[sub_resource type="Resource" id="Resource_d5oxj"]
+script = ExtResource("13_l0hd3")
+dialogues = Array[ExtResource("13_d5oxj")]([SubResource("Resource_hlj8m")])
+metadata/_custom_type_script = "uid://q5eprh5d22t7"
+
+[sub_resource type="Resource" id="Resource_nvvol"]
+script = ExtResource("20_8a0ub")
+item = ExtResource("11_5f2ua")
+metadata/_custom_type_script = "uid://bmcnfxe0fgpm6"
+
+[sub_resource type="Resource" id="Resource_uvi45"]
+script = ExtResource("21_08jhs")
+capacity = 5
+items = Array[ExtResource("20_8a0ub")]([SubResource("Resource_nvvol"), null, null, null, null])
+metadata/_custom_type_script = "uid://oeddicel435v"
 
 [node name="TestWorld" type="Node3D" unique_id=669506941]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=980176290]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-shadow_enabled = true
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=665199601]
-environment = SubResource("Environment_4snwc")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1045160816]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1324316876]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
-shape = SubResource("BoxShape3D_k2eo1")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1923146671]
-transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
-mesh = SubResource("BoxMesh_tw8nc")
+script = ExtResource("1_77oos")
 
 [node name="Player" parent="." unique_id=367495546 instance=ExtResource("1_k2eo1")]
 
-[node name="PickUpItem7" parent="." unique_id=2079250956 instance=ExtResource("2_se0eo")]
+[node name="Enemies" type="Node" parent="." unique_id=1821327071]
+
+[node name="Enemy" parent="Enemies" unique_id=640505128 instance=ExtResource("4_ed2pg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.113573074, 0, -56.257034)
+drop_table = Array[ExtResource("4_0rqgs")]([ExtResource("5_g0pj6")])
+state = 1
+
+[node name="PickUps" type="Node" parent="." unique_id=362136868]
+
+[node name="PickUpItem7" parent="PickUps" unique_id=2079250956 instance=ExtResource("2_se0eo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.312032, 1, -8.4473095)
 item = ExtResource("3_rdsav")
 
-[node name="PickUpItem2" parent="." unique_id=1115689084 instance=ExtResource("2_se0eo")]
+[node name="PickUpItem2" parent="PickUps" unique_id=1115689084 instance=ExtResource("2_se0eo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -10.930335)
 item = ExtResource("4_rdsav")
 
-[node name="PickUpItem3" parent="." unique_id=421350946 instance=ExtResource("2_se0eo")]
+[node name="PickUpItem3" parent="PickUps" unique_id=421350946 instance=ExtResource("2_se0eo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -13.990257)
 item = ExtResource("5_7oy3y")
 
-[node name="PickUpItem6" parent="." unique_id=191530703 instance=ExtResource("2_se0eo")]
+[node name="PickUpItem6" parent="PickUps" unique_id=191530703 instance=ExtResource("2_se0eo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -16.882881)
 item = ExtResource("6_4e6cy")
 
-[node name="PickUpItem4" parent="." unique_id=847800547 instance=ExtResource("2_se0eo")]
+[node name="PickUpItem10" parent="PickUps" unique_id=769346798 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -23.44956)
+item = ExtResource("11_5f2ua")
+
+[node name="PickUpItem8" parent="PickUps" unique_id=1090549397 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4870143, 1, -16.882881)
+item = ExtResource("9_1jowa")
+
+[node name="PickUpItem9" parent="PickUps" unique_id=1140355328 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.8856187, 1, -16.882881)
+item = ExtResource("9_1jowa")
+
+[node name="PickUpItem4" parent="PickUps" unique_id=847800547 instance=ExtResource("2_se0eo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.297807, 1, -7.8397417)
 item = ExtResource("5_g0pj6")
 
-[node name="PickUpItem5" parent="." unique_id=226722985 instance=ExtResource("2_se0eo")]
+[node name="PickUpItem5" parent="PickUps" unique_id=226722985 instance=ExtResource("2_se0eo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.297807, 1, -10.917204)
 item = ExtResource("5_g0pj6")
 
-[node name="Enemy" parent="." unique_id=640505128 instance=ExtResource("4_ed2pg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.113573074, 0, -56.257034)
+[node name="Ground and Cliffs" type="Node" parent="." unique_id=1125938350]
+
+[node name="Ground" type="StaticBody3D" parent="Ground and Cliffs" unique_id=1045160816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Ground" unique_id=1324316876]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_k2eo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Ground" unique_id=1923146671]
+transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_tw8nc")
+
+[node name="Ground2" type="StaticBody3D" parent="Ground and Cliffs" unique_id=1299573271]
+transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, -50, 0, -55)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Ground2" unique_id=2103348302]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_k2eo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Ground2" unique_id=742423396]
+transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_tw8nc")
+
+[node name="Cliff" type="StaticBody3D" parent="Ground and Cliffs" unique_id=1994642490]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.75, 7.25, -30)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Cliff" unique_id=1691197802]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_4e6cy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Cliff" unique_id=1460459729]
+transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_1jowa")
+
+[node name="Cliff3" type="StaticBody3D" parent="Ground and Cliffs" unique_id=654825985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.75, 7.25, -5.25)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Cliff3" unique_id=1891418764]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_4e6cy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Cliff3" unique_id=1903061874]
+transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_1jowa")
+
+[node name="Cliff2" type="StaticBody3D" parent="Ground and Cliffs" unique_id=301454007]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -50, 7.25, -41.5)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Cliff2" unique_id=525935574]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_4e6cy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Cliff2" unique_id=782697079]
+transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_1jowa")
+
+[node name="Environment" type="Node" parent="." unique_id=1614684676]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=980176290]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=665199601]
+environment = SubResource("Environment_4snwc")
+
+[node name="NPCs" type="Node" parent="." unique_id=1468007137]
+
+[node name="NPC" parent="NPCs" unique_id=2124289884 instance=ExtResource("12_icgjy")]
+transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06263369, 9.8470335, -1.9073486e-06, -1.1770096)
+interact_script = SubResource("Resource_d5oxj")
+
+[node name="NPC2" parent="NPCs" unique_id=48598668 instance=ExtResource("12_icgjy")]
+transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06263369, -10.035943, -1.9073486e-06, -1.1770096)
+state = 2
+
+[node name="Box" type="Node" parent="." unique_id=2042642089]
+
+[node name="Box" parent="Box" unique_id=1707355263 instance=ExtResource("19_p5ob5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.4857826, -1.9073486e-06, 4.6126747)
+collision_layer = 12
+inventory = SubResource("Resource_uvi45")

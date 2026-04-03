@@ -3,10 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://bwij1713b34ir" path="res://Assets/Icons/Buch's RPG Items/staff.png" id="1_0ydqq"]
 [ext_resource type="Script" uid="uid://7vmu0ns121oa" path="res://Script/Abilities/EnergyBoltAbility.gd" id="2_pq3pj"]
 [ext_resource type="Script" uid="uid://byigr6urkxofs" path="res://Script/Items/WeaponData.gd" id="3_ame2a"]
+[ext_resource type="PackedScene" uid="uid://cebttt2j8j3p3" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn" id="3_pq3pj"]
 
 [sub_resource type="Resource" id="Resource_rrxpu"]
 script = ExtResource("2_pq3pj")
-ability_name = "Energy Bolt"
+slot_name = "Energy Bolt"
 description = "Fire a bolt dealing 45 damage. Infinite ammo, no reload."
 icon = ExtResource("1_0ydqq")
 metadata/_custom_type_script = "uid://7vmu0ns121oa"
@@ -14,11 +15,12 @@ metadata/_custom_type_script = "uid://7vmu0ns121oa"
 [resource]
 script = ExtResource("3_ame2a")
 weapon_type = 1
-item_name = "Wand"
+bullet_speed = 10.0
 item_type = 0
-dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn"
+dropped_item_model = ExtResource("3_pq3pj")
 granted_ability = SubResource("Resource_rrxpu")
 lore = "A grand Wand of Old."
+slot_name = "Wand"
 description = "A Wand"
 icon = ExtResource("1_0ydqq")
 metadata/_custom_type_script = "uid://byigr6urkxofs"

@@ -7,6 +7,7 @@
 script = ExtResource("2_0ccdk")
 heal_amount = 60.0
 ability_name = "Medicine"
-description = "Heal: 50 HP"
+slot_name = "Medicine"
+description = "Heal: 60 HP"
 icon = ExtResource("1_ag32b")
 metadata/_custom_type_script = "uid://ew7l5wuj11s8"

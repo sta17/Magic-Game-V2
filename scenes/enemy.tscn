@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://di8vlpp7u8kso"]
 
-[ext_resource type="StyleBox" uid="uid://cil5dbvueyfjd" path="res://Styleboxes/HPBar Empty.stylebox" id="1_1f0kj"]
 [ext_resource type="Script" uid="uid://b56pfs6mglmgg" path="res://Script/Core/enemy.gd" id="1_afpow"]
-[ext_resource type="StyleBox" uid="uid://duh8rvaj4yqfc" path="res://Styleboxes/HPBar.stylebox" id="2_afpow"]
+[ext_resource type="Texture2D" uid="uid://bk2l66sy0k1tq" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/bow.png" id="2_0830c"]
+[ext_resource type="Texture2D" uid="uid://dfixyxgw5avsw" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/sword.png" id="3_ghaa6"]
+[ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="4_287tu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_287tu"]
 radius = 0.38
@@ -16,13 +17,20 @@ height = 1.8
 albedo_color = Color(0.8, 0.14901961, 0.14901961, 1)
 roughness = 0.7
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_1dp5w"]
-viewport_path = NodePath("HealthBar/HPViewport")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0830c"]
+albedo_color = Color(0.8, 0.14901961, 0.14901961, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ghaa6"]
+material = SubResource("StandardMaterial3D_0830c")
+size = Vector3(0.25, 0.25, 1)
 
 [node name="Enemy" type="CharacterBody3D" unique_id=640505128]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 7
 script = ExtResource("1_afpow")
+_ranged_icon = ExtResource("2_0830c")
+_melee_icon = ExtResource("3_ghaa6")
+GRAVITY = -9.8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2129752839]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -33,26 +41,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 mesh = SubResource("CapsuleMesh_0830c")
 surface_material_override/0 = SubResource("StandardMaterial3D_ghaa6")
 
-[node name="HealthBar" type="Node3D" parent="." unique_id=1565521290]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=441773550]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3847983, 0.29675376)
+mesh = SubResource("BoxMesh_ghaa6")
 
-[node name="HPViewport" type="SubViewport" parent="HealthBar" unique_id=68077965]
-transparent_bg = true
-size = Vector2i(200, 16)
-render_target_update_mode = 4
+[node name="Marker3D" type="Marker3D" parent="." unique_id=769659930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2735729, 0.6684433)
 
-[node name="ProgressBar" type="ProgressBar" parent="HealthBar/HPViewport" unique_id=2005700922]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = ExtResource("1_1f0kj")
-theme_override_styles/fill = ExtResource("2_afpow")
-value = 100.0
-show_percentage = false
-
-[node name="HPSprite" type="Sprite3D" parent="HealthBar" unique_id=1477253290]
-pixel_size = 0.005
+[node name="HeadIcon" type="Sprite3D" parent="." unique_id=1193741112]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0)
 billboard = 1
-texture = SubResource("ViewportTexture_1dp5w")
+texture = ExtResource("3_ghaa6")
+
+[node name="HealthBar" parent="." unique_id=905334040 instance=ExtResource("4_287tu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)

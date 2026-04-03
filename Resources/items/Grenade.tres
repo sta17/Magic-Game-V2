@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AccessoryData" format=3 uid="uid://cvpv2etrgw3ki"]
+
+[ext_resource type="Resource" uid="uid://ymroj82ia7eg" path="res://Resources/abilities/grenade +80.tres" id="1_tp1hf"]
+[ext_resource type="PackedScene" uid="uid://c6q8cwu3q8mmu" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.tscn" id="1_vduob"]
+[ext_resource type="Texture2D" uid="uid://doo2bqmpjbon5" path="res://Assets/Icons/Pixel-Boy/node_3D/icon_projectile.png" id="2_3781c"]
+[ext_resource type="PackedScene" uid="uid://cujlxpsv0y87e" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Blue.gltf" id="3_3781c"]
+[ext_resource type="Script" uid="uid://bdthlms0bkvqv" path="res://Script/Items/AccessoryData.gd" id="3_vduob"]
+
+[resource]
+script = ExtResource("3_vduob")
+item_type = 2
+dropped_item_model = ExtResource("1_vduob")
+scene = ExtResource("3_3781c")
+granted_ability = ExtResource("1_tp1hf")
+lore = "Grenade"
+slot_name = "Grenade"
+description = "Grenade"
+icon = ExtResource("2_3781c")
+metadata/_custom_type_script = "uid://bdthlms0bkvqv"

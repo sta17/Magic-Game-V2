@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cebttt2j8j3p3"]
 
 [ext_resource type="PackedScene" uid="uid://md0ianuy75vl" path="res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.gltf" id="1_s1qyc"]
-[ext_resource type="Shader" uid="uid://wohea1m00f3b" path="res://shaders/gem_shader.tres" id="2_5qdhc"]
-[ext_resource type="Texture2D" uid="uid://d8qdwa2i1nk8" path="res://shaders/T_PerlinNoise_Tiled.png" id="3_vu7hq"]
+[ext_resource type="Shader" uid="uid://wohea1m00f3b" path="res://GodotSettings/shaders/gem_shader.tres" id="2_5qdhc"]
+[ext_resource type="Texture2D" uid="uid://d8qdwa2i1nk8" path="res://GodotSettings/shaders/T_PerlinNoise_Tiled.png" id="3_vu7hq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hwdxp"]
 render_priority = 0

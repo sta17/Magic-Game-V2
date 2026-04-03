@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://cwysljf0khfbw"]
+
+[ext_resource type="Script" uid="uid://cn07epi3r7mv1" path="res://Script/Core/npc.gd" id="1_acqhf"]
+[ext_resource type="Texture2D" uid="uid://ddcrhlayn5f0n" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/pouch.png" id="2_xxsvc"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xxsvc"]
+radius = 0.38
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ig1v"]
+albedo_color = Color(0.8, 1, 0.14901961, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6atyd"]
+material = SubResource("StandardMaterial3D_1ig1v")
+radius = 0.38
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g6unj"]
+albedo_color = Color(0.8001019, 1, 0.14733289, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_h1ryf"]
+material = SubResource("StandardMaterial3D_g6unj")
+size = Vector3(0.25, 0.25, 1)
+
+[node name="NPC" type="CharacterBody3D" unique_id=2124289884]
+collision_layer = 16
+collision_mask = 23
+script = ExtResource("1_acqhf")
+_overhead_icon = ExtResource("2_xxsvc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=399558641]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_xxsvc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=687579361]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_6atyd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=364541895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3847983, 0.29675376)
+mesh = SubResource("BoxMesh_h1ryf")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=837381045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2735729, 0.6684433)
+
+[node name="HeadIcon" type="Sprite3D" parent="." unique_id=1042105775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0)
+billboard = 1
+texture = ExtResource("2_xxsvc")

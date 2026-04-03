@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("1_ekauf")
 item_name = "Test Item"
-description = "Got No Use"
 item_type = 2
-icon = ExtResource("1_g1u23")
 dropped_item_model = "res://Assets/Models/Public Domain/Platformer Game Kit - Dec 2011/Powerups and Pickups/gltf/Gem_Green.tscn"
 lore = "Much Ado About Nothing"
+slot_name = "Test Item"
+description = "Got No Use"
+icon = ExtResource("1_g1u23")
 metadata/_custom_type_script = "uid://b86t22j8kw6ob"

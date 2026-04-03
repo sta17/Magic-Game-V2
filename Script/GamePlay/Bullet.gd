@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Pixel-Boy/node_3D/icon_bullet.png")
 extends Area3D
 class_name Bullet
 

@@ -13,30 +13,24 @@ const _BulletScene := preload("res://scenes/bullet.tscn")
 var _last_use_ms: int = -999999
 
 func _init() -> void:
-	ability_name = "Energy Bolt"
-	description  = "Fire a bolt dealing %d damage. Infinite ammo, no reload." % int(damage)
+	slot_name = "Energy Bolt"
+	description  = "Fire a bolt dealing %d damage." % int(damage)
 
-func execute(player) -> void:
+func execute(_player: Player) -> void:
 	var now := Time.get_ticks_msec()
 	if now - _last_use_ms < int(cooldown_sec * 1000):
 		return
 	_last_use_ms = now
 
 	var bullet: Bullet = _BulletScene.instantiate()
-	player.get_tree().current_scene.add_child(bullet)
+	_player.get_tree().current_scene.add_child(bullet)
 
-	var dir: Vector3 = -player._cam.global_transform.basis.z
-	bullet.global_position = player._muzzle.global_position
+	var dir: Vector3 = -_player._muzzle.global_transform.basis.z
+	bullet.global_position = _player._muzzle.global_position
 	bullet.direction       = dir
 	bullet.speed           = speed
 	bullet.damage          = damage
-	bullet.shooter         = player
-
-func get_icon() -> Texture2D:
-	if icon: return icon
-	var path := "res://resources/icons/pistol.png"
-	if ResourceLoader.exists(path): return ResourceLoader.load(path) as Texture2D
-	return null
+	bullet.shooter         = _player
 
 func get_type_color() -> Color:
 	return Color(0.2, 0.7, 1.0)

@@ -1,7 +1,8 @@
+@icon("res://Assets/Icons/Mine/UI.png")
 extends Panel
 class_name InventorySlot
 
-enum SlotType { ANY, WEAPON, ARMOR, ACCESSORY, HOTBAR, ABILITY, PASSIVE_HOTBAR }
+enum SlotType { ANY, WEAPON, ARMOR, ACCESSORY, HOTBAR, ABILITY, PASSIVE_HOTBAR, VENDOR, SECONDARY }
 
 @export var slot_type: SlotType = SlotType.ANY
 
@@ -11,30 +12,33 @@ var is_equipped: bool = false
 var is_ability:  bool = false
 var is_selected: bool = false
 
+var index: int = -1
+
 signal slot_clicked(slot: InventorySlot)
+signal mouse_item_hover(status: bool, currentSlot:Slot)
 
 @onready var _icon_rect:	TextureRect	= $IconRect
 @onready var _label:		Label		= $SlotLabel
 @onready var _amount:		Label		= $AmountLabel
 @onready var _coloring:		Panel		= $Coloring
+@onready var _frame:	NinePatchRect	= $NinePatchRect
+@onready var _selection_frame:	NinePatchRect	= $Selected
+@export var frameTexture: Texture2D = null
+@export var emptyTexture: Texture2D = null
 
 @export_group("Styles")
 @export var _style_empty:         StyleBoxFlat
-@export var _style_equipment:     StyleBoxFlat
-@export var _style_equipped:      StyleBoxFlat
 @export var _style_filled:        StyleBoxFlat
-@export var _style_empty_sel:     StyleBoxFlat
-@export var _style_equipment_sel: StyleBoxFlat
-@export var _style_equipped_sel:  StyleBoxFlat
-@export var _style_filled_sel:    StyleBoxFlat
 
 func _ready() -> void:
 	# Duplicate so per-slot border_color mutations don't bleed into the shared resource
 	if _style_filled:
 		_style_filled = _style_filled.duplicate()
 	_refresh_style()
+	if frameTexture:
+		_frame.texture = frameTexture
 
-func set_item(new_item, equipped: bool = false, ability:bool = false) -> void:
+func set_item(new_item: Slot, equipped: bool = false, ability:bool = false) -> void:
 	if new_item is QuantitySlot:
 		item = (new_item as QuantitySlot).item
 		itemQuantity = new_item
@@ -76,9 +80,21 @@ func _update_display() -> void:
 				_label.text    = "Access."
 				_label.visible = true
 				_label.add_theme_color_override("font_color", Color(0.8, 0.3, 1.0, 0.6))
+			SlotType.HOTBAR:
+				_label.text    = ""
+				_label.visible = false
+			SlotType.ABILITY:
+				_label.text    = ""
+				_label.visible = false
+			SlotType.PASSIVE_HOTBAR:
+				_label.text    = ""
+				_label.visible = false
 			_:
 				_label.text    = ""
 				_label.visible = false
+				_icon_rect.texture = emptyTexture
+				_icon_rect.visible = true
+				
 	if item == null and itemQuantity == null:
 		_amount.visible = false
 	elif item is ItemData and itemQuantity != null:
@@ -93,21 +109,18 @@ func _update_display() -> void:
 
 func _refresh_style() -> void:
 	var sb: StyleBoxFlat
-	if item:
-		if is_equipped:
-			sb = _style_equipped_sel if is_selected else _style_equipped
-		else:
-			if not is_selected:
-				var c: Color = item.get_type_color()
-				_style_filled.border_color = Color(c.r, c.g, c.b, 0.7)
-				_style_filled.bg_color = Color(c.r, c.g, c.b, 0.2)
-			sb = _style_filled_sel if is_selected else _style_filled
+	
+	if is_selected:
+		_selection_frame.visible = true
 	else:
-		match slot_type:
-			SlotType.WEAPON, SlotType.ARMOR, SlotType.ACCESSORY:
-				sb = _style_equipment_sel if is_selected else _style_equipment
-			_:
-				sb = _style_empty_sel if is_selected else _style_empty
+		_selection_frame.visible = false
+	
+	if item:
+		var c: Color = item.get_type_color()
+		_style_filled.bg_color = Color(c.r, c.g, c.b, 0.2)
+		sb = _style_filled
+	else:
+		sb = _style_empty
 	_coloring.add_theme_stylebox_override("panel", sb)
 
 func _get_drag_data(_pos: Vector2) -> Variant:
@@ -128,16 +141,30 @@ func _can_drop_data(_pos: Vector2, data: Variant) -> bool:
 	var from: InventorySlot = data
 	if from == self or from.item == null:
 		return false
-	if from.itemQuantity == null and !is_ability:
+	if from.itemQuantity == null and !from.is_equipped and !from.is_ability:
+		return false
+	if from.item == null and !from.is_equipped and !from.is_ability:
 		return false
 	match slot_type:
 		SlotType.WEAPON:    return from.itemQuantity is QuantitySlot and from.itemQuantity.item.item_type == ItemData.ItemType.WEAPON
 		SlotType.ARMOR:     return from.itemQuantity is QuantitySlot and from.itemQuantity.item.item_type == ItemData.ItemType.ARMOR
 		SlotType.ACCESSORY: return from.itemQuantity is QuantitySlot and from.itemQuantity.item.item_type == ItemData.ItemType.ACCESSORY
 		SlotType.ANY:
-			return from.slot_type != SlotType.ANY and from.slot_type != SlotType.ABILITY \
-				and from.slot_type != SlotType.PASSIVE_HOTBAR
-			#return result
+			if from.slot_type == SlotType.ANY and self.slot_type == SlotType.ANY:
+				return true
+			if from.slot_type == SlotType.SECONDARY and self.slot_type == SlotType.ANY:
+				return true
+			if from.slot_type == SlotType.ANY and self.slot_type == SlotType.SECONDARY:
+				return true
+			return from.slot_type != SlotType.ANY and from.slot_type != SlotType.ABILITY and from.slot_type != SlotType.PASSIVE_HOTBAR
+		SlotType.SECONDARY:
+			if from.slot_type == SlotType.SECONDARY and self.slot_type == SlotType.SECONDARY:
+				return true
+			if from.slot_type == SlotType.SECONDARY and self.slot_type == SlotType.ANY:
+				return true
+			if from.slot_type == SlotType.ANY and self.slot_type == SlotType.SECONDARY:
+				return true
+			return false
 		SlotType.HOTBAR:
 			# Passive abilities belong in the passive hotbar, not here
 			if from.slot_type == SlotType.ABILITY and from.item is AbilityData \
@@ -154,11 +181,13 @@ func _can_drop_data(_pos: Vector2, data: Variant) -> bool:
 			# Drop from either hotbar onto an ability card to remove it from the hotbar
 			return from.slot_type == SlotType.PASSIVE_HOTBAR \
 				or from.slot_type == SlotType.HOTBAR
+		SlotType.VENDOR:
+			return false
 	return false
 
 func _drop_data(_pos: Vector2, data: Variant) -> void:
 	var from: InventorySlot = data
-	var n := get_parent()
+	var n : Control = get_parent() #hotbarPanel or InvPanel
 	while n:
 		if n.has_method("handle_drop"):
 			n.handle_drop(from, self)
@@ -168,3 +197,9 @@ func _drop_data(_pos: Vector2, data: Variant) -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		slot_clicked.emit(self)
+
+func _on_mouse_entered() -> void:
+	mouse_item_hover.emit(true,itemQuantity)
+
+func _on_mouse_exited() -> void:
+	mouse_item_hover.emit(false,null)

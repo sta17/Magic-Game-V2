@@ -1,14 +1,23 @@
 [gd_scene format=3 uid="uid://eo30kruldshw"]
 
 [ext_resource type="Script" uid="uid://dqpbgie26b4sx" path="res://Script/UI/HUD.gd" id="1_i4i0y"]
+[ext_resource type="Texture2D" uid="uid://d01qi03tdkf5s" path="res://Assets/Icons/Unity Assets/Cursors 64/Arrow.png" id="2_b3vmo"]
 [ext_resource type="Script" uid="uid://ckai2wns8hetp" path="res://Script/UI/fpsmeter.gd" id="2_yenib"]
-[ext_resource type="Theme" uid="uid://diunbmd80jn4m" path="res://Themes/Standard.tres" id="3_pydgx"]
+[ext_resource type="Texture2D" uid="uid://dudfl4lg8754n" path="res://Assets/Icons/Unity Assets/Cursors 64/Arrow_Cross_Smaller.png" id="3_dds1n"]
+[ext_resource type="Theme" uid="uid://diunbmd80jn4m" path="res://GodotSettings/Themes/Standard.tres" id="3_pydgx"]
 [ext_resource type="Script" uid="uid://cala1yfb72t6l" path="res://Script/UI/InventoryUI.gd" id="4_eebq5"]
 [ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="5_18ujm"]
 [ext_resource type="PackedScene" uid="uid://cytmj3iylfg8k" path="res://Scenes/UI/InventorySlot.tscn" id="6_jt2rc"]
 [ext_resource type="PackedScene" uid="uid://d3rkdpj7p44rn" path="res://Scenes/UI/act_abi_label.tscn" id="7_pd044"]
+[ext_resource type="Texture2D" uid="uid://266c3amx7bi7" path="res://Assets/Icons/Buch's RPG Items/Frame 2 64 Only.png" id="7_pydgx"]
 [ext_resource type="PackedScene" uid="uid://bxdp14nxvsvke" path="res://Scenes/UI/pas_abi_label.tscn" id="8_gmqj4"]
 [ext_resource type="Script" uid="uid://cg3mqiekwco05" path="res://Script/UI/HotbarUI.gd" id="9_jbjhr"]
+[ext_resource type="PackedScene" uid="uid://8nsmjto5l6ed" path="res://Scenes/UI/PassiveHotbar.tscn" id="10_pydgx"]
+[ext_resource type="Script" uid="uid://oijgqpk3j1lo" path="res://Script/UI/DialogWindow.gd" id="12_eebq5"]
+[ext_resource type="PackedScene" uid="uid://201eymim8evx" path="res://Scenes/UI/DialogOption.tscn" id="13_18ujm"]
+[ext_resource type="Texture2D" uid="uid://dtsgj8kb41ews" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/shield.png" id="13_pd044"]
+[ext_resource type="LabelSettings" uid="uid://ua2wtx0vujwu" path="res://GodotSettings/LabelSettings/BlackAndWhite10px.tres" id="14_gmqj4"]
+[ext_resource type="PackedScene" uid="uid://csfwqxs7p2o2c" path="res://Scenes/UI/tooltip.tscn" id="16_gmqj4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t385i"]
 content_margin_left = 2.0
@@ -24,6 +33,16 @@ corner_detail = 6
 
 [node name="HUD" type="CanvasLayer" unique_id=1587741402]
 script = ExtResource("1_i4i0y")
+default_cursor = ExtResource("2_b3vmo")
+cross_cursor = ExtResource("3_dds1n")
+
+[node name="Screen" type="Control" parent="." unique_id=629827587]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="FPSMETER" type="Label" parent="." unique_id=1682029592]
 offset_right = 64.0
@@ -101,9 +120,12 @@ grow_vertical = 2
 script = ExtResource("4_eebq5")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="InvPanel" unique_id=656711777]
-layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("5_18ujm")
 region_rect = Rect2(0, 0, 32, 32)
 patch_margin_left = 4
@@ -113,21 +135,411 @@ patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="InvBox" type="Control" parent="InvPanel" unique_id=1132387500]
+[node name="MarginContainer" type="MarginContainer" parent="InvPanel" unique_id=893094166]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 90
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="InvPanel/MarginContainer" unique_id=550679858]
+layout_mode = 2
+texture = ExtResource("5_18ujm")
+region_rect = Rect2(0, 0, 32, 32)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="InvContent" type="Control" parent="InvPanel" unique_id=863085535]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_pydgx")
+
+[node name="InvTitle" type="Label" parent="InvPanel/InvContent" unique_id=1267627619]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 25.0
+offset_right = 600.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(1, 0.8392157, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 22
+text = "INVENTORY  (I to close)"
+
+[node name="EqHint" type="Label" parent="InvPanel/InvContent" unique_id=1672798095]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 120.0
+offset_right = 747.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "EQUIPPED  —  drag items from inventory or click Equip"
+
+[node name="WpnLabel" type="Label" parent="InvPanel/InvContent" unique_id=560588694]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 143.0
+offset_right = 107.0
+offset_bottom = 159.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 11
+text = "WEAPON"
+
+[node name="WpnSlot" parent="InvPanel/InvContent" unique_id=568371529 instance=ExtResource("6_jt2rc")]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 159.0
+offset_right = 107.0
+offset_bottom = 219.0
+slot_type = 1
+frameTexture = ExtResource("7_pydgx")
+
+[node name="ArmLabel" type="Label" parent="InvPanel/InvContent" unique_id=615396826]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 143.0
+offset_right = 173.0
+offset_bottom = 178.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 11
+text = "ARMOR
+"
+
+[node name="ArmSlot" parent="InvPanel/InvContent" unique_id=2049383572 instance=ExtResource("6_jt2rc")]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 159.0
+offset_right = 173.0
+offset_bottom = 219.0
+slot_type = 2
+frameTexture = ExtResource("7_pydgx")
+
+[node name="AccLabel" type="Label" parent="InvPanel/InvContent" unique_id=824059576]
+layout_mode = 0
+offset_left = 179.0
+offset_top = 143.0
+offset_right = 241.0
+offset_bottom = 178.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 11
+text = "ACCESSORY
+"
+
+[node name="AccSlot" parent="InvPanel/InvContent" unique_id=1570301448 instance=ExtResource("6_jt2rc")]
+layout_mode = 0
+offset_left = 179.0
+offset_top = 159.0
+offset_right = 239.0
+offset_bottom = 219.0
+slot_type = 3
+frameTexture = ExtResource("7_pydgx")
+
+[node name="InvCountLabel" type="Label" parent="InvPanel/InvContent" unique_id=902609520]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 235.0
+offset_right = 447.0
+offset_bottom = 274.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "INVENTORY
+"
+
+[node name="InvCountLabel2" type="Label" parent="InvPanel/InvContent" unique_id=1250560419]
+visible = false
+layout_mode = 0
+offset_left = 464.0
+offset_top = 235.0
+offset_right = 864.0
+offset_bottom = 274.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "INVENTORY
+"
+
+[node name="GridRoot" type="Control" parent="InvPanel/InvContent" unique_id=1685799388]
+anchors_preset = 0
+offset_left = 47.0
+offset_top = 255.0
+offset_right = 447.0
+offset_bottom = 565.0
+
+[node name="GridRoot2" type="Control" parent="InvPanel/InvContent" unique_id=16281444]
+visible = false
+anchors_preset = 0
+offset_left = 464.0
+offset_top = 255.0
+offset_right = 864.0
+offset_bottom = 565.0
+
+[node name="VendorContent" type="Control" parent="InvPanel/InvContent" unique_id=52316713]
+visible = false
+anchors_preset = 0
+offset_left = 468.0
+offset_top = 267.0
+offset_right = 868.0
+offset_bottom = 577.0
+
+[node name="UseBtn" type="Button" parent="InvPanel/InvContent" unique_id=663776435]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 580.0
+offset_right = 140.0
+offset_bottom = 616.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Use"
+
+[node name="DropBtn" type="Button" parent="InvPanel/InvContent" unique_id=611986333]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 580.0
+offset_right = 250.0
+offset_bottom = 616.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Drop"
+
+[node name="AbiContent" type="Control" parent="InvPanel" unique_id=651199067]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_pydgx")
+
+[node name="AbiTitle" type="Label" parent="InvPanel/AbiContent" unique_id=1363244720]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 25.0
+offset_right = 600.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 22
+text = "ABILITIES  (I to close)"
+
+[node name="AbiScroll" type="Control" parent="InvPanel/AbiContent" unique_id=941729171]
+anchors_preset = 0
+offset_left = 22.0
+offset_top = 103.0
+offset_right = 914.0
+offset_bottom = 621.0
+
+[node name="AbilitiesContainer" type="Control" parent="InvPanel/AbiContent/AbiScroll" unique_id=1302358118]
+layout_mode = 1
+anchors_preset = 0
+offset_top = 23.0
+offset_bottom = 23.0
+
+[node name="ACT_ABI_Label" parent="InvPanel/AbiContent/AbiScroll" unique_id=2000494667 instance=ExtResource("7_pd044")]
+layout_mode = 0
+offset_right = 365.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+
+[node name="PAS_ABI_Label" parent="InvPanel/AbiContent/AbiScroll" unique_id=2108117407 instance=ExtResource("8_gmqj4")]
+layout_mode = 0
+offset_left = 385.0
+offset_right = 750.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+
+[node name="PassiveHotbar" parent="InvPanel/AbiContent/AbiScroll" unique_id=2084387450 instance=ExtResource("10_pydgx")]
+layout_mode = 1
+offset_left = 385.0
+offset_top = 28.0
+offset_right = 11.0
+offset_bottom = -12.0
+
+[node name="TabInvBtn" type="Button" parent="InvPanel" unique_id=957084013]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 58.0
+offset_right = 150.0
+offset_bottom = 89.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Inventories"
+
+[node name="TabAbiBtn" type="Button" parent="InvPanel" unique_id=375718476]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 58.0
+offset_right = 270.0
+offset_bottom = 89.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Abilities"
+
+[node name="HotbarPanel" type="Control" parent="." unique_id=1405431800]
+layout_mode = 3
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -350.0
-offset_right = 400.0
-offset_bottom = 350.0
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -80.0
+offset_right = 273.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("9_jbjhr")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HotbarPanel" unique_id=1488938173]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_18ujm")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="SlotHolder" type="Control" parent="HotbarPanel" unique_id=461703161]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DialogWindow" type="AspectRatioContainer" parent="." unique_id=1556077121]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_pydgx")
+ratio = 0.6
+alignment_vertical = 2
+script = ExtResource("12_eebq5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogWindow" unique_id=1476750410]
+layout_mode = 2
+alignment = 2
+
+[node name="NPCBox" type="Panel" parent="DialogWindow/VBoxContainer" unique_id=730131639]
+custom_minimum_size = Vector2(365, 74)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="DialogWindow/VBoxContainer/NPCBox" unique_id=1579291733]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 69.0
+texture = ExtResource("13_pd044")
+
+[node name="Label" type="Label" parent="DialogWindow/VBoxContainer/NPCBox" unique_id=1003971044]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 5.0
+offset_right = 545.0
+offset_bottom = 69.0
+text = "Label"
+label_settings = ExtResource("14_gmqj4")
+
+[node name="PlayerBox" type="Panel" parent="DialogWindow/VBoxContainer" unique_id=1175151977]
+custom_minimum_size = Vector2(365, 160)
+layout_mode = 2
+theme = ExtResource("3_pydgx")
+
+[node name="Control" type="Control" parent="DialogWindow/VBoxContainer/PlayerBox" unique_id=1044292113]
+custom_minimum_size = Vector2(365, 160)
+layout_mode = 1
+anchors_preset = 0
+offset_right = 365.0
+offset_bottom = 160.0
+
+[node name="HScrollBar" type="ScrollContainer" parent="DialogWindow/VBoxContainer/PlayerBox/Control" unique_id=629940257]
+custom_minimum_size = Vector2(365, 160)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NinePatchRect2" type="NinePatchRect" parent="InvPanel/InvBox" unique_id=550679858]
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogWindow/VBoxContainer/PlayerBox/Control/HScrollBar" unique_id=1895085250]
+custom_minimum_size = Vector2(355, 158)
+layout_mode = 2
+
+[node name="DialogOption" parent="DialogWindow/VBoxContainer/PlayerBox/Control/HScrollBar/VBoxContainer" unique_id=142612760 instance=ExtResource("13_18ujm")]
+layout_mode = 2
+
+[node name="DialogOption2" parent="DialogWindow/VBoxContainer/PlayerBox/Control/HScrollBar/VBoxContainer" unique_id=80388710 instance=ExtResource("13_18ujm")]
+layout_mode = 2
+
+[node name="DialogOption3" parent="DialogWindow/VBoxContainer/PlayerBox/Control/HScrollBar/VBoxContainer" unique_id=1750043796 instance=ExtResource("13_18ujm")]
+layout_mode = 2
+
+[node name="VendorWindow" type="Control" parent="." unique_id=33604593]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VendorWindow" unique_id=1233630414]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_18ujm")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Control" type="Control" parent="VendorWindow" unique_id=470089424]
+anchors_preset = 0
+offset_left = 240.0
+offset_top = 10.0
+offset_right = 1040.0
+offset_bottom = 710.0
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="VendorWindow/Control" unique_id=1136316587]
 layout_mode = 0
 offset_left = 18.0
 offset_top = 99.0
@@ -142,99 +554,7 @@ patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="InvContent" type="Control" parent="InvPanel/InvBox" unique_id=863085535]
-anchors_preset = 0
-offset_right = 960.0
-offset_bottom = 626.0
-theme = ExtResource("3_pydgx")
-
-[node name="InvTitle" type="Label" parent="InvPanel/InvBox/InvContent" unique_id=1267627619]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 25.0
-offset_right = 600.0
-offset_bottom = 56.0
-theme_override_colors/font_color = Color(1, 0.8392157, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 22
-text = "INVENTORY  (I to close)"
-
-[node name="EqHint" type="Label" parent="InvPanel/InvBox/InvContent" unique_id=1672798095]
-layout_mode = 0
-offset_left = 47.0
-offset_top = 120.0
-offset_right = 747.0
-offset_bottom = 143.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 13
-text = "EQUIPPED  —  drag items from inventory or click Equip"
-
-[node name="WpnLabel" type="Label" parent="InvPanel/InvBox/InvContent" unique_id=560588694]
-layout_mode = 0
-offset_left = 47.0
-offset_top = 143.0
-offset_right = 107.0
-offset_bottom = 159.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 11
-text = "WEAPON"
-
-[node name="WpnSlot" parent="InvPanel/InvBox/InvContent" unique_id=568371529 instance=ExtResource("6_jt2rc")]
-layout_mode = 0
-offset_left = 47.0
-offset_top = 159.0
-offset_right = 107.0
-offset_bottom = 219.0
-slot_type = 1
-
-[node name="ArmLabel" type="Label" parent="InvPanel/InvBox/InvContent" unique_id=615396826]
-layout_mode = 0
-offset_left = 113.0
-offset_top = 143.0
-offset_right = 173.0
-offset_bottom = 178.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 11
-text = "ARMOR
-"
-
-[node name="ArmSlot" parent="InvPanel/InvBox/InvContent" unique_id=2049383572 instance=ExtResource("6_jt2rc")]
-layout_mode = 0
-offset_left = 113.0
-offset_top = 159.0
-offset_right = 173.0
-offset_bottom = 219.0
-slot_type = 2
-
-[node name="AccLabel" type="Label" parent="InvPanel/InvBox/InvContent" unique_id=824059576]
-layout_mode = 0
-offset_left = 179.0
-offset_top = 143.0
-offset_right = 241.0
-offset_bottom = 178.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 11
-text = "ACCESSORY
-"
-
-[node name="AccSlot" parent="InvPanel/InvBox/InvContent" unique_id=1570301448 instance=ExtResource("6_jt2rc")]
-layout_mode = 0
-offset_left = 179.0
-offset_top = 159.0
-offset_right = 239.0
-offset_bottom = 219.0
-slot_type = 3
-
-[node name="InvCountLabel" type="Label" parent="InvPanel/InvBox/InvContent" unique_id=902609520]
+[node name="InvCountLabel" type="Label" parent="VendorWindow/Control" unique_id=229193893]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 235.0
@@ -247,14 +567,14 @@ theme_override_font_sizes/font_size = 13
 text = "INVENTORY
 "
 
-[node name="GridRoot" type="Control" parent="InvPanel/InvBox/InvContent" unique_id=1685799388]
+[node name="GridRoot" type="Control" parent="VendorWindow/Control" unique_id=658978463]
 anchors_preset = 0
 offset_left = 47.0
 offset_top = 255.0
 offset_right = 447.0
 offset_bottom = 495.0
 
-[node name="Tooltip" type="RichTextLabel" parent="InvPanel/InvBox/InvContent" unique_id=85569887]
+[node name="Tooltip" type="RichTextLabel" parent="VendorWindow/Control" unique_id=1407277962]
 layout_mode = 0
 offset_left = 500.0
 offset_top = 150.0
@@ -264,98 +584,13 @@ theme = ExtResource("3_pydgx")
 theme_override_font_sizes/normal_font_size = 13
 bbcode_enabled = true
 
-[node name="UseBtn" type="Button" parent="InvPanel/InvBox/InvContent" unique_id=663776435]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 580.0
-offset_right = 140.0
-offset_bottom = 616.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-text = "Use"
-
-[node name="DropBtn" type="Button" parent="InvPanel/InvBox/InvContent" unique_id=611986333]
-layout_mode = 0
-offset_left = 150.0
-offset_top = 580.0
-offset_right = 250.0
-offset_bottom = 616.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-text = "Drop"
-
-[node name="AbiContent" type="Control" parent="InvPanel/InvBox" unique_id=651199067]
+[node name="Tooltip" parent="." unique_id=983156357 instance=ExtResource("16_gmqj4")]
 visible = false
-anchors_preset = 0
-offset_right = 960.0
-offset_bottom = 622.0
-theme = ExtResource("3_pydgx")
+offset_left = 300.0
+offset_top = 27.5
+offset_right = -860.0
+offset_bottom = -572.5
 
-[node name="AbiTitle" type="Label" parent="InvPanel/InvBox/AbiContent" unique_id=1363244720]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 25.0
-offset_right = 600.0
-offset_bottom = 56.0
-theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 22
-text = "ABILITIES  (I to close)"
-
-[node name="AbiScroll" type="Control" parent="InvPanel/InvBox/AbiContent" unique_id=941729171]
-anchors_preset = 0
-offset_left = 22.0
-offset_top = 103.0
-offset_right = 914.0
-offset_bottom = 621.0
-
-[node name="AbilitiesContainer" type="Control" parent="InvPanel/InvBox/AbiContent/AbiScroll" unique_id=1302358118]
-anchors_preset = 0
-
-[node name="ACT_ABI_Label" parent="InvPanel/InvBox/AbiContent/AbiScroll/AbilitiesContainer" unique_id=2000494667 instance=ExtResource("7_pd044")]
-layout_mode = 0
-offset_bottom = 23.0
-
-[node name="PAS_ABI_Label" parent="InvPanel/InvBox/AbiContent/AbiScroll/AbilitiesContainer" unique_id=2108117407 instance=ExtResource("8_gmqj4")]
-layout_mode = 0
-offset_left = 0.0
-offset_right = 365.0
-offset_bottom = 23.0
-
-[node name="TabInvBtn" type="Button" parent="InvPanel/InvBox" unique_id=957084013]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 58.0
-offset_right = 150.0
-offset_bottom = 89.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-text = "Inventories"
-flat = true
-
-[node name="TabAbiBtn" type="Button" parent="InvPanel/InvBox" unique_id=375718476]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 58.0
-offset_right = 270.0
-offset_bottom = 89.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-text = "Abilities"
-
-[node name="HotbarPanel" type="Panel" parent="." unique_id=818606347]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -261.0
-offset_top = -80.0
-offset_right = 273.0
-offset_bottom = -12.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-theme = ExtResource("3_pydgx")
-script = ExtResource("9_jbjhr")
+[connection signal="mouse_item_hover" from="InvPanel/InvContent/WpnSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="InvPanel/InvContent/ArmSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="InvPanel/InvContent/AccSlot" to="." method="_on_slot_mouse_item_hover"]

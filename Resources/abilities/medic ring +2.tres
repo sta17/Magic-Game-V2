@@ -6,5 +6,6 @@
 script = ExtResource("1_s3ik7")
 ability_name = "Medic Ring"
 is_passive = true
+slot_name = "Medic Ring"
 description = "Passive: 2.0 HP/s regeneration while on hotbar"
 metadata/_custom_type_script = "uid://c5e4pldhdky75"

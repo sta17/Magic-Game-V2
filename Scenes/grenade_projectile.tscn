@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bwbysqla1nloc"]
+
+[ext_resource type="Script" uid="uid://nxqeiq2pw4io" path="res://Script/GamePlay/grenade_projectile.gd" id="1_efpdh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xucj6"]
+radius = 0.14
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_emx0f"]
+albedo_color = Color(0.42358288, 0.8808251, 0.42358288, 1)
+emission_enabled = true
+emission = Color(0.42358288, 0.8808251, 0.42358288, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_efpdh"]
+material = SubResource("StandardMaterial3D_emx0f")
+radius = 0.14
+height = 0.28
+
+[node name="grenade projectile" type="RigidBody3D" unique_id=267074267]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_efpdh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1158141283]
+shape = SubResource("SphereShape3D_xucj6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=898457264]
+mesh = SubResource("SphereMesh_efpdh")

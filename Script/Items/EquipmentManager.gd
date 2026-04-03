@@ -25,42 +25,42 @@ func equip_item(item: QuantitySlot) -> QuantitySlot:
 	return null
 
 func _equip_weapon(weapon: QuantitySlot) -> QuantitySlot:
-	var old = equipped_weapon_wrapper
+	var old: QuantitySlot = equipped_weapon_wrapper
 	equipped_weapon = weapon.item as WeaponData
 	equipped_weapon_wrapper = weapon
 	weapon_equipped.emit(equipped_weapon_wrapper)
 	return old
 
 func _equip_armor(armor: QuantitySlot) -> QuantitySlot:
-	var old = equipped_armor_wrapper
+	var old: QuantitySlot = equipped_armor_wrapper
 	equipped_armor = armor.item as ArmorData
 	equipped_armor_wrapper = armor
 	armor_equipped.emit(equipped_armor_wrapper)
 	return old
 
 func _equip_accessory(accessory: QuantitySlot) -> QuantitySlot:
-	var old = equipped_accessory_wrapper
+	var old: QuantitySlot = equipped_accessory_wrapper
 	equipped_accessory = accessory.item as AccessoryData
 	equipped_accessory_wrapper = accessory
 	accessory_equipped.emit(equipped_accessory_wrapper)
 	return old
 
-func unequip_weapon() -> WeaponData:
-	var old = equipped_weapon_wrapper
+func unequip_weapon() -> QuantitySlot:
+	var old: QuantitySlot = equipped_weapon_wrapper
 	equipped_weapon = null
 	equipped_weapon_wrapper = null
 	slot_cleared.emit("weapon")
 	return old
 
-func unequip_armor() -> ArmorData:
-	var old = equipped_armor_wrapper
+func unequip_armor() -> QuantitySlot:
+	var old: QuantitySlot = equipped_armor_wrapper
 	equipped_armor = null
 	equipped_armor_wrapper = null
 	slot_cleared.emit("armor")
 	return old
 
-func unequip_accessory() -> AccessoryData:
-	var old = equipped_accessory_wrapper
+func unequip_accessory() -> QuantitySlot:
+	var old: QuantitySlot = equipped_accessory_wrapper
 	equipped_accessory = null
 	equipped_accessory_wrapper = null
 	slot_cleared.emit("accessory")
