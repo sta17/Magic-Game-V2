@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ddcrhlayn5f0n" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/pouch.png" id="2_xxsvc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xxsvc"]
-radius = 0.38
+radius = 0.25
 height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ig1v"]
@@ -12,7 +12,7 @@ albedo_color = Color(0.8, 1, 0.14901961, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6atyd"]
 material = SubResource("StandardMaterial3D_1ig1v")
-radius = 0.38
+radius = 0.25
 height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g6unj"]
@@ -20,7 +20,7 @@ albedo_color = Color(0.8001019, 1, 0.14733289, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_h1ryf"]
 material = SubResource("StandardMaterial3D_g6unj")
-size = Vector3(0.25, 0.25, 1)
+size = Vector3(0.125, 0.125, 1)
 
 [node name="NPC" type="CharacterBody3D" unique_id=2124289884]
 collision_layer = 16

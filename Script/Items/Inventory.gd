@@ -45,14 +45,18 @@ func add_item_with_quantity_at_index(quantityCounter : QuantitySlot,add_index: i
 		return false
 	# Merge stackable items
 	if quantityCounter.item.stackable:
-		for existing in items:
-			if existing.getName() == item.getName() and quantityCounter.quantity < existing.item.max_stack:
+		for i in items.size():
+			var existing: QuantitySlot = items[i]
+			if existing == null:
+				items[i] = quantityCounter
+				inventory_changed.emit()
+				return true
+			elif existing.getName() == item.getName() and quantityCounter.quantity < existing.item.max_stack:
 				if (existing.quantity + quantityCounter.quantity) > existing.item.max_stack:
 					if items[add_index] != null:
 						return false
 					else:
 						items[add_index] = quantityCounter
-						#items.append(quantityCounter)
 				else:
 					existing.quantity = existing.quantity + quantityCounter.quantity
 				inventory_changed.emit()

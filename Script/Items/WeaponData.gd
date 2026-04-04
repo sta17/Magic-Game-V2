@@ -26,7 +26,7 @@ func get_tooltip() -> String:
 	return txt
 
 func get_tooltipWithoutTitle() -> String:
-	var txt: String 
+	var txt: String = ""
 	txt += get_type_String_color() + "\n"
 	txt += description
 	txt += "\n[color=orange]DMG:[/color] " + str(damage)

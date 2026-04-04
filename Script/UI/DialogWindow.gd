@@ -71,10 +71,13 @@ func buttonPressed(button: Button) -> void:
 	_selected_index = chat_option.index
 	handleOption(chat_option)
 
-func promptLine() -> void:
+func promptLine() -> bool:
 	if currentLine < (currentTextArray.size()-1):
 		currentLine += 1
 		npc_text.text = currentTextArray[currentLine]
+		return true
+	else:
+		return false
 
 func sendSelection() -> void:
 	# this is for turning input into options selected

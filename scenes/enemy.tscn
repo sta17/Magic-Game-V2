@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="4_287tu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_287tu"]
-radius = 0.38
+radius = 0.25
 height = 1.8
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0830c"]
-radius = 0.38
+radius = 0.25
 height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghaa6"]
@@ -22,7 +22,7 @@ albedo_color = Color(0.8, 0.14901961, 0.14901961, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ghaa6"]
 material = SubResource("StandardMaterial3D_0830c")
-size = Vector3(0.25, 0.25, 1)
+size = Vector3(0.125, 0.125, 1)
 
 [node name="Enemy" type="CharacterBody3D" unique_id=640505128]
 collision_layer = 2

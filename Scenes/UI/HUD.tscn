@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://dtsgj8kb41ews" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/shield.png" id="13_pd044"]
 [ext_resource type="LabelSettings" uid="uid://ua2wtx0vujwu" path="res://GodotSettings/LabelSettings/BlackAndWhite10px.tres" id="14_gmqj4"]
 [ext_resource type="PackedScene" uid="uid://csfwqxs7p2o2c" path="res://Scenes/UI/tooltip.tscn" id="16_gmqj4"]
+[ext_resource type="Script" uid="uid://cu5alnpb73cmj" path="res://Script/UI/LootWindow.gd" id="18_dds1n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t385i"]
 content_margin_left = 2.0
@@ -266,8 +267,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
-text = "INVENTORY
-"
+text = "INVENTORY"
 
 [node name="InvCountLabel2" type="Label" parent="InvPanel/InvContent" unique_id=1250560419]
 visible = false
@@ -280,8 +280,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
-text = "INVENTORY
-"
+text = "INVENTORY"
 
 [node name="GridRoot" type="Control" parent="InvPanel/InvContent" unique_id=1685799388]
 anchors_preset = 0
@@ -350,15 +349,17 @@ text = "ABILITIES  (I to close)"
 
 [node name="AbiScroll" type="Control" parent="InvPanel/AbiContent" unique_id=941729171]
 anchors_preset = 0
-offset_left = 22.0
+offset_left = 33.0
 offset_top = 103.0
-offset_right = 914.0
-offset_bottom = 621.0
+offset_right = 1247.0
+offset_bottom = 627.0
 
 [node name="AbilitiesContainer" type="Control" parent="InvPanel/AbiContent/AbiScroll" unique_id=1302358118]
 layout_mode = 1
 anchors_preset = 0
+offset_left = 13.0
 offset_top = 23.0
+offset_right = 13.0
 offset_bottom = 23.0
 
 [node name="ACT_ABI_Label" parent="InvPanel/AbiContent/AbiScroll" unique_id=2000494667 instance=ExtResource("7_pd044")]
@@ -583,6 +584,76 @@ offset_bottom = 605.0
 theme = ExtResource("3_pydgx")
 theme_override_font_sizes/normal_font_size = 13
 bbcode_enabled = true
+
+[node name="LootWindow" type="Control" parent="." unique_id=2134220081]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("18_dds1n")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="LootWindow" unique_id=259398220]
+custom_minimum_size = Vector2(432, 364)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_18ujm")
+region_rect = Rect2(0, 0, 32, 32)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="LootWindow/NinePatchRect" unique_id=588579053]
+custom_minimum_size = Vector2(400, 330)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LootWindow/NinePatchRect/MarginContainer" unique_id=735946099]
+custom_minimum_size = Vector2(400, 330)
+layout_mode = 2
+
+[node name="inv_title_text_label" type="Label" parent="LootWindow/NinePatchRect/MarginContainer/VBoxContainer" unique_id=2037897053]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "INVENTORY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridRoot" type="GridContainer" parent="LootWindow/NinePatchRect/MarginContainer/VBoxContainer" unique_id=1001336969]
+visible = false
+custom_minimum_size = Vector2(400, 310)
+layout_mode = 2
+columns = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LootWindow/NinePatchRect/MarginContainer/VBoxContainer" unique_id=2144530680]
+layout_mode = 2
+alignment = 1
 
 [node name="Tooltip" parent="." unique_id=983156357 instance=ExtResource("16_gmqj4")]
 visible = false

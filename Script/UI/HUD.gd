@@ -10,6 +10,7 @@ class_name HUD
 @onready var dialogWindow:	DialogWindow	= $DialogWindow
 @onready var tooltip: 		Tooltip			= $Tooltip
 @onready var screen: 		Control			= $Screen
+@onready var loot_window: 	LootWindow			= $LootWindow
 
 @export var default_cursor: Texture
 @export var cross_cursor: Texture
@@ -18,7 +19,6 @@ func _ready() -> void:
 	Input.set_custom_mouse_cursor(default_cursor, Input.CURSOR_ARROW,Vector2(7, 6))
 	Input.set_custom_mouse_cursor(default_cursor, Input.CURSOR_CAN_DROP,Vector2(7, 6))
 	Input.set_custom_mouse_cursor(cross_cursor, Input.CURSOR_FORBIDDEN,Vector2(7, 6))
-
 
 func _process(_delta:float) -> void:
 	if tooltip.visible:
@@ -77,9 +77,26 @@ func ShowHide_Inventory_Box(interactble_entity: Box) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	inv_panel.ShowHide_Inventory_Box(interactble_entity)
 
+func ShowHide_Inventory_BoxMinimal(interactble_entity: Box) -> void:
+	#inv_panel.visible = not inv_panel.visible
+	loot_window.visible = not loot_window.visible
+	if loot_window.visible:
+		interactble_entity._on_open()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		interactble_entity._on_close()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	loot_window.ShowHide_Inventory_Box(interactble_entity)
+
 func _on_slot_mouse_item_hover(status: bool, currentSlot: Slot) -> void:
 	if status and currentSlot != null:
 		tooltip.visible = true
 		tooltip.setTooltip(currentSlot)
 	else:
 		tooltip.visible = false
+
+func isLootWindowVisible() -> bool:
+	return loot_window.visible
+
+func isInv_PanelVisible() -> bool:
+	return inv_panel.visible

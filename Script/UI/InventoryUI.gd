@@ -159,7 +159,7 @@ func _set_tab(idx: int) -> void:
 
 #region Refresh
 
-func _rebuild() -> void:
+func _rebuild(_obj: Variant = null) -> void:
 	_refresh_grid_slots()
 	_refresh_eq_slots()
 	if _grid2_root.visible == true:
@@ -292,40 +292,60 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 			passive_hotbar.unassign_slot(from_slot)
 	elif from_slot.slot_type == InventorySlot.SlotType.SECONDARY or to_slot.slot_type == InventorySlot.SlotType.SECONDARY:
 		var to_item:QuantitySlot = to_slot.itemQuantity
-		
-		if from_slot.slot_type == InventorySlot.SlotType.SECONDARY:
+		if from_slot.slot_type == InventorySlot.SlotType.SECONDARY and to_slot.slot_type == InventorySlot.SlotType.SECONDARY:
+			SwapSlotsInInventory(from_slot, to_slot,_secondary_inventory)
+		elif from_slot.slot_type == InventorySlot.SlotType.SECONDARY:
 			if to_item == null:
-				_secondary_inventory.remove_item_quantity(from_item)
-				_inventory.add_item_with_quantity_at_index(from_item,to_slot.index)
+				add_single_Slot(from_slot, to_slot,_secondary_inventory,_inventory)
 			else:
-				_secondary_inventory.remove_item_quantity(from_item)
-				_inventory.remove_item_quantity(to_item)
-				_secondary_inventory.add_item_with_quantity_at_index(from_item,from_slot.index)
-				_inventory.add_item_with_quantity_at_index(to_item,to_slot.index)
+				SwapSlots(from_slot, to_slot,_inventory,_secondary_inventory)
 		elif to_slot.slot_type == InventorySlot.SlotType.SECONDARY:
 			if to_item == null:
-				_inventory.remove_item_quantity(from_item)
-				_secondary_inventory.add_item_with_quantity_at_index(from_item,to_slot.index)
+				add_single_Slot(from_slot, to_slot,_inventory,_secondary_inventory)
 			else:
-				_secondary_inventory.remove_item_quantity(from_item)
-				_inventory.remove_item_quantity(to_item)
-				_secondary_inventory.add_item_with_quantity_at_index(from_item,from_slot.index)
-				_inventory.add_item_with_quantity_at_index(to_item,to_slot.index)
+				SwapSlots(from_slot, to_slot,_inventory,_secondary_inventory)
 		_secondary_inventory.inventory_changed.emit()
 		_inventory.inventory_changed.emit()
 	else:
-		# Inventory ↔ Inventory swap (reorder by item reference, not slot index)
-		var fi := _inventory.items.find(from_slot.itemQuantity)
-		var ti := _inventory.items.find(to_slot.itemQuantity)
-		if fi != -1 and ti != -1:
-			var tmp        := _inventory.items[fi]
-			_inventory.items[fi] = _inventory.items[ti]
-			_inventory.items[ti] = tmp
-			_inventory.inventory_changed.emit()
+		SwapSlotsInInventory(from_slot, to_slot,_inventory)
 
 	_refresh_eq_slots()
 	_refresh_grid_slots()
 	_clear_selection()
+
+func SwapSlotsInInventory(from_slot: InventorySlot, to_slot: InventorySlot,inv:Inventory) -> bool:
+	# Inventory ↔ Inventory swap (reorder by item reference, not slot index)
+	var fi := inv.items.find(from_slot.itemQuantity)
+	var ti := inv.items.find(to_slot.itemQuantity)
+	if fi != -1 and ti != -1:
+		var tmp        := inv.items[fi]
+		inv.items[fi] = inv.items[ti]
+		inv.items[ti] = tmp
+		inv.inventory_changed.emit()
+		return true
+	return false
+
+func SwapSlots(from_slot: InventorySlot, to_slot: InventorySlot,inv1:Inventory,inv2:Inventory) -> bool:
+	var from_item:QuantitySlot = from_slot.itemQuantity
+	var to_item:QuantitySlot = to_slot.itemQuantity
+	if inv1.add_item_with_quantity_at_index(to_item,to_slot.index):
+		if inv2.add_item_with_quantity_at_index(from_item,from_slot.index):
+			inv2.remove_item_quantity(from_item)
+			inv1.remove_item_quantity(to_item)
+			inv2.inventory_changed.emit()
+			inv1.inventory_changed.emit()
+		else:
+			inv1.remove_item_quantity(to_item)
+	return true
+
+func add_single_Slot(from_slot: InventorySlot, to_slot: InventorySlot,inv1:Inventory,inv2:Inventory) -> bool:
+	var from_item:QuantitySlot = from_slot.itemQuantity
+	if inv2.add_item_with_quantity_at_index(from_item,to_slot.index):
+		inv1.remove_item_quantity(from_item)
+		inv2.inventory_changed.emit()
+		inv1.inventory_changed.emit()
+		return true
+	return false
 
 #endregion
 

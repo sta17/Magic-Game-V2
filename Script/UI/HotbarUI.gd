@@ -36,7 +36,7 @@ func _build_ui() -> void:
 		slot.itemQuantity = QuantitySlot.new()
 		_slot_holder.add_child(slot)
 		_slots.append(slot)
-		slot.slot_clicked.connect(func(s: InventorySlot): _on_slot_clicked(_slots.find(s)))
+		slot.slot_clicked.connect(func(s: InventorySlot) -> void: _on_slot_clicked(_slots.find(s)))
 
 		# Slot number label (top-left corner)
 		var num := Label.new()

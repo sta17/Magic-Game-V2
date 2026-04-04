@@ -3,7 +3,7 @@ extends CharacterBody3D
 class_name Player
 
 const _BulletScene  := preload("res://Scenes/bullet.tscn")
-enum PlayerState { ACTIVE, UI, DIALOG }
+enum PlayerState { ACTIVE, UI, DIALOG, UIMINIMAL }
 
 #region Movement
 @export var WALK_SPEED:		float = 10
@@ -73,6 +73,7 @@ func _ready() -> void:
 	inv_ui = _hud.inv_panel
 	_hud.hotbar_panel.init(self)
 	(_hud.inv_panel as InventoryUI).set_hotbar(_hud.hotbar_panel)
+	(_hud.loot_window as LootWindow).init(self)
 
 #region Input
 
@@ -105,6 +106,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_inventory"):
 		if PLAYER_STATE == PlayerState.ACTIVE:
 			PLAYER_STATE = PlayerState.UI
+		if PLAYER_STATE == PlayerState.UIMINIMAL:
+			_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
+			PLAYER_STATE = PlayerState.UI
 		else:
 			PLAYER_STATE = PlayerState.ACTIVE
 		_hud.ShowHide_Inventory()
@@ -122,8 +126,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if PLAYER_STATE == PlayerState.ACTIVE:
 			_try_interact()
 		elif PLAYER_STATE == PlayerState.DIALOG:
-			_hud.dialogWindow.promptLine()
-		elif PLAYER_STATE == PlayerState.UI and interactble_entity is Box:
+			if !_hud.dialogWindow.promptLine():
+				_try_interact()
+		elif PLAYER_STATE == PlayerState.UIMINIMAL:
 			_try_interact()
 	if event.is_action_pressed("next_page"):
 		if PLAYER_STATE == PlayerState.DIALOG:
@@ -235,11 +240,16 @@ func _try_interact() -> void:
 				(interactble_entity as NPC).interact(self)
 		elif  interactble_entity is Box:
 			if PLAYER_STATE == PlayerState.ACTIVE:
-				PLAYER_STATE = PlayerState.UI
-			else:
+				PLAYER_STATE = PlayerState.UIMINIMAL
+				_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
+			elif _hud.isLootWindowVisible():
+				_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
 				PLAYER_STATE = PlayerState.ACTIVE
+			elif _hud.isInv_PanelVisible():
+				pass
 			# Pass the interactble_entity for access of its inventory.
-			_hud.ShowHide_Inventory_Box(interactble_entity)
+			#_hud.ShowHide_Inventory_Box(interactble_entity)
+			#_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
 
 func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool:
 	if inventory.is_full():

@@ -146,6 +146,10 @@ item = ExtResource("5_g0pj6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.297807, 1, -10.917204)
 item = ExtResource("5_g0pj6")
 
+[node name="PickUpItem11" parent="PickUps" unique_id=81372938 instance=ExtResource("2_se0eo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.312032, 1, -5.849599)
+item = ExtResource("3_rdsav")
+
 [node name="Ground and Cliffs" type="Node" parent="." unique_id=1125938350]
 
 [node name="Ground" type="StaticBody3D" parent="Ground and Cliffs" unique_id=1045160816]
@@ -224,7 +228,7 @@ transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06
 interact_script = SubResource("Resource_d5oxj")
 
 [node name="NPC2" parent="NPCs" unique_id=48598668 instance=ExtResource("12_icgjy")]
-transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06263369, -10.035943, -1.9073486e-06, -1.1770096)
+transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06263369, -7.2982903, -1.9073486e-06, -1.1770096)
 state = 2
 
 [node name="Box" type="Node" parent="." unique_id=2042642089]
