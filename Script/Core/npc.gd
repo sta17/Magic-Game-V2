@@ -1,9 +1,8 @@
 extends CharacterBody3D
 class_name NPC
 
-enum State { IDLE, PATROL, CHASE, DEAD, WANDER, STAND, ATTACK }
+enum State { IDLE, PATROL, CHASE, DEAD, STAND, ATTACK }
 
-@export var max_health: float      = 50.0
 @export var move_speed: float      = 3.5
 @export var detection_range: float = 16.0
 @export var patrol_radius: float   = 8.0
@@ -13,7 +12,6 @@ enum State { IDLE, PATROL, CHASE, DEAD, WANDER, STAND, ATTACK }
 @export var GRAVITY:		float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var interact_script: DialogScript
 
-var health: float
 var _spawn_pos: Vector3
 var _patrol_target: Vector3
 var _patrol_wait: float  = 0.0
@@ -27,7 +25,6 @@ signal creature_died(drop_position: Vector3)
 
 func _ready() -> void:
 	add_to_group("npc")
-	health = max_health
 	_spawn_pos     = global_position
 	_patrol_target = global_position
 	if state == State.PATROL:
@@ -127,3 +124,6 @@ func _die() -> void:
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.5)
 	tween.tween_callback(queue_free)
+
+func getCenter() -> Marker3D:
+	return _center

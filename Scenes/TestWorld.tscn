@@ -10,9 +10,13 @@
 [ext_resource type="Resource" uid="uid://bgbhalmyo304f" path="res://Resources/items/MedicRing.tres" id="5_7oy3y"]
 [ext_resource type="Resource" uid="uid://bgyavs3m7pwgs" path="res://Resources/items/Medicine +60.tres" id="5_g0pj6"]
 [ext_resource type="Resource" uid="uid://ufkre1nuiwob" path="res://Resources/items/LightArmor.tres" id="6_4e6cy"]
+[ext_resource type="PackedScene" uid="uid://7duyho454g5b" path="res://Scenes/Enemy-Static-Rotating.tscn" id="6_nvvol"]
+[ext_resource type="Texture2D" uid="uid://bk2l66sy0k1tq" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/bow.png" id="7_g25k4"]
+[ext_resource type="Texture2D" uid="uid://dfixyxgw5avsw" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/sword.png" id="8_2ve5w"]
 [ext_resource type="Resource" uid="uid://2o8eeih50d0j" path="res://Resources/items/PowerPunchGloves.tres" id="9_1jowa"]
 [ext_resource type="Resource" uid="uid://b32hg0dpktr7r" path="res://Resources/items/Money.tres" id="11_5f2ua"]
 [ext_resource type="PackedScene" uid="uid://cwysljf0khfbw" path="res://Scenes/npc.tscn" id="12_icgjy"]
+[ext_resource type="Environment" uid="uid://d4hn02mga7hpo" path="res://GodotSettings/Environments/Fantasy Sky.tres" id="13_08jhs"]
 [ext_resource type="Script" uid="uid://cbxbu5mura66g" path="res://Script/Dialog/dialog_stage.gd" id="13_d5oxj"]
 [ext_resource type="Texture2D" uid="uid://bhlbnyx7h1yec" path="res://Assets/Icons/Buch's RPG Items/Frame 2 64.png" id="13_hlj8m"]
 [ext_resource type="Script" uid="uid://q5eprh5d22t7" path="res://Script/Dialog/dialog_script.gd" id="13_l0hd3"]
@@ -23,7 +27,7 @@
 [ext_resource type="Script" uid="uid://oeddicel435v" path="res://Script/Items/Inventory.gd" id="21_08jhs"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k2eo1"]
-size = Vector3(5, 0.5, 15)
+size = Vector3(25, 0.5, 75)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tw8nc"]
 albedo_color = Color(0.26, 1, 0.34633344, 1)
@@ -32,8 +36,15 @@ albedo_color = Color(0.26, 1, 0.34633344, 1)
 material = SubResource("StandardMaterial3D_tw8nc")
 size = Vector3(5, 0.5, 15)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8a0ub"]
+size = Vector3(50, 0.5, 75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_08jhs"]
+material = SubResource("StandardMaterial3D_tw8nc")
+size = Vector3(5, 0.5, 15)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_4e6cy"]
-size = Vector3(0.5, 15, 15)
+size = Vector3(2.5, 15, 75)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_77oos"]
 albedo_color = Color(0.53622025, 0.40614194, 0.038898215, 1)
@@ -42,20 +53,15 @@ albedo_color = Color(0.53622025, 0.40614194, 0.038898215, 1)
 material = SubResource("StandardMaterial3D_77oos")
 size = Vector3(0.5, 15, 15)
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k2eo1"]
-sky_top_color = Color(0.14399998, 0.4567999, 0.96, 1)
-sky_horizon_color = Color(1.038568, 1.0821531, 1.1683931, 1)
-ground_bottom_color = Color(0.69, 0.55154, 0.3933, 1)
-ground_horizon_color = Color(1.038568, 1.0821531, 1.1683931, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_08jhs"]
+size = Vector3(2.5, 15, 75)
 
-[sub_resource type="Sky" id="Sky_se0eo"]
-sky_material = SubResource("ProceduralSkyMaterial_k2eo1")
+[sub_resource type="BoxShape3D" id="BoxShape3D_nvvol"]
+size = Vector3(2.5, 15, 100)
 
-[sub_resource type="Environment" id="Environment_4snwc"]
-background_mode = 2
-sky = SubResource("Sky_se0eo")
-tonemap_mode = 2
-glow_enabled = true
+[sub_resource type="BoxMesh" id="BoxMesh_uvi45"]
+material = SubResource("StandardMaterial3D_77oos")
+size = Vector3(0.5, 15, 20)
 
 [sub_resource type="Resource" id="Resource_bnm2d"]
 script = ExtResource("15_bnm2d")
@@ -108,6 +114,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.113573074, 0, -56.257034)
 drop_table = Array[ExtResource("4_0rqgs")]([ExtResource("5_g0pj6")])
 state = 1
 
+[node name="Enemy-Turret" parent="Enemies" unique_id=1191795860 instance=ExtResource("6_nvvol")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.130634, 0, 19.100636)
+_ranged_icon = ExtResource("7_g25k4")
+_melee_icon = ExtResource("8_2ve5w")
+
 [node name="PickUps" type="Node" parent="." unique_id=362136868]
 
 [node name="PickUpItem7" parent="PickUps" unique_id=2079250956 instance=ExtResource("2_se0eo")]
@@ -157,19 +168,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
 collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Ground" unique_id=1324316876]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_k2eo1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Ground" unique_id=1923146671]
 transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
 mesh = SubResource("BoxMesh_tw8nc")
 
+[node name="Ground3" type="StaticBody3D" parent="Ground and Cliffs" unique_id=357740606]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.271149, 0, 44.889084)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Ground3" unique_id=260217285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_8a0ub")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Ground3" unique_id=1331428485]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_08jhs")
+
 [node name="Ground2" type="StaticBody3D" parent="Ground and Cliffs" unique_id=1299573271]
 transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, -50, 0, -55)
 collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Ground2" unique_id=2103348302]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_k2eo1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Ground2" unique_id=742423396]
@@ -181,7 +204,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.75, 7.25, -30)
 collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Cliff" unique_id=1691197802]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_4e6cy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Cliff" unique_id=1460459729]
@@ -193,8 +216,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.75, 7.25, -5.25)
 collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Cliff3" unique_id=1891418764]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
-shape = SubResource("BoxShape3D_4e6cy")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_08jhs")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Cliff3" unique_id=1903061874]
 transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
@@ -205,21 +228,34 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -50,
 collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Cliff2" unique_id=525935574]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, -0.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_4e6cy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Cliff2" unique_id=782697079]
 transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, -0.25, 0)
 mesh = SubResource("BoxMesh_1jowa")
 
+[node name="Cliff4" type="StaticBody3D" parent="Ground and Cliffs" unique_id=486616138]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -35.900925, 7.25, -68.85429)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground and Cliffs/Cliff4" unique_id=1303110982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0146484375, 0, 0)
+shape = SubResource("BoxShape3D_nvvol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground and Cliffs/Cliff4" unique_id=884044737]
+transform = Transform3D(5.0000005, 0, 0, 0, 1, 0, 0, 0, 5.0000005, 0, 0, 0)
+mesh = SubResource("BoxMesh_uvi45")
+
 [node name="Environment" type="Node" parent="." unique_id=1614684676]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=980176290]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+[node name="Sun" type="DirectionalLight3D" parent="Environment" unique_id=980176290]
+transform = Transform3D(-0.42261833, -0.69427204, 0.5825634, 0, 0.64278764, 0.76604444, -0.90630776, 0.32374442, -0.27165383, 0, 0, 0)
 shadow_enabled = true
+shadow_opacity = 0.75
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=665199601]
-environment = SubResource("Environment_4snwc")
+environment = ExtResource("13_08jhs")
 
 [node name="NPCs" type="Node" parent="." unique_id=1468007137]
 

@@ -127,12 +127,16 @@ func _unhandled_input(event: InputEvent) -> void:
 			_try_interact()
 		elif PLAYER_STATE == PlayerState.DIALOG:
 			if !_hud.dialogWindow.promptLine():
-				_try_interact()
+				#_try_interact()
+				pass
 		elif PLAYER_STATE == PlayerState.UIMINIMAL:
 			_try_interact()
 	if event.is_action_pressed("next_page"):
 		if PLAYER_STATE == PlayerState.DIALOG:
 			_hud.dialogWindow.promptLine()
+	if event.is_action_pressed("previous_page"):
+		if PLAYER_STATE == PlayerState.DIALOG:
+			_hud.dialogWindow.promptPreviousLine()
 	if event.is_action_pressed("attack"):
 		if PLAYER_STATE == PlayerState.DIALOG:
 			_hud.dialogWindow.sendSelection()
@@ -235,9 +239,14 @@ func _try_interact() -> void:
 				return
 	if interactble_entity:
 		if interactble_entity is NPC:
-			if (interactble_entity as NPC).interact_script != null:
-				PLAYER_STATE = PlayerState.DIALOG
-				(interactble_entity as NPC).interact(self)
+			if PLAYER_STATE == PlayerState.ACTIVE:
+				if (interactble_entity as NPC).interact_script != null:
+					PLAYER_STATE = PlayerState.DIALOG
+					(interactble_entity as NPC).interact(self)
+			elif PLAYER_STATE == PlayerState.DIALOG:
+				if (interactble_entity as NPC).interact_script != null:
+					PLAYER_STATE = PlayerState.ACTIVE
+					(interactble_entity as NPC).interact(self)
 		elif  interactble_entity is Box:
 			if PLAYER_STATE == PlayerState.ACTIVE:
 				PLAYER_STATE = PlayerState.UIMINIMAL
@@ -308,7 +317,9 @@ func try_ranged(equipped_weapon: WeaponData) -> void:
 					   randf_range(-spread, spread))
 		dir = dir.normalized()
 
-		bullet.global_position = _muzzle.global_position
+		#bullet.global_position = _muzzle.global_position
+		bullet.position = _muzzle.global_position
+		bullet.transform.basis = _muzzle.global_transform.basis
 		bullet.direction = dir
 		bullet.speed     = equipped_weapon.bullet_speed
 		bullet.damage    = equipped_weapon.damage + equipment.get_damage_bonus() \
@@ -406,7 +417,10 @@ func _update_hud_all() -> void:
 	_hud.update_hp(health, _max_hp())
 
 func _chat_window(otherInteracter: NPC) -> void:
-	_hud.Show_Text_Interact(self,otherInteracter)
+	if PLAYER_STATE == PlayerState.DIALOG:
+		_hud.Show_Text_Interact(self,otherInteracter)
+	elif PLAYER_STATE == PlayerState.ACTIVE:
+		_hud.Hide_Text_Interact()
 	
 func ExitDialogeUI() -> void:
 	PLAYER_STATE = PlayerState.ACTIVE

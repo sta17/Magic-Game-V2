@@ -78,6 +78,14 @@ func promptLine() -> bool:
 		return true
 	else:
 		return false
+		
+func promptPreviousLine() -> bool:
+	if currentLine > 0:
+		currentLine -= 1
+		npc_text.text = currentTextArray[currentLine]
+		return true
+	else:
+		return false
 
 func sendSelection() -> void:
 	# this is for turning input into options selected
@@ -88,7 +96,7 @@ func handleOption(chat_option: DialogOption) -> void:
 	if currentStage.results.size() == 0 or currentStage.results[chat_option.index] == null:
 		player.ExitDialogeUI()
 	else:
-		if currentStage.results[chat_option.index].nextStage > 0:
+		if currentStage.results[chat_option.index].nextStage >= 0:
 			newStage(currentStage.results[chat_option.index].nextStage)
 		elif currentStage.results[chat_option.index].nextStage == -1:
 			player.ExitDialogeUI()

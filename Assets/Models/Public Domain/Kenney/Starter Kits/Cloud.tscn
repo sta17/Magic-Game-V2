@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://4d7guwrpgq62"]
+
+[ext_resource type="PackedScene" uid="uid://hmjcuvh501rx" path="res://Assets/Models/Public Domain/Kenney/Starter Kits/cloud.glb" id="1_628vp"]
+
+[node name="Node3D" type="Node3D" unique_id=2103674051]
+
+[node name="cloud2" parent="." unique_id=1165263568 instance=ExtResource("1_628vp")]

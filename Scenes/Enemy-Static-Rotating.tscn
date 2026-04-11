@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://7duyho454g5b"]
+
+[ext_resource type="PackedScene" uid="uid://6yhm4vdjaldb" path="res://Assets/Models/Public Domain/Kenney/Space/turret_top.tscn" id="1_0hmti"]
+[ext_resource type="Script" uid="uid://c7xhvbumvjnve" path="res://Script/Core/enemy_static_rotating.gd" id="1_od0y6"]
+[ext_resource type="ArrayMesh" uid="uid://doukdg8bsva2y" path="res://Assets/Models/Public Domain/Kenney/Starter Kits/cloud_cloud.res" id="2_od0y6"]
+[ext_resource type="Script" uid="uid://b86t22j8kw6ob" path="res://Script/Items/item_data.gd" id="2_pnlst"]
+[ext_resource type="Resource" uid="uid://b32hg0dpktr7r" path="res://Resources/items/Money.tres" id="3_2g52s"]
+[ext_resource type="PackedScene" uid="uid://bgux8x3ankh0r" path="res://Assets/Models/Public Domain/Kenney/Space/turret_base.tscn" id="3_65qcx"]
+[ext_resource type="Texture2D" uid="uid://dfixyxgw5avsw" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/sword.png" id="3_sqg8p"]
+[ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="5_65qcx"]
+[ext_resource type="Texture2D" uid="uid://bk2l66sy0k1tq" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/bow.png" id="6_1mgsp"]
+[ext_resource type="PackedScene" uid="uid://u30gxjut1u5o" path="res://Scenes/enemy_attack.tscn" id="6_uio17"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uio17"]
+diffuse_mode = 2
+specular_mode = 2
+metallic_specular = 0.0
+backlight = Color(0, 0.52156866, 0.70980394, 1)
+
+[sub_resource type="Curve" id="Curve_1mgsp"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_65qcx"]
+height = 1.0
+radius = 0.4
+
+[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_od0y6")
+ranged_attack_damage = 10.0
+attack_cooldown = 1.0
+drop_table = Array[ExtResource("2_pnlst")]([ExtResource("3_2g52s")])
+_ranged_icon = ExtResource("6_1mgsp")
+_melee_icon = ExtResource("3_sqg8p")
+
+[node name="RotationPoint" type="Node3D" parent="." unique_id=1733392636]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="Muzzles" type="Node3D" parent="RotationPoint" unique_id=413464973]
+
+[node name="MuzzleA" type="Marker3D" parent="RotationPoint/Muzzles" unique_id=2082354475]
+transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0.09, 0.497, 0.35)
+
+[node name="MuzzleB" type="Marker3D" parent="RotationPoint/Muzzles" unique_id=915494829]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 0.497, 0.35)
+
+[node name="EnemyAttack" parent="RotationPoint/Muzzles" unique_id=1063837225 node_paths=PackedStringArray("attacker") instance=ExtResource("6_uio17")]
+attacker = NodePath("../../..")
+
+[node name="turret_top" parent="RotationPoint" unique_id=141937961 instance=ExtResource("1_0hmti")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.35, 0)
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="." unique_id=1627275100]
+material_override = SubResource("StandardMaterial3D_uio17")
+emitting = false
+amount = 60
+mesh = ExtResource("2_od0y6")
+emission_shape = 1
+emission_sphere_radius = 0.2
+particle_flag_align_y = true
+direction = Vector3(0, 1, 0)
+gravity = Vector3(0, 3, 0)
+scale_amount_min = 0.5
+scale_amount_max = 0.75
+scale_amount_curve = SubResource("Curve_1mgsp")
+
+[node name="turret_base" parent="." unique_id=90820709 instance=ExtResource("3_65qcx")]
+
+[node name="HealthBar" parent="." unique_id=905334040 instance=ExtResource("5_65qcx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="HeadIcon" type="Sprite3D" parent="." unique_id=318419769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+texture = ExtResource("6_1mgsp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=990642520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_65qcx")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1694768916]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50775445, -0.041030407)

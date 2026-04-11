@@ -3,7 +3,7 @@ extends Area3D
 class_name Bullet
 
 var direction: Vector3 = Vector3.FORWARD
-var speed:     float   = 60.0
+var speed:     float   = 100.0
 var damage:    float   = 15.0
 var shooter:   Node3D  = null
 var lifetime:  float   = 3.0
@@ -24,6 +24,9 @@ func _physics_process(delta: float) -> void:
 	if _elapsed >= lifetime:
 		queue_free()
 		return
+	
+	#velocity += transform.basis * Vector3(0,0,speed) * delta
+	#move_and_slide()
 
 	var motion := direction * speed * delta
 
