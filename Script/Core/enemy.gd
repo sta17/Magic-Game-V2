@@ -99,16 +99,16 @@ func _do_attack(delta: float) -> void:
 	if _attack_timer <= 0.0:
 		_attack_timer = attack_cooldown
 		if (dist <= ranged_attack_range * 1.3) and (dist > melee_attack_range * 1.3):
-			_head_icon.texture = _ranged_icon
 			_do_ranged_attack()
 		elif (dist <= melee_attack_range * 1.3) and dist >= 0:
-			_head_icon.texture = _melee_icon
 			_do_melee_attack()
 
 func _do_melee_attack() -> void:
+	_head_icon.texture = _melee_icon
 	_enemy_attack._do_melee_attack()
 
 func _do_ranged_attack() -> void:
+	_head_icon.texture = _ranged_icon
 	_enemy_attack._do_ranged_attack(_muzzle)
 
 func take_damage(amount: float) -> void:

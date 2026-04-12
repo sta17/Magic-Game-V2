@@ -34,6 +34,11 @@ func _is_dead() -> bool:
 		return true
 	return false
 
+func _is_damaged() -> bool:
+	if health != max_health:
+		return true
+	return false
+
 func _spawn_damage_number(amount: float) -> void:
 	var label := Label3D.new()
 	label.text = "-%d" % int(amount)

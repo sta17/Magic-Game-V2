@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ci8o7qb05qshd" path="res://Script/UI/InventorySlot.gd" id="1_0uri3"]
 [ext_resource type="StyleBox" uid="uid://casbn2k5ryv88" path="res://GodotSettings/Styleboxes/slot_empty.tres" id="2_mtqxk"]
-[ext_resource type="Texture2D" uid="uid://dpphb8aj1id1e" path="res://Assets/Icons/Mine/Bag 64.png" id="2_nsmqu"]
 [ext_resource type="StyleBox" uid="uid://c7sufrcigtjtr" path="res://GodotSettings/Styleboxes/slot_filled.tres" id="5_650f2"]
-[ext_resource type="Texture2D" uid="uid://pbhuj67hy3xj" path="res://Assets/Icons/Buch's RPG Items/Frame Empty 64.png" id="7_nsmqu"]
-[ext_resource type="Texture2D" uid="uid://266c3amx7bi7" path="res://Assets/Icons/Buch's RPG Items/Frame 2 64 Only.png" id="8_nsmqu"]
+[ext_resource type="Texture2D" uid="uid://dc5o5mvjdr2mc" path="res://Assets/Icons/Mine/Bag 64 Blue.png" id="5_g0j7k"]
+[ext_resource type="Texture2D" uid="uid://babjloyw146u5" path="res://Assets/Icons/Buch's RPG Items/Frame (5).png" id="5_ptkm8"]
+[ext_resource type="Texture2D" uid="uid://ccaj4xok252fj" path="res://Assets/Icons/Buch's RPG Items/Frame 8.png" id="6_ptkm8"]
 [ext_resource type="LabelSettings" uid="uid://ua2wtx0vujwu" path="res://GodotSettings/LabelSettings/BlackAndWhite10px.tres" id="11_d0q3x"]
 
 [node name="InventorySlot" type="Panel" unique_id=568371529]
@@ -14,7 +14,7 @@ custom_minimum_size = Vector2(64, 64)
 offset_right = 64.0
 offset_bottom = 64.0
 script = ExtResource("1_0uri3")
-emptyTexture = ExtResource("2_nsmqu")
+emptyTexture = ExtResource("5_g0j7k")
 _style_empty = ExtResource("2_mtqxk")
 _style_filled = ExtResource("5_650f2")
 
@@ -28,6 +28,17 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("5_650f2")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=229463812]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
 [node name="IconRect" type="TextureRect" parent="." unique_id=303018450]
 texture_filter = 3
 layout_mode = 1
@@ -37,7 +48,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_nsmqu")
+texture = ExtResource("5_g0j7k")
 stretch_mode = 5
 
 [node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=788941851]
@@ -48,7 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_nsmqu")
+texture = ExtResource("5_ptkm8")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4
@@ -63,7 +74,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_nsmqu")
+texture = ExtResource("6_ptkm8")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4

@@ -113,11 +113,12 @@ script = ExtResource("1_fajek")
 
 [node name="editor_Model" type="MeshInstance3D" parent="Geometry" unique_id=1958504819]
 transform = Transform3D(0.8535531, -0.1464466, 0.49999997, 0.49999985, 0.49999994, -0.70710677, -0.14644659, 0.85355324, 0.49999997, 0, 0, 0)
-visible = false
 mesh = SubResource("BoxMesh_fajek")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Geometry" unique_id=1629629388]
 material_override = SubResource("StandardMaterial3D_sa426")
+amount = 16
+lifetime = 1.5
 fixed_fps = 0
 process_material = SubResource("ParticleProcessMaterial_hm41h")
 draw_pass_1 = SubResource("QuadMesh_nqqv2")

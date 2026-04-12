@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://csfwqxs7p2o2c"]
 
+[ext_resource type="Theme" uid="uid://diunbmd80jn4m" path="res://GodotSettings/Themes/Standard.tres" id="1_346dn"]
 [ext_resource type="Script" uid="uid://b6rcl2kyoaha3" path="res://Script/UI/tooltip.gd" id="1_twg4b"]
-[ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="2_346dn"]
 
-[node name="Tooltip" type="NinePatchRect" unique_id=477103866]
+[node name="Tooltip" type="Panel" unique_id=62991374]
 custom_minimum_size = Vector2(148, 148)
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,11 +12,7 @@ offset_right = -1132.0
 offset_bottom = -572.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_346dn")
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
+theme = ExtResource("1_346dn")
 script = ExtResource("1_twg4b")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=172735659]

@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Mine/UI.png")
 extends Control
 class_name LootWindow
 

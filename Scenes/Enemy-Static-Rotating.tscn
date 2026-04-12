@@ -22,13 +22,14 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector
 point_count = 3
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_65qcx"]
-height = 1.0
+height = 1.7
 radius = 0.4
 
 [node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_od0y6")
+max_health = 100.0
 ranged_attack_damage = 10.0
 attack_cooldown = 1.0
 drop_table = Array[ExtResource("2_pnlst")]([ExtResource("3_2g52s")])
@@ -53,12 +54,13 @@ attacker = NodePath("../../..")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.35, 0)
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="." unique_id=1627275100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54215664, 0)
 material_override = SubResource("StandardMaterial3D_uio17")
 emitting = false
 amount = 60
 mesh = ExtResource("2_od0y6")
 emission_shape = 1
-emission_sphere_radius = 0.2
+emission_sphere_radius = 0.3
 particle_flag_align_y = true
 direction = Vector3(0, 1, 0)
 gravity = Vector3(0, 3, 0)
@@ -77,7 +79,7 @@ billboard = 1
 texture = ExtResource("6_1mgsp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=990642520]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8408203, 0)
 shape = SubResource("CylinderShape3D_65qcx")
 
 [node name="Marker3D" type="Marker3D" parent="." unique_id=1694768916]

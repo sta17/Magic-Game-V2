@@ -1,0 +1,29 @@
+[gd_resource type="Environment" format=3 uid="uid://dvitrship42km"]
+
+[ext_resource type="Texture2D" uid="uid://dt7ps5c2dvdgc" path="res://Assets/Textures/Kenney/Kenney Starter Kit Sprites/skybox Blue 2.png" id="1_7pyrb"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_nvvol"]
+panorama = ExtResource("1_7pyrb")
+
+[sub_resource type="Sky" id="Sky_cf23c"]
+sky_material = SubResource("PanoramaSkyMaterial_nvvol")
+
+[resource]
+background_mode = 2
+background_color = Color(0.7529412, 0.7764706, 0.827451, 1)
+sky = SubResource("Sky_cf23c")
+ambient_light_source = 2
+ambient_light_color = Color(0.8117647, 0.84313726, 1, 1)
+tonemap_mode = 2
+tonemap_exposure = 0.9
+ssao_enabled = true
+ssao_radius = 0.45
+ssao_intensity = 1.0
+ssao_power = 15.0
+glow_enabled = true
+glow_levels/2 = 0.6
+glow_levels/3 = 0.6
+adjustment_enabled = true
+adjustment_brightness = 0.9
+adjustment_contrast = 1.1
+adjustment_saturation = 1.1

@@ -18,6 +18,7 @@ signal slot_clicked(slot: InventorySlot)
 signal mouse_item_hover(status: bool, currentSlot:Slot)
 
 @onready var _icon_rect:	TextureRect	= $IconRect
+@onready var _color_rect:	ColorRect	= $ColorRect
 @onready var _label:		Label		= $SlotLabel
 @onready var _amount:		Label		= $AmountLabel
 @onready var _coloring:		Panel		= $Coloring
@@ -67,19 +68,26 @@ func _update_display() -> void:
 	else:
 		_icon_rect.texture = null
 		_icon_rect.visible = false
+		_color_rect.visible = false
 		match slot_type:
 			SlotType.WEAPON:
 				_label.text    = "Weapon"
 				_label.visible = true
 				_label.add_theme_color_override("font_color", Color(1.0, 0.6, 0.1, 0.6))
+				_color_rect.color = Color(1.0, 0.6, 0.1, 0.2)
+				_color_rect.visible = true
 			SlotType.ARMOR:
 				_label.text    = "Armor"
 				_label.visible = true
 				_label.add_theme_color_override("font_color", Color(0.3, 0.6, 1.0, 0.6))
+				_color_rect.color = Color(0.3, 0.6, 1.0, 0.2)
+				_color_rect.visible = true
 			SlotType.ACCESSORY:
 				_label.text    = "Access."
 				_label.visible = true
 				_label.add_theme_color_override("font_color", Color(0.8, 0.3, 1.0, 0.6))
+				_color_rect.color = Color(0.8, 0.3, 1.0, 0.2)
+				_color_rect.visible = true
 			SlotType.HOTBAR:
 				_label.text    = ""
 				_label.visible = false

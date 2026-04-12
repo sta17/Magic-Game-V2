@@ -8,7 +8,7 @@ enum PlayerState { ACTIVE, UI, DIALOG, UIMINIMAL }
 #region Movement
 @export var WALK_SPEED:		float = 10
 @export var SPRINT_SPEED:	float = 15
-@export var JUMP_FORCE:		float = 5.5
+@export var JUMP_FORCE:		float = 6
 @export var GRAVITY:		float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var MOUSE_SENS:		float = 0.0025
 @export var PLAYER_STATE: PlayerState = PlayerState.ACTIVE
