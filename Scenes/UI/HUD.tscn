@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://dudfl4lg8754n" path="res://Assets/Icons/Unity Assets/Cursors 64/Arrow_Cross_Smaller.png" id="3_dds1n"]
 [ext_resource type="Theme" uid="uid://diunbmd80jn4m" path="res://GodotSettings/Themes/Standard.tres" id="3_pydgx"]
 [ext_resource type="Script" uid="uid://cala1yfb72t6l" path="res://Script/UI/InventoryUI.gd" id="4_eebq5"]
-[ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="5_18ujm"]
 [ext_resource type="PackedScene" uid="uid://cytmj3iylfg8k" path="res://Scenes/UI/InventorySlot.tscn" id="6_jt2rc"]
 [ext_resource type="PackedScene" uid="uid://d3rkdpj7p44rn" path="res://Scenes/UI/act_abi_label.tscn" id="7_pd044"]
 [ext_resource type="Texture2D" uid="uid://dd1gew20h4wbc" path="res://Assets/Icons/Buch's RPG Items/Frame (4).png" id="8_55bpt"]
@@ -22,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://csfwqxs7p2o2c" path="res://Scenes/UI/tooltip.tscn" id="16_gmqj4"]
 [ext_resource type="Texture2D" uid="uid://cdgl6luud165n" path="res://Assets/Icons/Buch's RPG Items/Frame 9.png" id="16_yd1yt"]
 [ext_resource type="Script" uid="uid://cu5alnpb73cmj" path="res://Script/UI/LootWindow.gd" id="18_dds1n"]
+[ext_resource type="Script" uid="uid://b1ju7ugm24f0o" path="res://Script/UI/vendorWindow.gd" id="20_khvou"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t385i"]
 content_margin_left = 2.0
@@ -127,7 +127,6 @@ theme = ExtResource("3_pydgx")
 script = ExtResource("4_eebq5")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="InvPanel" unique_id=656711777]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -531,6 +530,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("20_khvou")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="VendorWindow" unique_id=1233630414]
 layout_mode = 1
@@ -539,7 +539,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_18ujm")
+texture = ExtResource("16_yd1yt")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4
@@ -547,20 +547,27 @@ patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="Control" type="Control" parent="VendorWindow" unique_id=470089424]
-anchors_preset = 0
-offset_left = 240.0
-offset_top = 10.0
-offset_right = 1040.0
-offset_bottom = 710.0
+[node name="MarginContainer" type="MarginContainer" parent="VendorWindow" unique_id=1555045162]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_pydgx")
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 90
 
-[node name="NinePatchRect2" type="NinePatchRect" parent="VendorWindow/Control" unique_id=1136316587]
-layout_mode = 0
-offset_left = 18.0
-offset_top = 99.0
-offset_right = 918.0
-offset_bottom = 625.0
-texture = ExtResource("5_18ujm")
+[node name="TextureRect" type="TextureRect" parent="VendorWindow/MarginContainer" unique_id=1079795969]
+layout_mode = 2
+texture = ExtResource("9_yd1yt")
+expand_mode = 2
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="VendorWindow/MarginContainer" unique_id=156167917]
+layout_mode = 2
+texture = ExtResource("8_55bpt")
 region_rect = Rect2(0, 0, 32, 32)
 patch_margin_left = 4
 patch_margin_top = 4
@@ -569,7 +576,15 @@ patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="InvCountLabel" type="Label" parent="VendorWindow/Control" unique_id=229193893]
+[node name="VendorContent" type="Control" parent="VendorWindow" unique_id=470089424]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InvCountLabel" type="Label" parent="VendorWindow/VendorContent" unique_id=229193893]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 235.0
@@ -582,18 +597,18 @@ theme_override_font_sizes/font_size = 13
 text = "INVENTORY
 "
 
-[node name="GridRoot" type="Control" parent="VendorWindow/Control" unique_id=658978463]
+[node name="GridRoot" type="Control" parent="VendorWindow/VendorContent" unique_id=658978463]
 anchors_preset = 0
 offset_left = 47.0
 offset_top = 255.0
 offset_right = 447.0
 offset_bottom = 495.0
 
-[node name="Tooltip" type="RichTextLabel" parent="VendorWindow/Control" unique_id=1407277962]
+[node name="Tooltip" type="RichTextLabel" parent="VendorWindow/VendorContent" unique_id=1407277962]
 layout_mode = 0
-offset_left = 500.0
+offset_left = 464.0
 offset_top = 150.0
-offset_right = 900.0
+offset_right = 864.0
 offset_bottom = 605.0
 theme = ExtResource("3_pydgx")
 theme_override_font_sizes/normal_font_size = 13

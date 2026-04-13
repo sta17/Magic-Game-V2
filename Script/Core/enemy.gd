@@ -22,7 +22,7 @@ var health: float
 var _attack_timer: float = 0.0
 
 # Visuals — nodes come from enemy.tscn, visible in the editor
-@onready var _mesh:			MeshInstance3D	= $MeshInstance3D
+@onready var _mesh:			MeshInstance3D	= $MeshInstance3D2
 @onready var _muzzle:		Marker3D		= $Marker3D
 @onready var _hp_bar:		Health_Bar		= $HealthBar
 @onready var _enemy_attack:	Enemy_Attack	= $EnemyAttack

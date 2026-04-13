@@ -41,7 +41,7 @@ var _attack_timer: float = 0.0
 signal creature_died(drop_position: Vector3)
 
 func _ready() -> void:
-	add_to_group("npc")
+	add_to_group("enemy")
 	health = max_health
 	_spawn_pos     = global_position
 	call_deferred("_find_player")

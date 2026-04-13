@@ -5,7 +5,8 @@ class_name HUD
 @onready var _hp_bar:		ProgressBar		= $HPPanel/HPBar
 @onready var _hp_label:		Label			= $HPPanel/HPLabel
 @onready var _notif_label:	Label			= $NotifLabel
-@onready var inv_panel:		Control			= $InvPanel
+@onready var inv_panel:		InventoryUI		= $InvPanel
+@onready var vendor_panel:	VendorUI		= $VendorWindow
 @onready var hotbar_panel:	HotbarUI		= $HotbarPanel
 @onready var dialogWindow:	DialogWindow	= $DialogWindow
 @onready var tooltip: 		Tooltip			= $Tooltip
@@ -59,6 +60,19 @@ func Show_Text_Interact(player: Player, otherInteracter: NPC) -> void:
 func Hide_Text_Interact() -> void:
 	hotbar_panel.visible = not hotbar_panel.visible
 	dialogWindow.visible = not dialogWindow.visible
+
+func Show_Text_Vendor(player: Player, otherInteracter: NPC) -> void:
+	hotbar_panel.visible = not hotbar_panel.visible
+	vendor_panel.visible = not vendor_panel.visible
+	
+	# Get Inventory or sell list
+	#vendor_panel.Show_Vendor()
+
+func Hide_Text_Vendor() -> void:
+	hotbar_panel.visible = not hotbar_panel.visible
+	vendor_panel.visible = not vendor_panel.visible
+	
+	vendor_panel.hide_vendor()
 
 func ShowHide_Inventory() -> void:
 	inv_panel.visible = not inv_panel.visible

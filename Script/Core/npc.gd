@@ -52,7 +52,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func interact(player: Player) -> void:
-	player._chat_window(self)
+	if !interact_script.check_Auto_execute():
+		player._chat_window(self)
+	else:
+		player._vendor_window(self)
 
 func _do_stand(_delta: float) -> void:
 	# Stand Still and Do Nothing

@@ -12,7 +12,7 @@ enum ItemType {
 @export var item_type: ItemType = ItemType.CONSUMABLE
 @export var stackable: bool = false
 @export var max_stack: int = 1
-@export var quantity: int = 1
+@export var value: int = 1
 
 @export var dropped_item_model : PackedScene
 @export var granted_ability: AbilityData = null

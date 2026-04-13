@@ -5,25 +5,27 @@
 [ext_resource type="Texture2D" uid="uid://dfixyxgw5avsw" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/sword.png" id="3_ghaa6"]
 [ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="4_287tu"]
 [ext_resource type="PackedScene" uid="uid://u30gxjut1u5o" path="res://Scenes/enemy_attack.tscn" id="5_0830c"]
+[ext_resource type="Material" uid="uid://b8lq5j7d6ek4a" path="res://GodotSettings/Materials/Placeholder Red.tres" id="6_ghaa6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_287tu"]
 radius = 0.25
 height = 1.8
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_0830c"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1dp5w"]
+material = ExtResource("6_ghaa6")
 radius = 0.25
-height = 1.8
+height = 1.4
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghaa6"]
-albedo_color = Color(0.8, 0.14901961, 0.14901961, 1)
-roughness = 0.7
+[sub_resource type="CylinderMesh" id="CylinderMesh_auwsv"]
+material = ExtResource("6_ghaa6")
+top_radius = 0.025
+bottom_radius = 0.05
+height = 0.25
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0830c"]
-albedo_color = Color(0.8, 0.14901961, 0.14901961, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_ghaa6"]
-material = SubResource("StandardMaterial3D_0830c")
-size = Vector3(0.125, 0.125, 1)
+[sub_resource type="SphereMesh" id="SphereMesh_8uf12"]
+material = ExtResource("6_ghaa6")
+radius = 0.25
+height = 0.5
 
 [node name="Enemy" type="CharacterBody3D" unique_id=640505128]
 collision_layer = 2
@@ -37,17 +39,8 @@ GRAVITY = -9.8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_287tu")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=388999950]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_0830c")
-surface_material_override/0 = SubResource("StandardMaterial3D_ghaa6")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=441773550]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3847983, 0.29675376)
-mesh = SubResource("BoxMesh_ghaa6")
-
 [node name="Marker3D" type="Marker3D" parent="." unique_id=769659930]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2735729, 0.6684433)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5660646, -0.00096708536)
 
 [node name="HeadIcon" type="Sprite3D" parent="." unique_id=1193741112]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0)
@@ -59,3 +52,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 
 [node name="EnemyAttack" parent="." unique_id=1063837225 node_paths=PackedStringArray("attacker") instance=ExtResource("5_0830c")]
 attacker = NodePath("..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=500523651]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6871959, 0)
+mesh = SubResource("CapsuleMesh_1dp5w")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D2" unique_id=744784782]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 0.86483693, 0.21562502)
+mesh = SubResource("CylinderMesh_auwsv")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D2" unique_id=468250495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.86311173, -0.0024362803)
+mesh = SubResource("SphereMesh_8uf12")

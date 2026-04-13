@@ -26,7 +26,7 @@ var _shoot_cooldown:	float = 0.0
 
 #region Scene nodes
 @onready var _pivot:	Node3D		= $CameraPivot
-@onready var _muzzle:	Marker3D	= $MeshInstance3D/MeshInstance3D/Marker3D
+@onready var _muzzle:	Marker3D	= $Ninja_Head/Marker3D
 @onready var _hud:		HUD 		= $HUD
 #endregion
 
@@ -70,6 +70,7 @@ func _ready() -> void:
 	_update_hud_all()
 	
 	(_hud.inv_panel as InventoryUI).init(self)
+	(_hud.vendor_panel as VendorUI).init(self)
 	inv_ui = _hud.inv_panel
 	_hud.hotbar_panel.init(self)
 	(_hud.inv_panel as InventoryUI).set_hotbar(_hud.hotbar_panel)
@@ -106,7 +107,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_inventory"):
 		if PLAYER_STATE == PlayerState.ACTIVE:
 			PLAYER_STATE = PlayerState.UI
-		if PLAYER_STATE == PlayerState.UIMINIMAL:
+		elif PLAYER_STATE == PlayerState.UIMINIMAL:
 			_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
 			PLAYER_STATE = PlayerState.UI
 		else:
@@ -421,7 +422,13 @@ func _chat_window(otherInteracter: NPC) -> void:
 		_hud.Show_Text_Interact(self,otherInteracter)
 	elif PLAYER_STATE == PlayerState.ACTIVE:
 		_hud.Hide_Text_Interact()
-	
+
+func _vendor_window(otherInteracter: NPC) -> void:
+	if PLAYER_STATE == PlayerState.UI:
+		_hud.Show_Text_Interact(self,otherInteracter)
+	elif PLAYER_STATE == PlayerState.ACTIVE:
+		_hud.Hide_Text_Interact()
+
 func ExitDialogeUI() -> void:
 	PLAYER_STATE = PlayerState.ACTIVE
 	_hud.Hide_Text_Interact()
