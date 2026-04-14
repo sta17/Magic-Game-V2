@@ -1,4 +1,4 @@
-@icon("res://Assets/Icons/Mine/UI.png")
+@icon("res://Assets/Icons/Pixel-Boy/control/icon_bag.png")
 extends Control
 class_name InventoryUI
 

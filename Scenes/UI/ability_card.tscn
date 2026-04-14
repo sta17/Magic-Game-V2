@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://tglie3fgwfs"]
 
-[ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="1_11k4t"]
+[ext_resource type="Texture2D" uid="uid://c0j27iwg5cp82" path="res://Assets/Textures/Mine/Frame 10.png" id="1_y8xts"]
 [ext_resource type="Script" uid="uid://746g7eh8m5xx" path="res://Script/UI/ability_card.gd" id="2_skifu"]
-[ext_resource type="PackedScene" uid="uid://cytmj3iylfg8k" path="res://Scenes/UI/InventorySlot.tscn" id="2_y8xts"]
+[ext_resource type="PackedScene" uid="uid://dn78qsnrb4iyx" path="res://Scenes/UI/inventorySlot.tscn" id="2_y8xts"]
 
 [node name="Card" type="NinePatchRect" unique_id=260759856]
+texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,7 +13,7 @@ offset_right = -915.0
 offset_bottom = -630.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_11k4t")
+texture = ExtResource("1_y8xts")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4

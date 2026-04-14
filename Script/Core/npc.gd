@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Pixel-Boy/node_3D/icon_character.png")
 extends CharacterBody3D
 class_name NPC
 
@@ -55,7 +56,8 @@ func interact(player: Player) -> void:
 	if !interact_script.check_Auto_execute():
 		player._chat_window(self)
 	else:
-		player._vendor_window(self)
+		interact_script.getStage(0).results[0].execute([player,self])
+		#player._vendor_window(self)
 
 func _do_stand(_delta: float) -> void:
 	# Stand Still and Do Nothing

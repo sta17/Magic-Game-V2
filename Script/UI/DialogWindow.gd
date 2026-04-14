@@ -1,4 +1,4 @@
-@icon("res://Assets/Icons/Mine/UI.png")
+@icon("res://Assets/Icons/Pixel-Boy/control/icon_dialog.png")
 extends Control
 class_name DialogWindow
 
@@ -98,10 +98,10 @@ func handleOption(chat_option: DialogOption) -> void:
 	else:
 		if currentStage.results[chat_option.index].nextStage >= 0:
 			newStage(currentStage.results[chat_option.index].nextStage)
-		elif currentStage.results[chat_option.index].nextStage == -1:
-			player.ExitDialogeUI()
 		elif currentStage.results[chat_option.index].functionCall:
 			currentStage.results[chat_option.index].execute([player,otherInteracter])
+		elif currentStage.results[chat_option.index].nextStage == -1:
+			player.ExitDialogeUI()
 
 ## Cycle the selected options. direction: -1 = left, +1 = right.
 func scroll(direction: int) -> void:

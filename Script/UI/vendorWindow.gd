@@ -1,4 +1,4 @@
-@icon("res://Assets/Icons/Mine/UI.png")
+@icon("res://Assets/Icons/Pixel-Boy/control/icon_coin.png")
 extends Control
 class_name VendorUI
 
@@ -35,20 +35,20 @@ func init(player: Player) -> void:
 	_player_inventory = player.inventory
 	_player_equipment = player.equipment
 
-func Show_Vendor(_inventory: Inventory) -> void:
-	#_shop_inventory = interactble_entity.get_inventory()
-	_shop_inventory = _inventory
-	#_second_inventory_label.text = interactble_entity.labelText
+func Show_Vendor(_otherInteracter: NPC, shoppinglist: Array[QuantitySlot] = []) -> void:
+	_shop_inventory = Inventory.new()
+	_shop_inventory.setList(shoppinglist)
 	_shop_inventory.inventory_changed.connect(_refresh_grid_slots)
-	# fill in new slots
+
 	_build_grid(_grid_root,_grid_slots,_shop_inventory,InventorySlot.SlotType.ANY)
 	_refresh_grid_slots()
-	# set name
+
 	#_second_inventory_label.text = interactble_entity.labelText
 
 func hide_vendor() -> void:
-	_shop_inventory.inventory_changed.disconnect(_refresh_grid_slots)
-	_shop_inventory = null
+	if _shop_inventory:
+		_shop_inventory.inventory_changed.disconnect(_refresh_grid_slots)
+		_shop_inventory = null
 
 func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inventory, type: InventorySlot.SlotType) -> void:
 	for n in _root.get_children(): n.queue_free()
@@ -90,13 +90,21 @@ func _refresh_grid_slots() -> void:
 func _on_slot_clicked(slot: InventorySlot) -> void:
 	_selected_slot = slot
 	if slot.item:
-		var tempitem:Slot
+		var tempitem:QuantitySlot
 		if slot.item is QuantitySlot:
-			tempitem = slot.item.item
-		else:
 			tempitem = slot.item
-		_player_inventory.remove_item(_money)
-		_player_inventory.add_item(tempitem)
+		elif slot.item is ItemData:
+			tempitem = QuantitySlot.new()
+			tempitem.item = slot.item
+			tempitem.quantity = 1
+		else:
+			return
+		
+		var moneyWrapper: QuantitySlot = QuantitySlot.new()
+		moneyWrapper.item = _money
+		moneyWrapper.quantity = tempitem.item.value
+		if _player_inventory.remove_item_quantity(moneyWrapper):
+			_player_inventory.add_item_with_quantity(tempitem)
 		_clear_selection()
 
 func _on_use_pressed() -> void:

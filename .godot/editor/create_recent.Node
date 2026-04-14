@@ -1,3 +1,4 @@
+TextureRect
 MarginContainer
 Control
 Marker3D
@@ -5,11 +6,9 @@ BoneAttachment3D
 MeshInstance3D
 Panel
 ColorRect
-TextureRect
 CollisionShape3D
 Sprite3D
 StaticBody3D
 CPUParticles3D
 Node3D
 GPUParticles3D
-GridContainer

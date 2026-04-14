@@ -107,12 +107,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_inventory"):
 		if PLAYER_STATE == PlayerState.ACTIVE:
 			PLAYER_STATE = PlayerState.UI
+			_hud.Show_Inventory()
 		elif PLAYER_STATE == PlayerState.UIMINIMAL:
 			_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
 			PLAYER_STATE = PlayerState.UI
 		else:
 			PLAYER_STATE = PlayerState.ACTIVE
-		_hud.ShowHide_Inventory()
+			_hud.Hide_Inventory()
+			_hud.Hide_Text_Vendor()
 
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_Q:
@@ -414,6 +416,9 @@ func _remove_granted_ability(slot: String) -> void:
 
 #region HUD helpers
 
+func setState(state: PlayerState) -> void:
+	PLAYER_STATE = state
+
 func _update_hud_all() -> void:
 	_hud.update_hp(health, _max_hp())
 
@@ -423,11 +428,11 @@ func _chat_window(otherInteracter: NPC) -> void:
 	elif PLAYER_STATE == PlayerState.ACTIVE:
 		_hud.Hide_Text_Interact()
 
-func _vendor_window(otherInteracter: NPC) -> void:
+func _vendor_window(otherInteracter: NPC, shoppinglist: Array[QuantitySlot] = []) -> void:
 	if PLAYER_STATE == PlayerState.UI:
-		_hud.Show_Text_Interact(self,otherInteracter)
+		_hud.Show_Text_Vendor(self,otherInteracter, shoppinglist)
 	elif PLAYER_STATE == PlayerState.ACTIVE:
-		_hud.Hide_Text_Interact()
+		_hud.Hide_Text_Vendor()
 
 func ExitDialogeUI() -> void:
 	PLAYER_STATE = PlayerState.ACTIVE

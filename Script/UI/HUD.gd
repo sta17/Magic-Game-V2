@@ -2,6 +2,7 @@
 extends CanvasLayer
 class_name HUD
 
+#region Variables
 @onready var _hp_bar:		ProgressBar		= $HPPanel/HPBar
 @onready var _hp_label:		Label			= $HPPanel/HPLabel
 @onready var _notif_label:	Label			= $NotifLabel
@@ -11,10 +12,13 @@ class_name HUD
 @onready var dialogWindow:	DialogWindow	= $DialogWindow
 @onready var tooltip: 		Tooltip			= $Tooltip
 @onready var screen: 		Control			= $Screen
-@onready var loot_window: 	LootWindow			= $LootWindow
+@onready var loot_window: 	LootWindow		= $LootWindow
 
 @export var default_cursor: Texture
 @export var cross_cursor: Texture
+#endregion
+
+#region Setup and Process
 
 func _ready() -> void:	
 	Input.set_custom_mouse_cursor(default_cursor, Input.CURSOR_ARROW,Vector2(7, 6))
@@ -25,6 +29,10 @@ func _process(_delta:float) -> void:
 	if tooltip.visible:
 		tooltip.position = screen.get_global_mouse_position()
 		tooltip.position = tooltip.position + Vector2(6,8)
+
+#endregion
+
+#region Misc
 
 func update_hp(health: float, max_hp: float) -> void:
 	var ratio := health / max_hp
@@ -52,26 +60,40 @@ func flash_damage() -> void:
 	tw.tween_property(flash, "color:a", 0.0, 0.3)
 	tw.tween_callback(flash.queue_free)
 
+func _on_slot_mouse_item_hover(status: bool, currentSlot: Slot) -> void:
+	if status and currentSlot != null:
+		tooltip.visible = true
+		tooltip.setTooltip(currentSlot)
+	else:
+		tooltip.visible = false
+
+#endregion
+
+#region Hide/Show UI
+
 func Show_Text_Interact(player: Player, otherInteracter: NPC) -> void:
-	hotbar_panel.visible = not hotbar_panel.visible
-	dialogWindow.visible = not dialogWindow.visible
+	hotbar_panel.visible = false
+	dialogWindow.visible = true
 	dialogWindow.startChat(player,otherInteracter)
 
 func Hide_Text_Interact() -> void:
-	hotbar_panel.visible = not hotbar_panel.visible
-	dialogWindow.visible = not dialogWindow.visible
+	hotbar_panel.visible = true
+	dialogWindow.visible = false
 
-func Show_Text_Vendor(player: Player, otherInteracter: NPC) -> void:
-	hotbar_panel.visible = not hotbar_panel.visible
-	vendor_panel.visible = not vendor_panel.visible
+func Show_Text_Vendor(_player: Player, otherInteracter: NPC, shoppinglist: Array[QuantitySlot] = []) -> void:
+	hotbar_panel.visible = false
+	vendor_panel.visible = true
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	# Get Inventory or sell list
-	#vendor_panel.Show_Vendor()
+	vendor_panel.Show_Vendor(otherInteracter,shoppinglist)
 
 func Hide_Text_Vendor() -> void:
-	hotbar_panel.visible = not hotbar_panel.visible
-	vendor_panel.visible = not vendor_panel.visible
+	hotbar_panel.visible = true
+	vendor_panel.visible = false
 	
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	vendor_panel.hide_vendor()
 
 func ShowHide_Inventory() -> void:
@@ -80,6 +102,14 @@ func ShowHide_Inventory() -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func Show_Inventory() -> void:
+	inv_panel.visible = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func Hide_Inventory() -> void:
+	inv_panel.visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func ShowHide_Inventory_Box(interactble_entity: Box) -> void:
 	inv_panel.visible = not inv_panel.visible
@@ -102,15 +132,12 @@ func ShowHide_Inventory_BoxMinimal(interactble_entity: Box) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	loot_window.ShowHide_Inventory_Box(interactble_entity)
 
-func _on_slot_mouse_item_hover(status: bool, currentSlot: Slot) -> void:
-	if status and currentSlot != null:
-		tooltip.visible = true
-		tooltip.setTooltip(currentSlot)
-	else:
-		tooltip.visible = false
+#endregion
 
+#region Bool checks
 func isLootWindowVisible() -> bool:
 	return loot_window.visible
 
 func isInv_PanelVisible() -> bool:
 	return inv_panel.visible
+#endregion

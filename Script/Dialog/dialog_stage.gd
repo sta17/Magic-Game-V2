@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Pixel-Boy/node/icon_dialog.png")
 extends Resource
 class_name DialogStage
 

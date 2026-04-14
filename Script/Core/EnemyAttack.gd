@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Pixel-Boy/node_3D/icon_projectile.png")
 extends Node3D
 class_name Enemy_Attack
 

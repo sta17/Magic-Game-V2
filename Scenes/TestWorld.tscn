@@ -20,21 +20,24 @@
 [ext_resource type="Environment" uid="uid://dvitrship42km" path="res://GodotSettings/Environments/Fantasy Sky Blue.tres" id="14_nvvol"]
 [ext_resource type="Script" uid="uid://badiu5n4ekqpr" path="res://Script/Dialog/dialog_option_result.gd" id="15_bnm2d"]
 [ext_resource type="Script" uid="uid://dkgf3abyjjx0r" path="res://Script/Dialog/QuitDialog.gd" id="16_1dj0o"]
+[ext_resource type="Script" uid="uid://bad403mxttmty" path="res://Script/Dialog/StartShopping.gd" id="18_uvi45"]
+[ext_resource type="Script" uid="uid://bqcvn3yknnrcf" path="res://Script/Items/Slot.gd" id="19_g25k4"]
 [ext_resource type="PackedScene" uid="uid://bt4xxsjwo4nrw" path="res://Scenes/box.tscn" id="19_p5ob5"]
 [ext_resource type="Script" uid="uid://bmcnfxe0fgpm6" path="res://Script/Items/QuantitySlot.gd" id="20_8a0ub"]
 [ext_resource type="Script" uid="uid://oeddicel435v" path="res://Script/Items/Inventory.gd" id="21_08jhs"]
 
-[sub_resource type="Resource" id="Resource_bnm2d"]
+[sub_resource type="Resource" id="Resource_g25k4"]
+script = ExtResource("18_uvi45")
+shoppinglist = Array[ExtResource("19_g25k4")]([ExtResource("5_g0pj6")])
+functionCall = true
+metadata/_custom_type_script = "uid://bad403mxttmty"
+
+[sub_resource type="Resource" id="Resource_2ve5w"]
 script = ExtResource("15_bnm2d")
 nextStage = 0
 metadata/_custom_type_script = "uid://badiu5n4ekqpr"
 
-[sub_resource type="Resource" id="Resource_5f2ua"]
-script = ExtResource("16_1dj0o")
-functionCall = true
-metadata/_custom_type_script = "uid://dkgf3abyjjx0r"
-
-[sub_resource type="Resource" id="Resource_p5ob5"]
+[sub_resource type="Resource" id="Resource_cbcxn"]
 script = ExtResource("16_1dj0o")
 functionCall = true
 metadata/_custom_type_script = "uid://dkgf3abyjjx0r"
@@ -43,8 +46,8 @@ metadata/_custom_type_script = "uid://dkgf3abyjjx0r"
 script = ExtResource("13_d5oxj")
 text = Array[String](["line 1of text", "line 2 of text"])
 icon = ExtResource("13_hlj8m")
-options = Array[String](["Back to Start", "Quit", "Quit"])
-results = Array[ExtResource("15_bnm2d")]([SubResource("Resource_bnm2d"), SubResource("Resource_5f2ua"), SubResource("Resource_p5ob5")])
+options = Array[String](["Shopping", "Reset Dialog", "Quit"])
+results = Array[ExtResource("15_bnm2d")]([SubResource("Resource_g25k4"), SubResource("Resource_2ve5w"), SubResource("Resource_cbcxn")])
 metadata/_custom_type_script = "uid://cbxbu5mura66g"
 
 [sub_resource type="Resource" id="Resource_d5oxj"]
@@ -52,9 +55,30 @@ script = ExtResource("13_l0hd3")
 dialogues = Array[ExtResource("13_d5oxj")]([SubResource("Resource_hlj8m")])
 metadata/_custom_type_script = "uid://q5eprh5d22t7"
 
+[sub_resource type="Resource" id="Resource_mw2xy"]
+script = ExtResource("18_uvi45")
+shoppinglist = Array[ExtResource("19_g25k4")]([ExtResource("5_g0pj6"), ExtResource("4_rdsav")])
+functionCall = true
+metadata/_custom_type_script = "uid://bad403mxttmty"
+
+[sub_resource type="Resource" id="Resource_0ox2p"]
+script = ExtResource("13_d5oxj")
+text = Array[String](["line 1of text", "line 2 of text"])
+icon = ExtResource("13_hlj8m")
+options = Array[String](["Shopping"])
+results = Array[ExtResource("15_bnm2d")]([SubResource("Resource_mw2xy")])
+metadata/_custom_type_script = "uid://cbxbu5mura66g"
+
+[sub_resource type="Resource" id="Resource_y67l2"]
+script = ExtResource("13_l0hd3")
+dialogues = Array[ExtResource("13_d5oxj")]([SubResource("Resource_0ox2p")])
+auto_execute_first_result = true
+metadata/_custom_type_script = "uid://q5eprh5d22t7"
+
 [sub_resource type="Resource" id="Resource_nvvol"]
 script = ExtResource("20_8a0ub")
 item = ExtResource("11_5f2ua")
+quantity = 30
 metadata/_custom_type_script = "uid://bmcnfxe0fgpm6"
 
 [sub_resource type="Resource" id="Resource_uvi45"]
@@ -162,6 +186,10 @@ item = ExtResource("3_rdsav")
 [node name="NPC" parent="NPCs" unique_id=2124289884 instance=ExtResource("12_icgjy")]
 transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06263369, 9.8470335, -1.9073486e-06, -1.1770096)
 interact_script = SubResource("Resource_d5oxj")
+
+[node name="NPC3" parent="NPCs" unique_id=670239790 instance=ExtResource("12_icgjy")]
+transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06263369, 9.8470335, -1.9073486e-06, 5.5525975)
+interact_script = SubResource("Resource_y67l2")
 
 [node name="NPC2" parent="NPCs" unique_id=48598668 instance=ExtResource("12_icgjy")]
 transform = Transform3D(0.06263369, 0, -0.99803656, 0, 1, 0, 0.99803656, 0, 0.06263369, -7.2982903, -1.9073486e-06, -1.1770096)

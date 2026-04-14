@@ -6,10 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://dudfl4lg8754n" path="res://Assets/Icons/Unity Assets/Cursors 64/Arrow_Cross_Smaller.png" id="3_dds1n"]
 [ext_resource type="Theme" uid="uid://diunbmd80jn4m" path="res://GodotSettings/Themes/Standard.tres" id="3_pydgx"]
 [ext_resource type="Script" uid="uid://cala1yfb72t6l" path="res://Script/UI/InventoryUI.gd" id="4_eebq5"]
-[ext_resource type="PackedScene" uid="uid://cytmj3iylfg8k" path="res://Scenes/UI/InventorySlot.tscn" id="6_jt2rc"]
+[ext_resource type="LabelSettings" uid="uid://cnekhifyltla2" path="res://GodotSettings/LabelSettings/BlackAndWhite13px.tres" id="6_55bpt"]
+[ext_resource type="PackedScene" uid="uid://dn78qsnrb4iyx" path="res://Scenes/UI/InventorySlot.tscn" id="6_jt2rc"]
+[ext_resource type="Texture2D" uid="uid://o4niaxfjps4w" path="res://Assets/Textures/Mine/HPPlate2.png" id="6_yd1yt"]
 [ext_resource type="PackedScene" uid="uid://d3rkdpj7p44rn" path="res://Scenes/UI/act_abi_label.tscn" id="7_pd044"]
 [ext_resource type="Texture2D" uid="uid://dd1gew20h4wbc" path="res://Assets/Icons/Buch's RPG Items/Frame (4).png" id="8_55bpt"]
 [ext_resource type="PackedScene" uid="uid://bxdp14nxvsvke" path="res://Scenes/UI/pas_abi_label.tscn" id="8_gmqj4"]
+[ext_resource type="Texture2D" uid="uid://be7c8l4x55idj" path="res://Assets/Textures/Mine/lightning 64 2.png" id="8_p4bpa"]
+[ext_resource type="Texture2D" uid="uid://c01pxpgt8xo1q" path="res://Assets/Models/Public Domain/Kenney/Kenney Keep/Models/heart.png" id="9_gcvgm"]
 [ext_resource type="Script" uid="uid://cg3mqiekwco05" path="res://Script/UI/HotbarUI.gd" id="9_jbjhr"]
 [ext_resource type="Texture2D" uid="uid://dt7ps5c2dvdgc" path="res://Assets/Textures/Kenney/Kenney Starter Kit Sprites/skybox Blue 2.png" id="9_yd1yt"]
 [ext_resource type="PackedScene" uid="uid://8nsmjto5l6ed" path="res://Scenes/UI/PassiveHotbar.tscn" id="10_pydgx"]
@@ -21,14 +25,29 @@
 [ext_resource type="PackedScene" uid="uid://csfwqxs7p2o2c" path="res://Scenes/UI/tooltip.tscn" id="16_gmqj4"]
 [ext_resource type="Texture2D" uid="uid://cdgl6luud165n" path="res://Assets/Icons/Buch's RPG Items/Frame 9.png" id="16_yd1yt"]
 [ext_resource type="Script" uid="uid://cu5alnpb73cmj" path="res://Script/UI/LootWindow.gd" id="18_dds1n"]
+[ext_resource type="Texture2D" uid="uid://35vpwbvgpbf4" path="res://Assets/Textures/Mine/Frame 10 (2).png" id="19_5h4o4"]
 [ext_resource type="Script" uid="uid://b1ju7ugm24f0o" path="res://Script/UI/vendorWindow.gd" id="20_khvou"]
+[ext_resource type="Texture2D" uid="uid://c0j27iwg5cp82" path="res://Assets/Textures/Mine/Frame 10.png" id="24_0n5r3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t385i"]
 content_margin_left = 2.0
 content_margin_top = 2.0
 content_margin_right = 2.0
 content_margin_bottom = 2.0
-bg_color = Color(0.12156863, 1, 0, 1)
+bg_color = Color(0.80931044, 0.16968894, 0.11524554, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55bpt"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.83137256, 0.2784314, 1)
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
@@ -56,27 +75,34 @@ text = "FPS: 000"
 script = ExtResource("2_yenib")
 
 [node name="HPPanel" type="Panel" parent="." unique_id=877029540]
+texture_filter = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = -90.0
+offset_top = -76.0
 offset_right = 250.0
-offset_bottom = -20.0
+offset_bottom = -2.0
 grow_vertical = 0
 theme = ExtResource("3_pydgx")
+
+[node name="TextureRect" type="TextureRect" parent="HPPanel" unique_id=2060725137]
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_yd1yt")
 
 [node name="HPTitle" type="Label" parent="HPPanel" unique_id=148089879]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 5.0
-offset_right = 232.0
-offset_bottom = 40.0
+offset_right = 44.0
+offset_bottom = 21.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
-text = "Health
-"
+text = "Health:"
 
 [node name="HPBar" type="ProgressBar" parent="HPPanel" unique_id=658456589]
 layout_mode = 0
@@ -88,17 +114,55 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_t385i")
 value = 100.0
 show_percentage = false
 
-[node name="HPLabel" type="Label" parent="HPPanel" unique_id=1208319324]
+[node name="HPBar2" type="ProgressBar" parent="HPPanel" unique_id=1413731399]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 46.0
+offset_top = 47.0
 offset_right = 232.0
-offset_bottom = 69.0
-theme_override_colors/font_color = Color(0.12156863, 1, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 13
+offset_bottom = 67.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_55bpt")
+value = 100.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="HPPanel" unique_id=1208319324]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 23.0
+offset_right = 142.0
+offset_bottom = 41.0
 text = "100 / 100"
+label_settings = ExtResource("6_55bpt")
+
+[node name="HPLabel2" type="Label" parent="HPPanel" unique_id=1421198181]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 48.0
+offset_right = 142.0
+offset_bottom = 66.0
+text = "100 / 100"
+label_settings = ExtResource("6_55bpt")
+
+[node name="TextureRect2" type="TextureRect" parent="HPPanel" unique_id=637342016]
+texture_filter = 1
+layout_mode = 0
+offset_left = 209.0
+offset_top = 36.0
+offset_right = 251.0
+offset_bottom = 78.0
+texture = ExtResource("8_p4bpa")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="HPPanel" unique_id=1285971830]
+texture_filter = 1
+layout_mode = 0
+offset_left = 207.0
+offset_top = 13.0
+offset_right = 243.0
+offset_bottom = 49.0
+texture = ExtResource("9_gcvgm")
+expand_mode = 2
+stretch_mode = 4
 
 [node name="NotifLabel" type="Label" parent="." unique_id=230793654]
 anchors_preset = 8
@@ -118,6 +182,7 @@ theme_override_font_sizes/font_size = 16
 
 [node name="InvPanel" type="Panel" parent="." unique_id=653791917]
 visible = false
+texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -414,7 +479,105 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Abilities"
 
+[node name="VendorWindow" type="Control" parent="." unique_id=33604593]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("20_khvou")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VendorWindow" unique_id=1233630414]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("24_0n5r3")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VendorWindow" unique_id=1555045162]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_pydgx")
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 90
+
+[node name="TextureRect" type="TextureRect" parent="VendorWindow/MarginContainer" unique_id=1079795969]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("9_yd1yt")
+expand_mode = 2
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="VendorWindow/MarginContainer" unique_id=156167917]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("19_5h4o4")
+region_rect = Rect2(0, 0, 32, 32)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="VendorContent" type="Control" parent="VendorWindow" unique_id=470089424]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InvCountLabel" type="Label" parent="VendorWindow/VendorContent" unique_id=229193893]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 235.0
+offset_right = 747.0
+offset_bottom = 274.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "SHOP:"
+
+[node name="GridRoot" type="Control" parent="VendorWindow/VendorContent" unique_id=658978463]
+texture_filter = 1
+anchors_preset = 0
+offset_left = 47.0
+offset_top = 255.0
+offset_right = 447.0
+offset_bottom = 495.0
+
+[node name="Tooltip" type="RichTextLabel" parent="VendorWindow/VendorContent" unique_id=1407277962]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 150.0
+offset_right = 864.0
+offset_bottom = 605.0
+theme = ExtResource("3_pydgx")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+
 [node name="HotbarPanel" type="Panel" parent="." unique_id=1266621635]
+texture_filter = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -522,98 +685,6 @@ layout_mode = 2
 [node name="DialogOption3" parent="DialogWindow/VBoxContainer/PlayerBox/Control/HScrollBar/VBoxContainer" unique_id=1750043796 instance=ExtResource("13_18ujm")]
 layout_mode = 2
 
-[node name="VendorWindow" type="Control" parent="." unique_id=33604593]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("20_khvou")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="VendorWindow" unique_id=1233630414]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("16_yd1yt")
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="VendorWindow" unique_id=1555045162]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_pydgx")
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 90
-
-[node name="TextureRect" type="TextureRect" parent="VendorWindow/MarginContainer" unique_id=1079795969]
-layout_mode = 2
-texture = ExtResource("9_yd1yt")
-expand_mode = 2
-
-[node name="NinePatchRect2" type="NinePatchRect" parent="VendorWindow/MarginContainer" unique_id=156167917]
-layout_mode = 2
-texture = ExtResource("8_55bpt")
-region_rect = Rect2(0, 0, 32, 32)
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="VendorContent" type="Control" parent="VendorWindow" unique_id=470089424]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="InvCountLabel" type="Label" parent="VendorWindow/VendorContent" unique_id=229193893]
-layout_mode = 0
-offset_left = 47.0
-offset_top = 235.0
-offset_right = 747.0
-offset_bottom = 274.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 13
-text = "INVENTORY
-"
-
-[node name="GridRoot" type="Control" parent="VendorWindow/VendorContent" unique_id=658978463]
-anchors_preset = 0
-offset_left = 47.0
-offset_top = 255.0
-offset_right = 447.0
-offset_bottom = 495.0
-
-[node name="Tooltip" type="RichTextLabel" parent="VendorWindow/VendorContent" unique_id=1407277962]
-layout_mode = 0
-offset_left = 464.0
-offset_top = 150.0
-offset_right = 864.0
-offset_bottom = 605.0
-theme = ExtResource("3_pydgx")
-theme_override_font_sizes/normal_font_size = 13
-bbcode_enabled = true
-
 [node name="LootWindow" type="Control" parent="." unique_id=2134220081]
 visible = false
 layout_mode = 3
@@ -639,7 +710,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("16_yd1yt")
+texture = ExtResource("24_0n5r3")
 region_rect = Rect2(0, 0, 32, 32)
 patch_margin_left = 4
 patch_margin_top = 4

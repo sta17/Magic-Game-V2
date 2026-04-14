@@ -1,4 +1,4 @@
-@icon("res://Assets/Icons/Mine/UI.png")
+@icon("res://Assets/Icons/Pixel-Boy/control/icon_dialog.png")
 extends Control
 class_name DialogOption
 

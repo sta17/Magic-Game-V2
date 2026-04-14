@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Pixel-Boy/control/icon_money_bag.png")
 extends Node
 class_name EquipmentManager
 

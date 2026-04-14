@@ -1,3 +1,4 @@
+@icon("res://Assets/Icons/Pixel-Boy/node/icon_money_bag.png")
 extends Resource
 class_name Inventory
 
@@ -7,20 +8,6 @@ signal inventory_changed
 @export var items: Array[QuantitySlot] = []
 
 #region Add
-
-func add_item(item: ItemData) -> bool:
-	if items.size() >= capacity:
-		return false
-	# Merge stackable items
-	if item.stackable:
-		for existing in items:
-			if existing.item_name == item.item_name and existing.quantity < existing.max_stack:
-				existing.quantity = min(existing.quantity + item.quantity, existing.max_stack)
-				inventory_changed.emit()
-				return true
-	items.append(item)
-	inventory_changed.emit()
-	return true
 
 func add_item_with_quantity(quantityCounter : QuantitySlot) -> bool:
 	var item: ItemData = quantityCounter.item
@@ -71,7 +58,7 @@ func add_item_with_quantity_at_index(quantityCounter : QuantitySlot,add_index: i
 #region Remove
 
 func remove_item_quantity(item: QuantitySlot) -> bool:
-	var idx: int = items.find(item)
+	var idx: int = findItem(item)
 	if idx == -1:
 		return false
 	return remove_item_quantity_at_index(idx)
@@ -81,17 +68,15 @@ func remove_item_quantity_at_index(remove_index:int) -> bool:
 	inventory_changed.emit()
 	return true
 
-func remove_item(item: ItemData) -> bool:
-	var idx: int = items.find(item)
-	if idx == -1:
-		return false
-	items.remove_at(idx)
-	inventory_changed.emit()
-	return true
-
 #endregion
 
 #region Safety Checks and Misc
+
+func findItem(item: QuantitySlot) -> int:
+	for i in range(items.size()):
+		if items[i].item == item.item:
+			return i
+	return -1
 
 func is_full() -> bool:
 	return items.size() >= capacity
@@ -109,14 +94,17 @@ func has_item(search_name: String) -> bool:
 			return true
 	return false
 
+func setList(newitems: Array[QuantitySlot]) -> void:
+	items = newitems
+
 #endregion
 
 #region Swap Between Inventories
 
 func SwapSlotsInInventory(from_slot: InventorySlot, to_slot: InventorySlot,inv:Inventory) -> bool:
 	# Inventory ↔ Inventory swap (reorder by item reference, not slot index)
-	var fi := inv.items.find(from_slot.itemQuantity)
-	var ti := inv.items.find(to_slot.itemQuantity)
+	var fi := inv.findItem(from_slot.itemQuantity)
+	var ti := inv.findItem(to_slot.itemQuantity)
 	if fi != -1 and ti != -1:
 		var tmp        := inv.items[fi]
 		inv.items[fi] = inv.items[ti]

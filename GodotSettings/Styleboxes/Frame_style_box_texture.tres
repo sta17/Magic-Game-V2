@@ -1,6 +1,6 @@
 [gd_resource type="StyleBoxTexture" format=3 uid="uid://c5ahfrtbbw4u8"]
 
-[ext_resource type="Texture2D" uid="uid://cdgl6luud165n" path="res://Assets/Icons/Buch's RPG Items/Frame 9.png" id="1_bmek2"]
+[ext_resource type="Texture2D" uid="uid://c0j27iwg5cp82" path="res://Assets/Textures/Mine/Frame 10.png" id="1_bmek2"]
 
 [resource]
 texture = ExtResource("1_bmek2")
