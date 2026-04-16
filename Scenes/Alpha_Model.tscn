@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://4ewm5rrekexo"]
+
+[ext_resource type="PackedScene" uid="uid://dwsj3d0x2x63c" path="res://Assets/Models/Purchases/Kaykits/ninja_head.tscn" id="1_5o8f6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gntrk"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dewec"]
+top_radius = 0.1
+bottom_radius = 0.25
+height = 0.75
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gntrk"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.0
+
+[node name="Node3D" type="Node3D" unique_id=69954966]
+
+[node name="Ninja_Head" parent="." unique_id=665253139 instance=ExtResource("1_5o8f6")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 1.6812994, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_gntrk")
+
+[node name="Marker3D" type="Marker3D" parent="Ninja_Head" unique_id=187414096]
+transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1615748715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.247471, 0)
+mesh = SubResource("CylinderMesh_dewec")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1379542223]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11024332, 0.40674353, 0)
+mesh = SubResource("CylinderMesh_gntrk")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=142865665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121212035, 0.40674353, 0)
+mesh = SubResource("CylinderMesh_gntrk")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=756299049]
+transform = Transform3D(0.7386058, 0.13023613, 0, -0.13023613, 0.7386058, 0, 0, 0, 0.75, -0.22461954, 1.2252854, 0)
+mesh = SubResource("CylinderMesh_gntrk")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1127636039]
+transform = Transform3D(0.7386058, -0.13023613, 0, 0.13023613, 0.7386058, 0, 0, 0, 0.75, 0.225, 1.225, 0)
+mesh = SubResource("CylinderMesh_gntrk")

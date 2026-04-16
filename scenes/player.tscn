@@ -1,23 +1,11 @@
 [gd_scene format=3 uid="uid://be8qbmt0fe144"]
 
 [ext_resource type="Script" uid="uid://xrp1hjsdghu3" path="res://Script/Core/Player.gd" id="1_rpqav"]
-[ext_resource type="PackedScene" uid="uid://dwsj3d0x2x63c" path="res://Assets/Models/Purchases/Kaykits/ninja_head.tscn" id="2_gntrk"]
 [ext_resource type="PackedScene" uid="uid://eo30kruldshw" path="res://Scenes/UI/HUD.tscn" id="2_kyqiw"]
+[ext_resource type="PackedScene" uid="uid://d273fm43xl6uv" path="res://Assets/Models/Mixamo/kachujin_g_rosales.tscn" id="4_dewec"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
 radius = 0.25
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gntrk"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_dewec"]
-top_radius = 0.1
-bottom_radius = 0.25
-height = 0.75
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gntrk"]
-top_radius = 0.05
-bottom_radius = 0.05
-height = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kyqiw"]
 radius = 2.5
@@ -30,43 +18,17 @@ script = ExtResource("1_rpqav")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_qbkls")
 
-[node name="Ninja_Head" parent="." unique_id=665253139 instance=ExtResource("2_gntrk")]
-transform = Transform3D(-0.3, 0, 4.5298744e-08, 0, 0.3, 0, -4.5298744e-08, 0, -0.3, 0, 1.6812994, 0)
-surface_material_override/0 = SubResource("StandardMaterial3D_gntrk")
-
-[node name="Marker3D" type="Marker3D" parent="Ninja_Head" unique_id=1991508127]
-transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1289236605]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.247471, 0)
-mesh = SubResource("CylinderMesh_dewec")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1598958594]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11024332, 0.40674353, 0)
-mesh = SubResource("CylinderMesh_gntrk")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1275649671]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121212035, 0.40674353, 0)
-mesh = SubResource("CylinderMesh_gntrk")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1801965658]
-transform = Transform3D(0.7386058, 0.13023613, 0, -0.13023613, 0.7386058, 0, 0, 0, 0.75, -0.22461954, 1.2252854, 0)
-mesh = SubResource("CylinderMesh_gntrk")
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1695191209]
-transform = Transform3D(0.7386058, -0.13023613, 0, 0.13023613, 0.7386058, 0, 0, 0, 0.75, 0.225, 1.225, 0)
-mesh = SubResource("CylinderMesh_gntrk")
-
 [node name="HUD" parent="." unique_id=1587741402 instance=ExtResource("2_kyqiw")]
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1807946482]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.468526, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=1952980131]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.113541, 1.9100047)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.114, -3)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" unique_id=1955407376]
-transform = Transform3D(1, 0, 0, 0, 0.96598, 0.25861675, 0, -0.25861675, 0.96598, 0, 0, 0)
+transform = Transform3D(-1, 2.2626677e-08, -8.444392e-08, 0, 0.96592575, 0.25881904, 8.742278e-08, 0.258819, -0.9659258, 0, 0, 0)
+far = 5000.0
 
 [node name="InteractArea" type="Area3D" parent="." unique_id=926139748]
 collision_layer = 24
@@ -74,6 +36,11 @@ collision_mask = 24
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea" unique_id=1394137700]
 shape = SubResource("SphereShape3D_kyqiw")
+
+[node name="Kachujin G Rosales" parent="." unique_id=2006597735 instance=ExtResource("4_dewec")]
+
+[node name="Marker3D" type="Marker3D" parent="Kachujin G Rosales" unique_id=1669768758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7798228, 0)
 
 [connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_area_entered"]
 [connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_area_exited"]

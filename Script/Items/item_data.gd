@@ -16,6 +16,7 @@ enum ItemType {
 
 @export var dropped_item_model : PackedScene
 @export var granted_ability: AbilityData = null
+@export var item_equipped_model : PackedScene
 
 @export var lore : String = ""
 

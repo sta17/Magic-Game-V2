@@ -4,6 +4,8 @@ class_name Player
 
 const _BulletScene  := preload("res://Scenes/bullet.tscn")
 enum PlayerState { ACTIVE, UI, DIALOG, UIMINIMAL }
+enum MovingState { GROUNDED, FLOATING }
+enum ActionState { IDLE, MELEE, RANGED }
 
 #region Movement
 @export var WALK_SPEED:		float = 10
@@ -12,6 +14,8 @@ enum PlayerState { ACTIVE, UI, DIALOG, UIMINIMAL }
 @export var GRAVITY:		float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var MOUSE_SENS:		float = 0.0025
 @export var PLAYER_STATE: PlayerState = PlayerState.ACTIVE
+@export var MOVING_STATE: MovingState = MovingState.GROUNDED
+@export var ACTION_STATE: ActionState = ActionState.IDLE
 #endregion
 
 #region Player Stats
@@ -26,8 +30,9 @@ var _shoot_cooldown:	float = 0.0
 
 #region Scene nodes
 @onready var _pivot:	Node3D		= $CameraPivot
-@onready var _muzzle:	Marker3D	= $Ninja_Head/Marker3D
+@onready var _muzzle:	Marker3D	= $"Kachujin G Rosales/Marker3D"
 @onready var _hud:		HUD 		= $HUD
+@onready var _model:	ModelData 	= $"Kachujin G Rosales"
 #endregion
 
 #region Systems
@@ -44,6 +49,8 @@ var _nearby_pickups: Array[PickUpItem] = []
 signal health_changed(current: float, maximum: float)
 signal player_died
 var interactble_entity: Object
+var AnimPlayer: AnimationPlayer
+var AnimTree: AnimationTree
 #endregion
 
 func _ready() -> void:
@@ -75,6 +82,8 @@ func _ready() -> void:
 	_hud.hotbar_panel.init(self)
 	(_hud.inv_panel as InventoryUI).set_hotbar(_hud.hotbar_panel)
 	(_hud.loot_window as LootWindow).init(self)
+	AnimPlayer = _model.AnimPlayer
+	AnimTree = _model.AnimTree
 
 #region Input
 
@@ -161,6 +170,14 @@ func _physics_process(delta: float) -> void:
 	if _is_dead:
 		return
 	
+	if ACTION_STATE == ActionState.IDLE:
+		pass
+	elif ACTION_STATE == ActionState.RANGED:
+		ACTION_STATE = ActionState.IDLE
+		pass
+	elif ACTION_STATE == ActionState.MELEE:
+		ACTION_STATE = ActionState.IDLE
+	
 	# Health regen from accessory and passive ability slots
 	var regen: float = equipment.get_health_regen() + inv_ui.get_passive_health_regen()
 	if regen > 0.0 and health < _max_hp():
@@ -168,28 +185,51 @@ func _physics_process(delta: float) -> void:
 		_hud.update_hp(health, _max_hp())
 
 	if PLAYER_STATE == PlayerState.ACTIVE:
-		if not is_on_floor():
-			velocity.y += (GRAVITY * -1) * delta
-
 		_shoot_cooldown -= delta
 		
-		var spd := SPRINT_SPEED if Input.is_action_pressed("sprint") else WALK_SPEED
-		spd += equipment.get_speed_bonus() + inv_ui.get_passive_speed_bonus()
+		if MOVING_STATE == MovingState.GROUNDED:
+			
+			var spd := SPRINT_SPEED if Input.is_action_pressed("sprint") else WALK_SPEED
+			spd += equipment.get_speed_bonus() + inv_ui.get_passive_speed_bonus()
 		
-		var raw := Vector2(
-			Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
-			Input.get_action_strength("move_back") - Input.get_action_strength("move_forward")
-		)
-		var dir := (transform.basis * Vector3(raw.x, 0.0, raw.y)).normalized()
-		if dir.length() > 0.01:
-			velocity.x = dir.x * spd
-			velocity.z = dir.z * spd
-		else:
-			velocity.x = move_toward(velocity.x, 0.0, spd * 0.3)
-			velocity.z = move_toward(velocity.z, 0.0, spd * 0.3)
+			var inputDir: Vector2 = Input.get_vector("move_right","move_left","move_back","move_forward")
+		
+			var dir: Vector3 = (transform.basis * Vector3(inputDir.x, 0.0, inputDir.y)).normalized()
+		
+			if inputDir == Vector2.ZERO:
+				AnimTree.set("parameters/conditions/is Moving N",false)
+				AnimTree.set("parameters/Moving Tree/Moving/blend_position",Vector2.ZERO)
+				#AnimTree["parameters/conditions/is Moving"] = false
+				AnimTree["parameters/conditions/is idle"] = true
+				#AnimTree.set("parameters/Moving/blend_position",Vector2.ZERO)
+			else:
+				AnimTree.set("parameters/conditions/is Moving N",true)
+				AnimTree.set("parameters/Moving Tree/Moving/blend_position",inputDir.normalized())
+				#AnimTree["parameters/conditions/is Moving"] = true
+				AnimTree["parameters/conditions/is idle"] = false
+				#AnimTree.set("parameters/Moving/blend_position",inputDir.normalized())
+		
+			if dir.length() > 0.01:
+				velocity.x = dir.x * spd
+				velocity.z = dir.z * spd
+			else:
+				velocity.x = move_toward(velocity.x, 0.0, spd * 0.3)
+				velocity.z = move_toward(velocity.z, 0.0, spd * 0.3)
 		
 		if Input.is_action_just_pressed("jump") and is_on_floor():
+			MOVING_STATE = MovingState.FLOATING
 			velocity.y = JUMP_FORCE
+			AnimTree["parameters/conditions/Landing"] = false
+			AnimTree["parameters/conditions/Jump"] = true
+			AnimTree["parameters/conditions/is Moving N"] = false
+			AnimTree["parameters/conditions/is idle"] = false
+		elif not is_on_floor():
+			velocity.y += (GRAVITY * -1) * delta
+			AnimTree["parameters/conditions/Jump"] = false
+		elif is_on_floor():
+			MOVING_STATE = MovingState.GROUNDED
+			AnimTree["parameters/conditions/Landing"] = true
+			AnimTree["parameters/conditions/Jump"] = false
 		
 		if Input.is_action_pressed("attack"):
 			_try_attack()
@@ -201,9 +241,9 @@ func CameraRotate(event: InputEvent) -> void:
 	if !special_key_pressed:
 		rotate_y(-event.relative.x * MOUSE_SENS)
 		_pivot.rotation.y = 0
-		_pivot.rotate_x(-event.relative.y * MOUSE_SENS)
+		_pivot.rotate_x(event.relative.y * MOUSE_SENS)
 	else:
-		_pivot.rotate_y(-event.relative.x * MOUSE_SENS)
+		_pivot.rotate_y(event.relative.x * MOUSE_SENS)
 	
 	_pivot.rotation.x = clampf(_pivot.rotation.x, -PI * 0.38, PI * 0.30)
 
@@ -298,15 +338,17 @@ func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool
 #region Attack
 
 func _try_attack() -> void:
+	AnimTree.set("parameters/Moving Tree/OneShot/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	if not equipment.equipped_weapon or _shoot_cooldown > 0.0:
 		return
 	var w: WeaponData = equipment.equipped_weapon
 	if w.get_weapon_type_name() == "Melee":
 		try_melee(w)
-	if w.get_weapon_type_name() == "Ranged":
+	elif w.get_weapon_type_name() == "Ranged":
 		try_ranged(w)
 
 func try_ranged(equipped_weapon: WeaponData) -> void:
+	ACTION_STATE = ActionState.RANGED
 	_shoot_cooldown = equipped_weapon.fire_rate
 	for _i in range(equipped_weapon.pellets):
 		var bullet: Bullet = _BulletScene.instantiate()
@@ -330,9 +372,15 @@ func try_ranged(equipped_weapon: WeaponData) -> void:
 		bullet.shooter   = self
 
 func try_melee(equipped_weapon: WeaponData) -> void:
+	ACTION_STATE = ActionState.MELEE
+	AnimTree.set("parameters/Moving Tree/OneShot/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	#AnimTree.set("parameters/conditions/Attack End",false)
+	#AnimTree.set("parameters/conditions/Attack Start",true)
+	#AnimTree.set("parameters/conditions/Attack",true)
+	
 	_shoot_cooldown = equipped_weapon.fire_rate
 
-	var forward: Vector3 = -global_transform.basis.z
+	var forward: Vector3 = global_transform.basis.z
 	var hit_any := false
 
 	for enemy in self.get_tree().get_nodes_in_group("enemy"):
@@ -379,15 +427,34 @@ func _die() -> void:
 
 #region Equipment callbacks
 
+func UpdatePhysicalWeaponEquipment(w: QuantitySlot) -> void:
+	for n in _model.RightHand.get_children():
+		_model.RightHand.remove_child(n)
+	for n in _model.LeftHand.get_children():
+		_model.LeftHand.remove_child(n)
+	var temp: PackedScene = w.item.item_equipped_model
+	if temp != null:
+		var model: Node3D = temp.instantiate()
+		_model.RightHand.add_child(model)
+
+func UpdatePhysicalArmorEquipment(_a: QuantitySlot) -> void:
+	pass
+
+func UpdatePhysicalAccessoryEquipment(_ac: QuantitySlot) -> void:
+	pass
+
 func _on_weapon_equipped(w: QuantitySlot) -> void:
+	UpdatePhysicalWeaponEquipment(w)
 	_update_granted_ability("weapon", w)
 	_update_hud_all()
 
 func _on_armor_equipped(a: QuantitySlot) -> void:
+	UpdatePhysicalArmorEquipment(a)
 	_update_granted_ability("armor", a)
 	_update_hud_all()
 
 func _on_accessory_equipped(ac: QuantitySlot) -> void:
+	UpdatePhysicalAccessoryEquipment(ac)
 	_update_granted_ability("accessory", ac)
 	_update_hud_all()
 

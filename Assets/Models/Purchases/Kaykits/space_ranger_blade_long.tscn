@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cvcu08qpn54ld"]
+
+[ext_resource type="PackedScene" uid="uid://bx1ss1y4uefwx" path="res://Assets/Models/Purchases/Kaykits/SpaceRanger_Blade_Long.fbx" id="1_nipcl"]
+
+[node name="SpaceRanger_Blade_Long" unique_id=1219155250 instance=ExtResource("1_nipcl")]
+transform = Transform3D(0.03916061, -0.428196, -0.12299792, 0.22490439, -0.040935826, 0.107233785, -0.101904206, -0.2548969, 0.18940017, -0.016, 0.029, 0.001)
