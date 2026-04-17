@@ -30,3 +30,6 @@ func initalise(ability: AbilityData) -> void:
 	anchor_right = 4 
 	anchor_top = 4
 	anchor_bottom = 4
+
+func getSlot() -> InventorySlot:
+	return abi_slot

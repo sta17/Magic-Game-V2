@@ -143,5 +143,9 @@ func _refresh_display() -> void:
 	for i in _slots.size():
 		var slot: InventorySlot = _slots[i]
 		var slot_data:Slot = _hotbar_items[i]  # ItemData or AbilityData
+		
+		if slot_data == null:
+			slot_data = slot.itemQuantity
+		
 		slot.is_selected = (i == _selected_index)
 		slot.set_item(slot_data,false, true)

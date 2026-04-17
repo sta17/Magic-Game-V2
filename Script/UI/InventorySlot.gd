@@ -207,7 +207,10 @@ func _gui_input(event: InputEvent) -> void:
 		slot_clicked.emit(self)
 
 func _on_mouse_entered() -> void:
-	mouse_item_hover.emit(true,itemQuantity)
+	if is_ability:
+		mouse_item_hover.emit(item,true)
+	else:
+		mouse_item_hover.emit(itemQuantity,true)
 
 func _on_mouse_exited() -> void:
-	mouse_item_hover.emit(false,null)
+	mouse_item_hover.emit(null,false)

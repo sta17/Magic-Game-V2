@@ -60,7 +60,7 @@ func flash_damage() -> void:
 	tw.tween_property(flash, "color:a", 0.0, 0.3)
 	tw.tween_callback(flash.queue_free)
 
-func _on_slot_mouse_item_hover(status: bool, currentSlot: Slot) -> void:
+func _on_slot_mouse_item_hover(currentSlot: Slot, status: bool) -> void:
 	if status and currentSlot != null:
 		tooltip.visible = true
 		tooltip.setTooltip(currentSlot)

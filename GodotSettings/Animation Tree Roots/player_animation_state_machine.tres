@@ -1,10 +1,10 @@
 [gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://d2wmqojqohb4t"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s6yyg"]
-animation = &"UAL1_Standard/Sword_Attack"
+animation = &"Sword and Shield/Sword And Shield Slash"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yr4d8"]
-animation = &"UAL1_Standard/Sword_Idle"
+animation = &"Sword and Shield/Sword And Shield Idle (1)"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j8auk"]
 animation = &"UAL1_Standard/Idle"
@@ -18,50 +18,86 @@ animation = &"UAL2/NinjaJump_Land"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q1lqw"]
 animation = &"UAL2/NinjaJump_Start"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qg5eh"]
-animation = &"UAL2/Sword_Aerial_A"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_txwpq"]
-animation = &"UAL1_Standard/Idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_you7f"]
-animation = &"UAL2/Walk_Bwd"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i6l45"]
-animation = &"Basic Locomotion/left strafe"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5l06v"]
-animation = &"Basic Locomotion/right strafe"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lq6q5"]
-animation = &"Basic Locomotion/running"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_h21tg"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_txwpq")
-blend_point_0/pos = Vector2(0, 0)
-blend_point_1/node = SubResource("AnimationNodeAnimation_you7f")
-blend_point_1/pos = Vector2(0, -1)
-blend_point_2/node = SubResource("AnimationNodeAnimation_i6l45")
-blend_point_2/pos = Vector2(1, 0)
-blend_point_3/node = SubResource("AnimationNodeAnimation_5l06v")
-blend_point_3/pos = Vector2(-1, 0)
-blend_point_4/node = SubResource("AnimationNodeAnimation_lq6q5")
-blend_point_4/pos = Vector2(0, 1)
-
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_213y6"]
 filter_enabled = true
-filters = ["%GeneralSkeleton:Chest", "%GeneralSkeleton:LeftHand", "%GeneralSkeleton:LeftIndexDistal", "%GeneralSkeleton:LeftIndexIntermediate", "%GeneralSkeleton:LeftIndexProximal", "%GeneralSkeleton:LeftLittleDistal", "%GeneralSkeleton:LeftLittleIntermediate", "%GeneralSkeleton:LeftLittleProximal", "%GeneralSkeleton:LeftLowerArm", "%GeneralSkeleton:LeftMiddleDistal", "%GeneralSkeleton:LeftMiddleIntermediate", "%GeneralSkeleton:LeftMiddleProximal", "%GeneralSkeleton:LeftRingDistal", "%GeneralSkeleton:LeftRingIntermediate", "%GeneralSkeleton:LeftRingProximal", "%GeneralSkeleton:LeftShoulder", "%GeneralSkeleton:LeftThumbDistal", "%GeneralSkeleton:LeftThumbMetacarpal", "%GeneralSkeleton:LeftThumbProximal", "%GeneralSkeleton:LeftUpperArm", "%GeneralSkeleton:RightHand", "%GeneralSkeleton:RightIndexDistal", "%GeneralSkeleton:RightIndexIntermediate", "%GeneralSkeleton:RightIndexProximal", "%GeneralSkeleton:RightLittleDistal", "%GeneralSkeleton:RightLittleIntermediate", "%GeneralSkeleton:RightLittleProximal", "%GeneralSkeleton:RightLowerArm", "%GeneralSkeleton:RightMiddleDistal", "%GeneralSkeleton:RightMiddleIntermediate", "%GeneralSkeleton:RightMiddleProximal", "%GeneralSkeleton:RightRingDistal", "%GeneralSkeleton:RightRingIntermediate", "%GeneralSkeleton:RightRingProximal", "%GeneralSkeleton:RightShoulder", "%GeneralSkeleton:RightThumbDistal", "%GeneralSkeleton:RightThumbMetacarpal", "%GeneralSkeleton:RightThumbProximal", "%GeneralSkeleton:RightUpperArm", "%GeneralSkeleton:UpperChest", "%GeneralSkeleton:index_04_leaf_r", "%GeneralSkeleton:middle_04_leaf_r", "%GeneralSkeleton:mixamorig_LeftHandThumb4", "%GeneralSkeleton:mixamorig_RightHandThumb4", "%GeneralSkeleton:pinky_04_leaf_r", "%GeneralSkeleton:ring_04_leaf_r", "%GeneralSkeleton:thumb_04_leaf_l", "%GeneralSkeleton:thumb_04_leaf_r"]
+filters = ["%GeneralSkeleton:Chest", "%GeneralSkeleton:LeftHand", "%GeneralSkeleton:LeftIndexDistal", "%GeneralSkeleton:LeftIndexIntermediate", "%GeneralSkeleton:LeftIndexProximal", "%GeneralSkeleton:LeftLittleDistal", "%GeneralSkeleton:LeftLittleIntermediate", "%GeneralSkeleton:LeftLittleProximal", "%GeneralSkeleton:LeftLowerArm", "%GeneralSkeleton:LeftMiddleDistal", "%GeneralSkeleton:LeftMiddleIntermediate", "%GeneralSkeleton:LeftMiddleProximal", "%GeneralSkeleton:LeftRingDistal", "%GeneralSkeleton:LeftRingIntermediate", "%GeneralSkeleton:LeftRingProximal", "%GeneralSkeleton:LeftShoulder", "%GeneralSkeleton:LeftThumbDistal", "%GeneralSkeleton:LeftThumbMetacarpal", "%GeneralSkeleton:LeftThumbProximal", "%GeneralSkeleton:LeftUpperArm", "%GeneralSkeleton:Neck", "%GeneralSkeleton:RightHand", "%GeneralSkeleton:RightIndexDistal", "%GeneralSkeleton:RightIndexIntermediate", "%GeneralSkeleton:RightIndexProximal", "%GeneralSkeleton:RightLittleDistal", "%GeneralSkeleton:RightLittleIntermediate", "%GeneralSkeleton:RightLittleProximal", "%GeneralSkeleton:RightLowerArm", "%GeneralSkeleton:RightMiddleDistal", "%GeneralSkeleton:RightMiddleIntermediate", "%GeneralSkeleton:RightMiddleProximal", "%GeneralSkeleton:RightRingDistal", "%GeneralSkeleton:RightRingIntermediate", "%GeneralSkeleton:RightRingProximal", "%GeneralSkeleton:RightShoulder", "%GeneralSkeleton:RightThumbDistal", "%GeneralSkeleton:RightThumbMetacarpal", "%GeneralSkeleton:RightThumbProximal", "%GeneralSkeleton:RightUpperArm", "%GeneralSkeleton:UpperChest", "%GeneralSkeleton:index_04_leaf_r", "%GeneralSkeleton:middle_04_leaf_r", "%GeneralSkeleton:mixamorig_Bow1", "%GeneralSkeleton:mixamorig_Bow5", "%GeneralSkeleton:mixamorig_LeftHandThumb4", "%GeneralSkeleton:mixamorig_RightHandThumb4", "%GeneralSkeleton:pinky_04_leaf_r", "%GeneralSkeleton:ring_04_leaf_r", "%GeneralSkeleton:thumb_04_leaf_l", "%GeneralSkeleton:thumb_04_leaf_r"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_qg5eh"]
+filter_enabled = true
+filters = ["", "%GeneralSkeleton:Chest", "%GeneralSkeleton:Head", "%GeneralSkeleton:Hips", "%GeneralSkeleton:LeftFoot", "%GeneralSkeleton:LeftHand", "%GeneralSkeleton:LeftIndexDistal", "%GeneralSkeleton:LeftIndexIntermediate", "%GeneralSkeleton:LeftIndexProximal", "%GeneralSkeleton:LeftLittleDistal", "%GeneralSkeleton:LeftLittleIntermediate", "%GeneralSkeleton:LeftLittleProximal", "%GeneralSkeleton:LeftLowerArm", "%GeneralSkeleton:LeftLowerLeg", "%GeneralSkeleton:LeftMiddleDistal", "%GeneralSkeleton:LeftMiddleIntermediate", "%GeneralSkeleton:LeftMiddleProximal", "%GeneralSkeleton:LeftRingDistal", "%GeneralSkeleton:LeftRingIntermediate", "%GeneralSkeleton:LeftRingProximal", "%GeneralSkeleton:LeftShoulder", "%GeneralSkeleton:LeftThumbDistal", "%GeneralSkeleton:LeftThumbMetacarpal", "%GeneralSkeleton:LeftThumbProximal", "%GeneralSkeleton:LeftToes", "%GeneralSkeleton:LeftUpperArm", "%GeneralSkeleton:LeftUpperLeg", "%GeneralSkeleton:Neck", "%GeneralSkeleton:RightFoot", "%GeneralSkeleton:RightHand", "%GeneralSkeleton:RightIndexDistal", "%GeneralSkeleton:RightIndexIntermediate", "%GeneralSkeleton:RightIndexProximal", "%GeneralSkeleton:RightLittleDistal", "%GeneralSkeleton:RightLittleIntermediate", "%GeneralSkeleton:RightLittleProximal", "%GeneralSkeleton:RightLowerArm", "%GeneralSkeleton:RightLowerLeg", "%GeneralSkeleton:RightMiddleDistal", "%GeneralSkeleton:RightMiddleIntermediate", "%GeneralSkeleton:RightMiddleProximal", "%GeneralSkeleton:RightRingDistal", "%GeneralSkeleton:RightRingIntermediate", "%GeneralSkeleton:RightRingProximal", "%GeneralSkeleton:RightShoulder", "%GeneralSkeleton:RightThumbDistal", "%GeneralSkeleton:RightThumbMetacarpal", "%GeneralSkeleton:RightThumbProximal", "%GeneralSkeleton:RightToes", "%GeneralSkeleton:RightUpperArm", "%GeneralSkeleton:RightUpperLeg", "%GeneralSkeleton:Root", "%GeneralSkeleton:Spine", "%GeneralSkeleton:UpperChest", "%GeneralSkeleton:index_04_leaf_r", "%GeneralSkeleton:middle_04_leaf_r", "%GeneralSkeleton:mixamorig_Bow1", "%GeneralSkeleton:mixamorig_Bow5", "%GeneralSkeleton:mixamorig_LeftHandThumb4", "%GeneralSkeleton:mixamorig_RightHandThumb4", "%GeneralSkeleton:pinky_04_leaf_r", "%GeneralSkeleton:ring_04_leaf_r", "%GeneralSkeleton:thumb_04_leaf_l", "%GeneralSkeleton:thumb_04_leaf_r"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qg5eh"]
+animation = &"Sword and Shield/Sword And Shield Slash"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_you7f"]
+animation = &"Sword and Shield/Sword And Shield Run BWD"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i6l45"]
+animation = &"Sword and Shield/Sword And Shield Strafe Run L"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5l06v"]
+animation = &"Sword and Shield/Sword And Shield Strafe Run R"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lq6q5"]
+animation = &"Sword and Shield/Sword And Shield Run FWD"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_txwpq"]
+animation = &"Sword and Shield/Sword And Shield Idle (1)"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_h21tg"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_you7f")
+blend_point_0/pos = Vector2(0, -1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_i6l45")
+blend_point_1/pos = Vector2(1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_5l06v")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_lq6q5")
+blend_point_3/pos = Vector2(0, 1)
+blend_point_4/node = SubResource("AnimationNodeAnimation_txwpq")
+blend_point_4/pos = Vector2(0, 0)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h21tg"]
+animation = &"Basic Locomotion/idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_213y6"]
+animation = &"Basic Locomotion/running"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uwiml"]
+animation = &"Basic Locomotion/left strafe"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6unxu"]
+animation = &"Basic Locomotion/right strafe"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_410pt"]
+animation = &"Basic Locomotion/running"
+play_mode = 1
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_1ofqv"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_h21tg")
+blend_point_0/pos = Vector2(0, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_213y6")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_uwiml")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_6unxu")
+blend_point_3/pos = Vector2(-1, 0)
+blend_point_4/node = SubResource("AnimationNodeAnimation_410pt")
+blend_point_4/pos = Vector2(0, -1)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_uwiml"]
-graph_offset = Vector2(-245.12326, 50.283676)
-nodes/output/position = Vector2(540, 80)
-nodes/Moving/node = SubResource("AnimationNodeBlendSpace2D_h21tg")
-nodes/Moving/position = Vector2(0, 20)
-nodes/OneShot/node = SubResource("AnimationNodeOneShot_213y6")
-nodes/OneShot/position = Vector2(300, 80)
+graph_offset = Vector2(-480.90637, -138.43033)
+nodes/output/position = Vector2(720, -40)
+"nodes/Moving Armed/node" = SubResource("AnimationNodeBlendSpace2D_h21tg")
+"nodes/Moving Armed/position" = Vector2(0, 20)
+"nodes/Attack Mixing/node" = SubResource("AnimationNodeOneShot_213y6")
+"nodes/Attack Mixing/position" = Vector2(300, 80)
 nodes/Attack/node = SubResource("AnimationNodeAnimation_qg5eh")
-nodes/Attack/position = Vector2(-100, 260)
-node_connections = [&"output", 0, &"OneShot", &"OneShot", 0, &"Moving", &"OneShot", 1, &"Attack"]
+nodes/Attack/position = Vector2(-180, 260)
+nodes/Moving/node = SubResource("AnimationNodeBlendSpace2D_1ofqv")
+nodes/Moving/position = Vector2(0, -200)
+"nodes/Attack or Not/node" = SubResource("AnimationNodeBlend2_qg5eh")
+"nodes/Attack or Not/position" = Vector2(500, -60)
+node_connections = [&"output", 0, &"Attack or Not", &"Attack Mixing", 0, &"Moving Armed", &"Attack Mixing", 1, &"Attack", &"Attack or Not", 0, &"Moving", &"Attack or Not", 1, &"Attack Mixing"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w0l4r"]
 switch_mode = 2
@@ -72,7 +108,6 @@ advance_mode = 2
 advance_condition = &"Landing"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ewpvh"]
-xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"Attack"
 
@@ -93,7 +128,6 @@ advance_mode = 2
 advance_condition = &"Jump"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_572hw"]
-xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"Attack Start"
 
@@ -113,9 +147,8 @@ advance_condition = &"Attack End"
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6unxu"]
-xfade_time = 0.2
 advance_mode = 2
-advance_condition = &"is Moving N"
+advance_condition = &"is Moving"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_410pt"]
 xfade_time = 0.2

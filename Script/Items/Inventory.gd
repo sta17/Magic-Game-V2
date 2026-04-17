@@ -7,66 +7,88 @@ signal inventory_changed
 @export var capacity: int = 20
 @export var items: Array[QuantitySlot] = []
 
+func init() -> void:
+	for i in range(0,capacity):
+		items.append(null)
+
 #region Add
 
-func add_item_with_quantity(quantityCounter : QuantitySlot) -> bool:
-	var item: ItemData = quantityCounter.item
-	if items.size() >= capacity:
-		return false
-	# Merge stackable items
-	if quantityCounter.item.stackable:
-		for existing in items:
-			if existing.getName() == item.getName() and quantityCounter.quantity < existing.item.max_stack:
-				if (existing.quantity + quantityCounter.quantity) > existing.item.max_stack:
-					items.append(quantityCounter)
-				else:
-					existing.quantity = existing.quantity + quantityCounter.quantity
-				inventory_changed.emit()
-				return true
-	items.append(quantityCounter)
-	inventory_changed.emit()
-	return true
+func add_item(item: QuantitySlot) -> bool:
+	if is_empty() or not is_full():
+		return add_item_quantity(item)
+	return false
 
-func add_item_with_quantity_at_index(quantityCounter : QuantitySlot,add_index: int) -> bool:
-	var item: ItemData = quantityCounter.item
-	if items.size() >= capacity:
-		return false
-	# Merge stackable items
-	if quantityCounter.item.stackable:
-		for i in items.size():
-			var existing: QuantitySlot = items[i]
-			if existing == null:
-				items[i] = quantityCounter
-				inventory_changed.emit()
+func add_item_simple(item: QuantitySlot) -> bool:
+	if is_empty() or not is_full():
+		append(item)
+		inventory_changed.emit()
+		return true
+	return false
+
+func add_quantity(item: QuantitySlot, idx:int) -> bool:
+	if (items[idx].quantity + item.quantity) <= items[idx].item.max_stack:
+		items[idx].quantity = items[idx].quantity + item.quantity
+		inventory_changed.emit()
+		return true
+	return false
+
+func add_item_quantity(item: QuantitySlot, startIdx: int = 0) -> bool:
+	if item.item.stackable:
+		var idx: int = findItemFrom(item,startIdx)
+		if idx == -1:
+			return add_item_simple(item)
+		else:
+			if add_quantity(item,idx):
 				return true
-			elif existing.getName() == item.getName() and quantityCounter.quantity < existing.item.max_stack:
-				if (existing.quantity + quantityCounter.quantity) > existing.item.max_stack:
-					if items[add_index] != null:
-						return false
-					else:
-						items[add_index] = quantityCounter
+			else:
+				if items[idx].item.max_stack == items[idx].quantity:
+					return add_item_quantity(item, idx+1)
 				else:
-					existing.quantity = existing.quantity + quantityCounter.quantity
-				inventory_changed.emit()
-				return true
-	items.append(quantityCounter)
-	inventory_changed.emit()
+					var excessAmount: int = items[idx].item.max_stack - items[idx].quantity
+				
+					var excessQuantity: QuantitySlot = QuantitySlot.new()
+					excessQuantity.item = item.item
+					excessQuantity.quantity = excessAmount
+					if add_item_quantity(excessQuantity, idx+1):
+						item.quantity = item.quantity - excessAmount
+						add_quantity(item,idx)
+						inventory_changed.emit()
+						return true
+					else:
+						return false
+	return add_item_simple(item)
+
+func add_item_at_index(quantityCounter : QuantitySlot,add_index: int) -> bool:
+	items[add_index] = quantityCounter
 	return true
 
 #endregion
 
 #region Remove
 
-func remove_item_quantity(item: QuantitySlot) -> bool:
+func remove_item(item: QuantitySlot) -> bool:
 	var idx: int = findItem(item)
 	if idx == -1:
 		return false
-	return remove_item_quantity_at_index(idx)
+	return remove_item_quantity_at_index(item,idx)
 
-func remove_item_quantity_at_index(remove_index:int) -> bool:
+func remove_item_at_index(remove_index:int) -> bool:
 	items.remove_at(remove_index)
 	inventory_changed.emit()
 	return true
+
+func remove_item_quantity_at_index(quantityCounter : QuantitySlot,remove_index: int) -> bool:
+	if quantityCounter.item.stackable:
+		if quantityCounter.quantity == items[remove_index].quantity:
+			return remove_item_at_index(remove_index)
+		elif quantityCounter.quantity < items[remove_index].quantity:
+			items[remove_index].quantity = items[remove_index].quantity - quantityCounter.quantity
+			inventory_changed.emit()
+			return true
+		else:
+			return false
+	else:
+		return remove_item_at_index(remove_index)
 
 #endregion
 
@@ -78,14 +100,37 @@ func findItem(item: QuantitySlot) -> int:
 			return i
 	return -1
 
+func findItemFrom(item: QuantitySlot, startIdx: int = 0) -> int:
+	if startIdx == items.size():
+		return -1
+	for i in range(startIdx,items.size()):
+		if items[i] != null:
+			if items[i].item == item.item:
+				return i
+	return -1
+
 func is_full() -> bool:
-	return items.size() >= capacity
+	var empty: int = capacity - EmptySlots()
+	var b: bool = empty >= capacity
+	return b
+
+func is_empty() -> bool:
+	var empty: int = capacity - EmptySlots()
+	var b: bool = empty == capacity
+	return b
+
+func EmptySlots() -> int:
+	return items.filter(func(it: QuantitySlot) -> bool: return isSlotEmpty(it)).size()
+
+func isSlotEmpty(slot: QuantitySlot) -> bool:
+	return slot == null
 
 func get_items_of_type(type: ItemData.ItemType) -> Array:
 	var result: Array = []
 	for item in items:
-		if item.item.item_type == type:
-			result.append(item)
+		if item != null:
+			if item.item.item_type == type:
+				result.append(item)
 	return result
 
 func has_item(search_name: String) -> bool:
@@ -97,39 +142,55 @@ func has_item(search_name: String) -> bool:
 func setList(newitems: Array[QuantitySlot]) -> void:
 	items = newitems
 
+func getList() -> Array[QuantitySlot]:
+	return items
+
+func append(item: QuantitySlot) -> bool:
+	for i in range(0,items.size()):
+		if items[i] == null:
+			items[i] = item
+			return true
+	return false
+	
+
 #endregion
 
 #region Swap Between Inventories
 
 func SwapSlotsInInventory(from_slot: InventorySlot, to_slot: InventorySlot,inv:Inventory) -> bool:
-	# Inventory ↔ Inventory swap (reorder by item reference, not slot index)
-	var fi := inv.findItem(from_slot.itemQuantity)
-	var ti := inv.findItem(to_slot.itemQuantity)
-	if fi != -1 and ti != -1:
-		var tmp        := inv.items[fi]
-		inv.items[fi] = inv.items[ti]
-		inv.items[ti] = tmp
-		inv.inventory_changed.emit()
-		return true
-	return false
-
-func SwapSlots(from_slot: InventorySlot, to_slot: InventorySlot,inv1:Inventory,inv2:Inventory) -> bool:
 	var from_item:QuantitySlot = from_slot.itemQuantity
 	var to_item:QuantitySlot = to_slot.itemQuantity
-	if inv1.add_item_with_quantity_at_index(to_item,to_slot.index):
-		if inv2.add_item_with_quantity_at_index(from_item,from_slot.index):
-			inv2.remove_item_quantity(from_item)
-			inv1.remove_item_quantity(to_item)
+	if inv.add_item_at_index(from_item,to_slot.index):
+		if inv.add_item_at_index(to_item,from_slot.index):
+			inv.inventory_changed.emit()
+		else:
+			inv.remove_item_quantity(to_item)
+	return true
+
+func SwapSlotsBetweenInventories(from_slot: InventorySlot, to_slot: InventorySlot,inv1:Inventory,inv2:Inventory) -> bool:
+	var from_item:QuantitySlot = from_slot.itemQuantity
+	var to_item:QuantitySlot = to_slot.itemQuantity
+	if inv1.add_item_at_index(to_item,to_slot.index):
+		if inv2.add_item_at_index(from_item,from_slot.index):
 			inv2.inventory_changed.emit()
 			inv1.inventory_changed.emit()
 		else:
 			inv1.remove_item_quantity(to_item)
 	return true
 
-func add_single_Slot(from_slot: InventorySlot, to_slot: InventorySlot,inv1:Inventory,inv2:Inventory) -> bool:
+func transferBetweenInventories(from_slot: InventorySlot, to_slot: InventorySlot,inv1:Inventory,inv2:Inventory) -> bool:
 	var from_item:QuantitySlot = from_slot.itemQuantity
-	if inv2.add_item_with_quantity_at_index(from_item,to_slot.index):
+	if inv2.add_item_at_index(from_item,to_slot.index):
 		inv1.remove_item_quantity(from_item)
+		inv2.inventory_changed.emit()
+		inv1.inventory_changed.emit()
+		return true
+	return false
+
+func transferBetweenInventoriesSimple(from_slot: InventorySlot,inv1:Inventory,inv2:Inventory) -> bool:
+	var from_item:QuantitySlot = from_slot.itemQuantity
+	if inv2.add_item(from_item):
+		inv1.remove_item_at_index(from_slot.index)
 		inv2.inventory_changed.emit()
 		inv1.inventory_changed.emit()
 		return true

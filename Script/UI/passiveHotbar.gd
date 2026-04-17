@@ -14,16 +14,21 @@ const SLOT_GAP:   float = 6.0
 var _slots: Array[InventorySlot] = []
 var _items: Array = []  # AbilityData or null, size = SLOT_COUNT
 
+var parentScript: Control
+
 func _ready() -> void:
 	_items.resize(SLOT_COUNT)
 	_items.fill(null)
 	custom_minimum_size = Vector2(SLOT_COUNT * (SLOT_W + SLOT_GAP) - SLOT_GAP, SLOT_H)
 
+func init(new_parentScript: Control) -> void:
+	self.parentScript = new_parentScript
 	for i in SLOT_COUNT:
 		var slot := _SLOT_SCENE.instantiate() as InventorySlot
 		slot.slot_type = InventorySlot.SlotType.PASSIVE_HOTBAR
 		slot.position  = Vector2(i * (SLOT_W + SLOT_GAP), 0.0)
 		slot.custom_minimum_size = Vector2(SLOT_W, SLOT_H)
+		slot.mouse_item_hover.connect(parentScript.getHUD()._on_slot_mouse_item_hover)
 		add_child(slot)
 		_slots.append(slot)
 
@@ -63,6 +68,7 @@ func auto_add(ability: AbilityData) -> void:
 	new_slot.slot_type = InventorySlot.SlotType.PASSIVE_HOTBAR
 	new_slot.position  = Vector2(_slots.size() * (SLOT_W + SLOT_GAP), 0.0)
 	new_slot.custom_minimum_size = Vector2(SLOT_W, SLOT_H)
+	new_slot.mouse_item_hover.connect(parentScript.getHUD()._on_slot_mouse_item_hover)
 	add_child(new_slot)
 	_slots.append(new_slot)
 	_items.append(ability)
@@ -79,7 +85,7 @@ func remove_ability_ref(ability: AbilityData) -> void:
 
 func _refresh_display() -> void:
 	for i in _slots.size():
-		_slots[i].set_item(_items[i])
+		_slots[i].set_item(_items[i],false,true)
 
 ## Passive stat aggregation — queried by player every physics frame.
 func get_passive_speed_bonus() -> float:

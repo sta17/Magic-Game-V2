@@ -61,6 +61,7 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	inventory = Inventory.new()
+	inventory.init()
 	#add_child(inventory)
 
 	equipment = EquipmentManager.new()
@@ -176,6 +177,9 @@ func _physics_process(delta: float) -> void:
 		ACTION_STATE = ActionState.IDLE
 		pass
 	elif ACTION_STATE == ActionState.MELEE:
+		AnimTree.set("parameters/conditions/Attack End",true)
+		AnimTree.set("parameters/conditions/Attack Start",false)
+		AnimTree.set("parameters/conditions/Attack",false)
 		ACTION_STATE = ActionState.IDLE
 	
 	# Health regen from accessory and passive ability slots
@@ -197,17 +201,15 @@ func _physics_process(delta: float) -> void:
 			var dir: Vector3 = (transform.basis * Vector3(inputDir.x, 0.0, inputDir.y)).normalized()
 		
 			if inputDir == Vector2.ZERO:
-				AnimTree.set("parameters/conditions/is Moving N",false)
+				AnimTree.set("parameters/conditions/is Moving",false)
 				AnimTree.set("parameters/Moving Tree/Moving/blend_position",Vector2.ZERO)
-				#AnimTree["parameters/conditions/is Moving"] = false
-				AnimTree["parameters/conditions/is idle"] = true
-				#AnimTree.set("parameters/Moving/blend_position",Vector2.ZERO)
+				AnimTree.set("parameters/Moving Tree/Moving Armed/blend_position",Vector2.ZERO)
+				AnimTree.set("parameters/conditions/is idle",true)
 			else:
-				AnimTree.set("parameters/conditions/is Moving N",true)
+				AnimTree.set("parameters/conditions/is Moving",true)
 				AnimTree.set("parameters/Moving Tree/Moving/blend_position",inputDir.normalized())
-				#AnimTree["parameters/conditions/is Moving"] = true
-				AnimTree["parameters/conditions/is idle"] = false
-				#AnimTree.set("parameters/Moving/blend_position",inputDir.normalized())
+				AnimTree.set("parameters/Moving Tree/Moving Armed/blend_position",inputDir.normalized())
+				AnimTree.set("parameters/conditions/is idle",false)
 		
 			if dir.length() > 0.01:
 				velocity.x = dir.x * spd
@@ -219,17 +221,17 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("jump") and is_on_floor():
 			MOVING_STATE = MovingState.FLOATING
 			velocity.y = JUMP_FORCE
-			AnimTree["parameters/conditions/Landing"] = false
-			AnimTree["parameters/conditions/Jump"] = true
-			AnimTree["parameters/conditions/is Moving N"] = false
-			AnimTree["parameters/conditions/is idle"] = false
+			AnimTree.set("parameters/conditions/Landing",false)
+			AnimTree.set("parameters/conditions/Jump",true)
+			AnimTree.set("parameters/conditions/is Moving",false)
+			AnimTree.set("parameters/conditions/is idle",false)
 		elif not is_on_floor():
 			velocity.y += (GRAVITY * -1) * delta
-			AnimTree["parameters/conditions/Jump"] = false
+			AnimTree.set("parameters/conditions/Jump",false)
 		elif is_on_floor():
 			MOVING_STATE = MovingState.GROUNDED
-			AnimTree["parameters/conditions/Landing"] = true
-			AnimTree["parameters/conditions/Jump"] = false
+			AnimTree.set("parameters/conditions/Landing",true)
+			AnimTree.set("parameters/conditions/Jump",false)
 		
 		if Input.is_action_pressed("attack"):
 			_try_attack()
@@ -309,10 +311,6 @@ func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool
 		return false
 	if !quantityCounter:
 		return false
-	
-	var result: bool = inventory.add_item_with_quantity(quantityCounter)
-	if not result and not autoUse:
-		return false
 	if autoUse:
 		use_item(quantityCounter)
 		return true
@@ -321,24 +319,30 @@ func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool
 	match quantityCounter.item.item_type:
 		ItemData.ItemType.WEAPON:
 			if not equipment.equipped_weapon:
-				equipment.equip_item(quantityCounter)
+				equipment.handle_equip(quantityCounter)
+				_hud.show_notif("Picked up: " + quantityCounter.getName(), quantityCounter.get_type_color())
+				return true
 		ItemData.ItemType.ARMOR:
 			if not equipment.equipped_armor:
-				equipment.equip_item(quantityCounter)
+				equipment.handle_equip(quantityCounter)
+				_hud.show_notif("Picked up: " + quantityCounter.getName(), quantityCounter.get_type_color())
+				return true
 		ItemData.ItemType.ACCESSORY:
 			if not equipment.equipped_accessory:
-				equipment.equip_item(quantityCounter)
-				
-	_hud.show_notif("Picked up: " + quantityCounter.getName(), quantityCounter.get_type_color())
-
-	return true
+				equipment.handle_equip(quantityCounter)
+				_hud.show_notif("Picked up: " + quantityCounter.getName(), quantityCounter.get_type_color())
+				return true
+	if inventory.add_item(quantityCounter):
+		_hud.show_notif("Picked up: " + quantityCounter.getName(), quantityCounter.get_type_color())
+		return true
+	
+	return false
 
 #endregion
 
 #region Attack
 
 func _try_attack() -> void:
-	AnimTree.set("parameters/Moving Tree/OneShot/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	if not equipment.equipped_weapon or _shoot_cooldown > 0.0:
 		return
 	var w: WeaponData = equipment.equipped_weapon
@@ -373,10 +377,10 @@ func try_ranged(equipped_weapon: WeaponData) -> void:
 
 func try_melee(equipped_weapon: WeaponData) -> void:
 	ACTION_STATE = ActionState.MELEE
-	AnimTree.set("parameters/Moving Tree/OneShot/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	#AnimTree.set("parameters/conditions/Attack End",false)
-	#AnimTree.set("parameters/conditions/Attack Start",true)
-	#AnimTree.set("parameters/conditions/Attack",true)
+	AnimTree.set("parameters/Moving Tree/Attack Mixing/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	AnimTree.set("parameters/conditions/Attack End",false)
+	AnimTree.set("parameters/conditions/Attack Start",true)
+	AnimTree.set("parameters/conditions/Attack",true)
 	
 	_shoot_cooldown = equipped_weapon.fire_rate
 
@@ -444,6 +448,9 @@ func UpdatePhysicalAccessoryEquipment(_ac: QuantitySlot) -> void:
 	pass
 
 func _on_weapon_equipped(w: QuantitySlot) -> void:
+	if w.item != null:
+		#AnimTree.set("parameters/Moving Tree/Attack or Not/blend_amount",1.0)
+		AnimTree["parameters/Moving Tree/Attack or Not/blend_amount"] = 1.0
 	UpdatePhysicalWeaponEquipment(w)
 	_update_granted_ability("weapon", w)
 	_update_hud_all()
@@ -459,6 +466,9 @@ func _on_accessory_equipped(ac: QuantitySlot) -> void:
 	_update_hud_all()
 
 func _on_slot_cleared(slot: String) -> void:
+	# acts as unequipt signal
+	if slot == "weapon":
+		AnimTree.set("parameters/Moving Tree/Attack or Not/blend_amount",0.0)
 	_remove_granted_ability(slot)
 	_update_hud_all()
 	

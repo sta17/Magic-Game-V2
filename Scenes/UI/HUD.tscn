@@ -7,7 +7,7 @@
 [ext_resource type="Theme" uid="uid://diunbmd80jn4m" path="res://GodotSettings/Themes/Standard.tres" id="3_pydgx"]
 [ext_resource type="Script" uid="uid://cala1yfb72t6l" path="res://Script/UI/InventoryUI.gd" id="4_eebq5"]
 [ext_resource type="LabelSettings" uid="uid://cnekhifyltla2" path="res://GodotSettings/LabelSettings/BlackAndWhite13px.tres" id="6_55bpt"]
-[ext_resource type="PackedScene" uid="uid://dn78qsnrb4iyx" path="res://Scenes/UI/InventorySlot.tscn" id="6_jt2rc"]
+[ext_resource type="PackedScene" uid="uid://dn78qsnrb4iyx" path="res://Scenes/UI/inventorySlot.tscn" id="6_jt2rc"]
 [ext_resource type="Texture2D" uid="uid://o4niaxfjps4w" path="res://Assets/Textures/Mine/HPPlate2.png" id="6_yd1yt"]
 [ext_resource type="PackedScene" uid="uid://d3rkdpj7p44rn" path="res://Scenes/UI/act_abi_label.tscn" id="7_pd044"]
 [ext_resource type="Texture2D" uid="uid://dd1gew20h4wbc" path="res://Assets/Icons/Buch's RPG Items/Frame (4).png" id="8_55bpt"]
@@ -431,13 +431,20 @@ offset_top = 103.0
 offset_right = 1247.0
 offset_bottom = 627.0
 
+[node name="PassiveHotbar" parent="InvPanel/AbiContent/AbiScroll" unique_id=2084387450 instance=ExtResource("10_pydgx")]
+layout_mode = 1
+offset_left = 385.0
+offset_top = 28.0
+offset_right = -97.0
+offset_bottom = -438.0
+
 [node name="AbilitiesContainer" type="Control" parent="InvPanel/AbiContent/AbiScroll" unique_id=1302358118]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 13.0
-offset_top = 23.0
+offset_top = 20.0
 offset_right = 13.0
-offset_bottom = 23.0
+offset_bottom = 20.0
 
 [node name="ACT_ABI_Label" parent="InvPanel/AbiContent/AbiScroll" unique_id=2000494667 instance=ExtResource("7_pd044")]
 layout_mode = 0
@@ -451,13 +458,6 @@ offset_left = 385.0
 offset_right = 750.0
 offset_bottom = 23.0
 horizontal_alignment = 1
-
-[node name="PassiveHotbar" parent="InvPanel/AbiContent/AbiScroll" unique_id=2084387450 instance=ExtResource("10_pydgx")]
-layout_mode = 1
-offset_left = 385.0
-offset_top = 28.0
-offset_right = 11.0
-offset_bottom = -12.0
 
 [node name="TabInvBtn" type="Button" parent="InvPanel" unique_id=957084013]
 layout_mode = 0
@@ -563,14 +563,14 @@ texture_filter = 1
 anchors_preset = 0
 offset_left = 47.0
 offset_top = 255.0
-offset_right = 447.0
-offset_bottom = 495.0
+offset_right = 693.0
+offset_bottom = 606.0
 
 [node name="Tooltip" type="RichTextLabel" parent="VendorWindow/VendorContent" unique_id=1407277962]
 layout_mode = 0
-offset_left = 464.0
+offset_left = 670.0
 offset_top = 150.0
-offset_right = 864.0
+offset_right = 1204.0
 offset_bottom = 605.0
 theme = ExtResource("3_pydgx")
 theme_override_font_sizes/normal_font_size = 13

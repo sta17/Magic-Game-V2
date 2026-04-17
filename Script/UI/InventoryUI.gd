@@ -48,6 +48,7 @@ func init(player: Player) -> void:
 	_player    = player
 	_inventory = player.inventory
 	_equipment = player.equipment
+	passive_hotbar.init(self)
 
 	_inventory.inventory_changed.connect(_rebuild)
 	_equipment.weapon_equipped.connect(_rebuild)
@@ -87,7 +88,7 @@ func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inven
 		@warning_ignore("integer_division")
 		slot.position  = Vector2((i % cols) * step, (i / cols) * step)
 		slot.slot_clicked.connect(_on_slot_clicked)
-		slot.mouse_item_hover.connect((self.get_parent() as HUD)._on_slot_mouse_item_hover)
+		slot.mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
 		slot.index = i
 		_root.add_child(slot)
 		_slots.append(slot)
@@ -111,8 +112,6 @@ func ShowHide_Inventory_Box(interactble_entity: Box) -> void:
 	else:
 		_secondary_inventory.inventory_changed.disconnect(_rebuild)
 		_secondary_inventory = null
-	pass
-	
 
 #endregion
 
@@ -207,6 +206,7 @@ func _rebuild_abilities() -> void:
 	for ab: AbilityData in active_abs:
 		var _ABI_CARD := _ABI_CARD_SCENE.instantiate()
 		_ABI_CARD.initalise(ab)
+		_ABI_CARD.getSlot().mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
 		_ABI_CARD.position = Vector2(left_x, y_left)
 		_abilities_container.add_child(_ABI_CARD)
 		y_left += stride
@@ -218,6 +218,7 @@ func _rebuild_abilities() -> void:
 	for ab:AbilityData in passive_abs:
 		var _ABI_CARD : AbilityCard = _ABI_CARD_SCENE.instantiate()
 		_ABI_CARD.initalise(ab)
+		_ABI_CARD.getSlot().mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
 		_ABI_CARD.position = Vector2(right_x, y_right)
 		_abilities_container.add_child(_ABI_CARD)
 		y_right += stride
@@ -257,7 +258,7 @@ func _on_drop_pressed() -> void:
 				ItemData.ItemType.WEAPON:    _equipment.unequip_weapon()
 				ItemData.ItemType.ARMOR:     _equipment.unequip_armor()
 				ItemData.ItemType.ACCESSORY: _equipment.unequip_accessory()
-		_inventory.remove_item(item)
+		_inventory.remove_item(_selected_slot.itemQuantity)
 	_clear_selection()
 
 func _clear_selection() -> void:
@@ -278,12 +279,15 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 	var to_is_eq   := _is_eq_slot(to_slot)
 
 	if to_is_eq:
-		_equipment.equip_item(from_item)
+		match from_item.item.item_type:
+			ItemData.ItemType.WEAPON: _equipment.equip_itemNew(from_slot,to_slot,_inventory)
+			ItemData.ItemType.ARMOR:_equipment.equip_itemNew(from_slot,to_slot,_inventory)
+			ItemData.ItemType.ACCESSORY: _equipment.equip_itemNew(from_slot,to_slot,_inventory)
 	elif from_is_eq:
 		match _get_eq_type(from_slot):
-			InventorySlot.SlotType.WEAPON:    _equipment.unequip_weapon()
-			InventorySlot.SlotType.ARMOR:     _equipment.unequip_armor()
-			InventorySlot.SlotType.ACCESSORY: _equipment.unequip_accessory()
+			InventorySlot.SlotType.WEAPON:    _equipment.unequip_itemNew(from_slot, to_slot,_inventory)
+			InventorySlot.SlotType.ARMOR:     _equipment.unequip_itemNew(from_slot, to_slot,_inventory)
+			InventorySlot.SlotType.ACCESSORY: _equipment.unequip_itemNew(from_slot, to_slot,_inventory)
 	elif from_slot.slot_type == InventorySlot.SlotType.HOTBAR:
 		if _hotbar:
 			_hotbar.unassign_slot(from_slot)
@@ -296,14 +300,14 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 			_inventory.SwapSlotsInInventory(from_slot, to_slot,_secondary_inventory)
 		elif from_slot.slot_type == InventorySlot.SlotType.SECONDARY:
 			if to_item == null:
-				_inventory.add_single_Slot(from_slot, to_slot,_secondary_inventory,_inventory)
+				_inventory.transferBetweenInventories(from_slot, to_slot,_secondary_inventory,_inventory)
 			else:
-				_inventory.SwapSlots(from_slot, to_slot,_inventory,_secondary_inventory)
+				_inventory.SwapSlotsBetweenInventories(from_slot, to_slot,_inventory,_secondary_inventory)
 		elif to_slot.slot_type == InventorySlot.SlotType.SECONDARY:
 			if to_item == null:
-				_inventory.add_single_Slot(from_slot, to_slot,_inventory,_secondary_inventory)
+				_inventory.transferBetweenInventories(from_slot, to_slot,_inventory,_secondary_inventory)
 			else:
-				_inventory.SwapSlots(from_slot, to_slot,_inventory,_secondary_inventory)
+				_inventory.SwapSlotsBetweenInventories(from_slot, to_slot,_inventory,_secondary_inventory)
 		_secondary_inventory.inventory_changed.emit()
 		_inventory.inventory_changed.emit()
 	else:
@@ -324,5 +328,8 @@ func _get_eq_type(slot: InventorySlot) -> InventorySlot.SlotType:
 	if slot == _eq_weapon_slot: return InventorySlot.SlotType.WEAPON
 	if slot == _eq_armor_slot:  return InventorySlot.SlotType.ARMOR
 	return InventorySlot.SlotType.ACCESSORY
+
+func getHUD() -> HUD:
+	return self.get_parent()
 
 #endregion

@@ -8,6 +8,7 @@ class_name VendorUI
 
 #region Scene node references and Variables
 
+const _SHOP_CARD_SCENE := preload("res://Scenes/UI/shopping_card.tscn")
 const _SLOT_SCENE := preload("res://scenes/UI/inventorySlot.tscn")
 
 var _money: ItemData = preload("res://Resources/items/Money.tres")
@@ -18,6 +19,8 @@ var _shop_inventory: Inventory = null
 var _grid_slots: Array[InventorySlot] = []
 var _player: Player = null
 var _selected_slot: InventorySlot = null
+
+var _shopping_Card: Array[ShoppingCard] = []
 
 #@onready var _vendor_content: Control         = $VendorContent
 
@@ -38,16 +41,17 @@ func init(player: Player) -> void:
 func Show_Vendor(_otherInteracter: NPC, shoppinglist: Array[QuantitySlot] = []) -> void:
 	_shop_inventory = Inventory.new()
 	_shop_inventory.setList(shoppinglist)
-	_shop_inventory.inventory_changed.connect(_refresh_grid_slots)
+	_shop_inventory.inventory_changed.connect(refresh_grid_slots)
 
-	_build_grid(_grid_root,_grid_slots,_shop_inventory,InventorySlot.SlotType.ANY)
-	_refresh_grid_slots()
+	#_build_grid(_grid_root,_grid_slots,_shop_inventory,InventorySlot.SlotType.ANY)
+	#_refresh_grid_slots()
+	refresh_Shopping_List()
 
 	#_second_inventory_label.text = interactble_entity.labelText
 
 func hide_vendor() -> void:
 	if _shop_inventory:
-		_shop_inventory.inventory_changed.disconnect(_refresh_grid_slots)
+		_shop_inventory.inventory_changed.disconnect(refresh_grid_slots)
 		_shop_inventory = null
 
 func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inventory, type: InventorySlot.SlotType) -> void:
@@ -61,19 +65,22 @@ func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inven
 		@warning_ignore("integer_division")
 		slot.position  = Vector2((i % cols) * step, (i / cols) * step)
 		slot.slot_clicked.connect(_on_slot_clicked)
-		slot.mouse_item_hover.connect((self.get_parent() as HUD)._on_slot_mouse_item_hover)
+		slot.mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
 		slot.index = i
 		_root.add_child(slot)
 		_slots.append(slot)
+
+func getHUD() -> HUD:
+	return self.get_parent()
 
 #endregion
 
 #region Refresh
 
-func _rebuild(_obj: Variant = null) -> void:
-	_refresh_grid_slots()
+func rebuild(_obj: Variant = null) -> void:
+	refresh_grid_slots()
 
-func _refresh_grid_slots() -> void:
+func refresh_grid_slots() -> void:
 	_count_label.text = "INVENTORY  (%d / %d)" % [_shop_inventory.items.size(), _shop_inventory.capacity]
 	#var visible_items : Array[QuantitySlot] = _shop_inventory.items.filter(func(it: QuantitySlot) -> bool: return not _equipment.is_equipped_wrapper(it))
 	var visible_items : Array[QuantitySlot] = _shop_inventory.items
@@ -82,6 +89,24 @@ func _refresh_grid_slots() -> void:
 			_grid_slots[i].set_item(visible_items[i])
 		else:
 			_grid_slots[i].set_item(null)
+
+func refresh_Shopping_List() -> void:
+	#for n in _grid_root.get_children(): n.queue_free()
+	#_shopping_Card.clear()
+	var stride  := 100.0
+	var left_x  := 0.0
+	var y_left:float = 11
+	
+	for qs: QuantitySlot in _shop_inventory.getList():
+		var _SHOP_CARD: ShoppingCard = _SHOP_CARD_SCENE.instantiate()
+		_SHOP_CARD.initalise(qs.item)
+		_SHOP_CARD.getSlot().slot_clicked.connect(_on_slot_clicked)
+		_SHOP_CARD.getSlot().mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
+		_grid_root.add_child(_SHOP_CARD)
+		_SHOP_CARD.position = Vector2(left_x, y_left)
+		_shopping_Card.append(_SHOP_CARD)
+		y_left += stride
+	pass
 
 #endregion
 
@@ -104,20 +129,8 @@ func _on_slot_clicked(slot: InventorySlot) -> void:
 		moneyWrapper.item = _money
 		moneyWrapper.quantity = tempitem.item.value
 		if _player_inventory.remove_item_quantity(moneyWrapper):
-			_player_inventory.add_item_with_quantity(tempitem)
+			_player_inventory.add_item(tempitem)
 		_clear_selection()
-
-func _on_use_pressed() -> void:
-	if _selected_slot and _selected_slot.itemQuantity and _player:
-		_player.use_item(_selected_slot.itemQuantity)
-	_clear_selection()
-
-func _on_drop_pressed() -> void:
-	if _selected_slot and _selected_slot.item:
-		var item: ItemData = _selected_slot.item as ItemData
-		#_shop_inventory.remove_item(item)
-		_player_inventory.add_item(item)
-	_clear_selection()
 
 func _clear_selection() -> void:
 	_selected_slot    = null

@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://41aa0r5asfgx"]
+
+[ext_resource type="Texture2D" uid="uid://c0j27iwg5cp82" path="res://Assets/Textures/Mine/Frame 10.png" id="1_xw2qi"]
+[ext_resource type="Script" uid="uid://bo2b8t6c5bqh7" path="res://Script/UI/shopping_card.tscn.gd" id="2_xw2qi"]
+[ext_resource type="PackedScene" uid="uid://dn78qsnrb4iyx" path="res://Scenes/UI/inventorySlot.tscn" id="3_buu6e"]
+
+[node name="Card" type="NinePatchRect" unique_id=260759856]
+texture_filter = 1
+custom_minimum_size = Vector2(365, 90)
+offset_right = 365.0
+offset_bottom = 90.0
+texture = ExtResource("1_xw2qi")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+script = ExtResource("2_xw2qi")
+
+[node name="InventorySlot" parent="." unique_id=568371529 instance=ExtResource("3_buu6e")]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 70.0
+offset_bottom = 70.0
+slot_type = 5
+
+[node name="Title_lbl" type="Label" parent="." unique_id=371884077]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 12.0
+offset_right = 133.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(1, 0.9260749, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 16
+text = "Ability"
+
+[node name="Desc_lbl" type="Label" parent="." unique_id=2104935772]
+clip_contents = true
+layout_mode = 0
+offset_left = 84.0
+offset_top = 40.0
+offset_right = 357.0
+offset_bottom = 80.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 12
+text = "Ability_Desc"
+autowrap_mode = 3
