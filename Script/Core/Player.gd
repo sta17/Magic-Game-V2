@@ -3,6 +3,7 @@ extends CharacterBody3D
 class_name Player
 
 const _BulletScene  := preload("res://Scenes/bullet.tscn")
+const _PickupScene  := preload("res://Scenes/PickUpItem.tscn")
 enum PlayerState { ACTIVE, UI, DIALOG, UIMINIMAL }
 enum MovingState { GROUNDED, FLOATING }
 enum ActionState { IDLE, MELEE, RANGED }
@@ -304,6 +305,13 @@ func _try_interact() -> void:
 			# Pass the interactble_entity for access of its inventory.
 			#_hud.ShowHide_Inventory_Box(interactble_entity)
 			#_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
+
+func drop_item(quantityCounter : QuantitySlot) -> void:
+	var _PickupItem: PickUpItem = _PickupScene.instantiate()
+	_PickupItem.quantityCounter = quantityCounter
+	get_tree().current_scene.add_child(_PickupItem)
+	_PickupItem.position = self.position
+	_PickupItem._setup()
 
 func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool:
 	if inventory.is_full():

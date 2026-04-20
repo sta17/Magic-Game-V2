@@ -1,3 +1,5 @@
+Control
+GridContainer
 Node3D
 AnimationPlayer
 MeshInstance3D
@@ -6,9 +8,7 @@ Marker3D
 AnimationTree
 TextureRect
 MarginContainer
-Control
 Panel
 ColorRect
 CollisionShape3D
 Sprite3D
-StaticBody3D

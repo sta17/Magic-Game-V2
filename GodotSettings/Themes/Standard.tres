@@ -2,8 +2,13 @@
 
 [ext_resource type="StyleBox" uid="uid://c5ahfrtbbw4u8" path="res://GodotSettings/Styleboxes/Frame_style_box_texture.tres" id="1_ebc52"]
 [ext_resource type="Texture2D" uid="uid://lvhfphuw7l3x" path="res://Assets/Icons/Buch's RPG Items/Frame.png" id="1_lc2hs"]
+[ext_resource type="StyleBox" uid="uid://diw7rl1uyi4i7" path="res://GodotSettings/Styleboxes/style_box_Plate_Silver.tres" id="1_oy0mn"]
+[ext_resource type="StyleBox" uid="uid://ctugptj586ux4" path="res://GodotSettings/Styleboxes/style_box_Plate_Gold.tres" id="2_s7glq"]
 
 [resource]
+Button/styles/hover = ExtResource("1_oy0mn")
+Button/styles/normal = ExtResource("2_s7glq")
+Button/styles/pressed = ExtResource("1_oy0mn")
 Panel/styles/panel = ExtResource("1_ebc52")
 RichTextLabel/icons/horizontal_rule = ExtResource("1_lc2hs")
 RichTextLabel/styles/background = ExtResource("1_ebc52")

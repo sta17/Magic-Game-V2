@@ -19,6 +19,9 @@ var itemModel: Node3D
 var toBeDeleted:bool = false
 
 func _ready() -> void:
+	_setup()
+
+func _setup() -> void:
 	itemSafetyCheck()
 	
 	if addMeshModelOnStart and item:
@@ -26,6 +29,7 @@ func _ready() -> void:
 			editor_Model.queue_free()
 			var obj:Node = item.dropped_item_model.instantiate()
 			geometry.add_child(obj)
+			self.position.y = self.position.y + 1.0
 			itemModel = obj
 			if animator:
 				if animator.has_animation("ItemIdle"):

@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://dn78qsnrb4iyx" path="res://Scenes/UI/inventorySlot.tscn" id="6_jt2rc"]
 [ext_resource type="Texture2D" uid="uid://o4niaxfjps4w" path="res://Assets/Textures/Mine/HPPlate2.png" id="6_yd1yt"]
 [ext_resource type="PackedScene" uid="uid://d3rkdpj7p44rn" path="res://Scenes/UI/act_abi_label.tscn" id="7_pd044"]
-[ext_resource type="Texture2D" uid="uid://dd1gew20h4wbc" path="res://Assets/Icons/Buch's RPG Items/Frame (4).png" id="8_55bpt"]
 [ext_resource type="PackedScene" uid="uid://bxdp14nxvsvke" path="res://Scenes/UI/pas_abi_label.tscn" id="8_gmqj4"]
 [ext_resource type="Texture2D" uid="uid://be7c8l4x55idj" path="res://Assets/Textures/Mine/lightning 64 2.png" id="8_p4bpa"]
 [ext_resource type="Texture2D" uid="uid://c01pxpgt8xo1q" path="res://Assets/Models/Public Domain/Kenney/Kenney Keep/Models/heart.png" id="9_gcvgm"]
@@ -26,7 +25,10 @@
 [ext_resource type="Texture2D" uid="uid://cdgl6luud165n" path="res://Assets/Icons/Buch's RPG Items/Frame 9.png" id="16_yd1yt"]
 [ext_resource type="Script" uid="uid://cu5alnpb73cmj" path="res://Script/UI/LootWindow.gd" id="18_dds1n"]
 [ext_resource type="Texture2D" uid="uid://35vpwbvgpbf4" path="res://Assets/Textures/Mine/Frame 10 (2).png" id="19_5h4o4"]
+[ext_resource type="Texture2D" uid="uid://bt37cxhjxagut" path="res://Assets/Icons/Mine/icon_bag.png" id="19_dlptc"]
+[ext_resource type="Texture2D" uid="uid://bvx8k76p7ksan" path="res://Assets/Icons/Mine/icon_projectile.png" id="20_dlptc"]
 [ext_resource type="Script" uid="uid://b1ju7ugm24f0o" path="res://Script/UI/vendorWindow.gd" id="20_khvou"]
+[ext_resource type="Texture2D" uid="uid://bql7ql4lwerqy" path="res://Assets/Icons/Mine/icon_character.png" id="21_iub3o"]
 [ext_resource type="Texture2D" uid="uid://c0j27iwg5cp82" path="res://Assets/Textures/Mine/Frame 10.png" id="24_0n5r3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t385i"]
@@ -54,6 +56,9 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 6
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dlptc"]
+load_path = "res://.godot/imported/Bag 64 Blue.png-41e3c64a2556da34a049188b53eab479.ctex"
 
 [node name="HUD" type="CanvasLayer" unique_id=1587741402]
 script = ExtResource("1_i4i0y")
@@ -180,8 +185,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 
-[node name="InvPanel" type="Panel" parent="." unique_id=653791917]
-visible = false
+[node name="InvPanel" type="Panel" parent="." unique_id=653791917 node_paths=PackedStringArray("tabList")]
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -190,6 +194,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_pydgx")
 script = ExtResource("4_eebq5")
+tabList = [NodePath("MarginContainer/InvContent"), NodePath("MarginContainer/AbiContent"), NodePath("MarginContainer/StatsContent")]
 
 [node name="NinePatchRect" type="NinePatchRect" parent="InvPanel" unique_id=656711777]
 layout_mode = 1
@@ -198,11 +203,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("16_yd1yt")
+texture = ExtResource("24_0n5r3")
 region_rect = Rect2(0, 0, 32, 32)
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
+patch_margin_left = 10
+patch_margin_top = 5
+patch_margin_right = 10
 patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
@@ -215,7 +220,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_pydgx")
-theme_override_constants/margin_left = 30
+theme_override_constants/margin_left = 160
 theme_override_constants/margin_top = 100
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 90
@@ -227,257 +232,404 @@ expand_mode = 2
 
 [node name="NinePatchRect2" type="NinePatchRect" parent="InvPanel/MarginContainer" unique_id=550679858]
 layout_mode = 2
-texture = ExtResource("8_55bpt")
+texture = ExtResource("19_5h4o4")
 region_rect = Rect2(0, 0, 32, 32)
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
+patch_margin_left = 10
+patch_margin_top = 5
+patch_margin_right = 10
 patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="InvContent" type="Control" parent="InvPanel" unique_id=863085535]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="InvContent" type="Control" parent="InvPanel/MarginContainer" unique_id=863085535]
+layout_mode = 2
 theme = ExtResource("3_pydgx")
 
-[node name="InvTitle" type="Label" parent="InvPanel/InvContent" unique_id=1267627619]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 25.0
-offset_right = 600.0
-offset_bottom = 56.0
+[node name="InvTitle" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=1267627619]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.01
+anchor_right = 0.5
+anchor_bottom = 0.01
+offset_left = -122.0
+offset_top = 4.9999995
+offset_right = 122.0
+offset_bottom = 36.0
+grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 0.8392157, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
 text = "INVENTORY  (I to close)"
 
-[node name="EqHint" type="Label" parent="InvPanel/InvContent" unique_id=1672798095]
+[node name="EqHint" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=1672798095]
 layout_mode = 0
 offset_left = 47.0
-offset_top = 120.0
-offset_right = 747.0
-offset_bottom = 143.0
+offset_top = 45.0
+offset_right = 389.0
+offset_bottom = 63.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
 text = "EQUIPPED  —  drag items from inventory or click Equip"
 
-[node name="WpnLabel" type="Label" parent="InvPanel/InvContent" unique_id=560588694]
+[node name="WpnLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=560588694]
 layout_mode = 0
 offset_left = 47.0
-offset_top = 143.0
+offset_top = 70.0
 offset_right = 107.0
-offset_bottom = 159.0
+offset_bottom = 86.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
 text = "WEAPON"
 
-[node name="WpnSlot" parent="InvPanel/InvContent" unique_id=568371529 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=568371529 instance=ExtResource("6_jt2rc")]
 layout_mode = 0
 offset_left = 47.0
-offset_top = 159.0
-offset_right = 107.0
-offset_bottom = 219.0
+offset_top = 89.0
+offset_right = 111.0
+offset_bottom = 153.0
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
+emptyTexture = SubResource("CompressedTexture2D_dlptc")
 
-[node name="ArmLabel" type="Label" parent="InvPanel/InvContent" unique_id=615396826]
+[node name="ArmLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=615396826]
 layout_mode = 0
 offset_left = 113.0
-offset_top = 143.0
+offset_top = 70.0
 offset_right = 173.0
-offset_bottom = 178.0
+offset_bottom = 86.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
-text = "ARMOR
-"
+text = "ARMOR"
 
-[node name="ArmSlot" parent="InvPanel/InvContent" unique_id=2049383572 instance=ExtResource("6_jt2rc")]
+[node name="ArmSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=2049383572 instance=ExtResource("6_jt2rc")]
 layout_mode = 0
 offset_left = 113.0
-offset_top = 159.0
-offset_right = 173.0
-offset_bottom = 219.0
+offset_top = 89.0
+offset_right = 177.0
+offset_bottom = 153.0
 slot_type = 2
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="AccLabel" type="Label" parent="InvPanel/InvContent" unique_id=824059576]
+[node name="AccLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=824059576]
 layout_mode = 0
 offset_left = 179.0
-offset_top = 143.0
+offset_top = 70.0
 offset_right = 241.0
-offset_bottom = 178.0
+offset_bottom = 86.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
-text = "ACCESSORY
-"
+text = "ACCESSORY"
 
-[node name="AccSlot" parent="InvPanel/InvContent" unique_id=1570301448 instance=ExtResource("6_jt2rc")]
+[node name="AccSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=1570301448 instance=ExtResource("6_jt2rc")]
 layout_mode = 0
 offset_left = 179.0
-offset_top = 159.0
-offset_right = 239.0
-offset_bottom = 219.0
+offset_top = 89.0
+offset_right = 243.0
+offset_bottom = 153.0
 slot_type = 3
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="InvCountLabel" type="Label" parent="InvPanel/InvContent" unique_id=902609520]
+[node name="InvCountLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=902609520]
 layout_mode = 0
 offset_left = 47.0
-offset_top = 235.0
-offset_right = 447.0
-offset_bottom = 274.0
+offset_top = 160.0
+offset_right = 121.0
+offset_bottom = 178.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
 text = "INVENTORY"
 
-[node name="InvCountLabel2" type="Label" parent="InvPanel/InvContent" unique_id=1250560419]
+[node name="InvCountLabel2" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=1250560419]
 visible = false
 layout_mode = 0
 offset_left = 464.0
-offset_top = 235.0
-offset_right = 864.0
-offset_bottom = 274.0
+offset_top = 160.0
+offset_right = 538.0
+offset_bottom = 178.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
 text = "INVENTORY"
 
-[node name="GridRoot" type="Control" parent="InvPanel/InvContent" unique_id=1685799388]
-anchors_preset = 0
+[node name="GridRoot" type="GridContainer" parent="InvPanel/MarginContainer/InvContent" unique_id=1336032394]
+layout_mode = 0
 offset_left = 47.0
-offset_top = 255.0
+offset_top = 185.0
 offset_right = 447.0
-offset_bottom = 565.0
+offset_bottom = 470.0
+columns = 5
 
-[node name="GridRoot2" type="Control" parent="InvPanel/InvContent" unique_id=16281444]
+[node name="WpnSlot" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1465377923 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot2" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=215355256 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot3" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1768263654 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot4" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=458431937 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot5" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=240103951 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot6" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1374982674 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot7" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1095158828 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot8" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=635929334 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot9" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=866657833 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot10" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1234321044 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot11" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=326792161 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot12" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=734633817 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot13" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=349081735 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot14" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=939532354 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot15" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=2081171013 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot16" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=605472758 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot17" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=862486770 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot18" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=423016735 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot19" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1381779227 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="WpnSlot20" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1876120766 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GridRoot2" type="Control" parent="InvPanel/MarginContainer/InvContent" unique_id=16281444]
 visible = false
 anchors_preset = 0
 offset_left = 464.0
-offset_top = 255.0
+offset_top = 185.0
 offset_right = 864.0
-offset_bottom = 565.0
+offset_bottom = 470.0
 
-[node name="VendorContent" type="Control" parent="InvPanel/InvContent" unique_id=52316713]
+[node name="VendorContent" type="Control" parent="InvPanel/MarginContainer/InvContent" unique_id=52316713]
 visible = false
 anchors_preset = 0
-offset_left = 468.0
-offset_top = 267.0
-offset_right = 868.0
-offset_bottom = 577.0
+offset_left = 464.0
+offset_top = 185.0
+offset_right = 864.0
+offset_bottom = 470.0
 
-[node name="UseBtn" type="Button" parent="InvPanel/InvContent" unique_id=663776435]
+[node name="UseBtn" type="Button" parent="InvPanel/MarginContainer/InvContent" unique_id=663776435]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 580.0
-offset_right = 140.0
-offset_bottom = 616.0
+offset_left = 47.0
+offset_top = 480.0
+offset_right = 147.0
+offset_bottom = 516.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Use"
 
-[node name="DropBtn" type="Button" parent="InvPanel/InvContent" unique_id=611986333]
+[node name="DropBtn" type="Button" parent="InvPanel/MarginContainer/InvContent" unique_id=611986333]
 layout_mode = 0
 offset_left = 150.0
-offset_top = 580.0
+offset_top = 480.0
 offset_right = 250.0
-offset_bottom = 616.0
+offset_bottom = 516.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Drop"
 
-[node name="AbiContent" type="Control" parent="InvPanel" unique_id=651199067]
+[node name="AbiContent" type="Control" parent="InvPanel/MarginContainer" unique_id=651199067]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme = ExtResource("3_pydgx")
 
-[node name="AbiTitle" type="Label" parent="InvPanel/AbiContent" unique_id=1363244720]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 25.0
-offset_right = 600.0
-offset_bottom = 56.0
+[node name="AbiTitle" type="Label" parent="InvPanel/MarginContainer/AbiContent" unique_id=1363244720]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.01
+anchor_right = 0.5
+anchor_bottom = 0.01
+offset_left = -109.0
+offset_top = 5.0
+offset_right = 109.0
+offset_bottom = 31.0
+grow_horizontal = 2
 theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
 text = "ABILITIES  (I to close)"
 
-[node name="AbiScroll" type="Control" parent="InvPanel/AbiContent" unique_id=941729171]
-anchors_preset = 0
-offset_left = 33.0
-offset_top = 103.0
-offset_right = 1247.0
-offset_bottom = 627.0
+[node name="AbiScroll" type="Control" parent="InvPanel/MarginContainer/AbiContent" unique_id=941729171]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="PassiveHotbar" parent="InvPanel/AbiContent/AbiScroll" unique_id=2084387450 instance=ExtResource("10_pydgx")]
+[node name="PassiveHotbar" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=2084387450 instance=ExtResource("10_pydgx")]
 layout_mode = 1
 offset_left = 385.0
-offset_top = 28.0
-offset_right = -97.0
-offset_bottom = -438.0
+offset_top = 72.0
+offset_right = -35.0
+offset_bottom = -408.0
 
-[node name="AbilitiesContainer" type="Control" parent="InvPanel/AbiContent/AbiScroll" unique_id=1302358118]
+[node name="AbilitiesContainer" type="Control" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=1302358118]
 layout_mode = 1
 anchors_preset = 0
-offset_left = 13.0
-offset_top = 20.0
-offset_right = 13.0
-offset_bottom = 20.0
+offset_left = 47.0
+offset_top = 70.0
+offset_right = 47.0
+offset_bottom = 70.0
 
-[node name="ACT_ABI_Label" parent="InvPanel/AbiContent/AbiScroll" unique_id=2000494667 instance=ExtResource("7_pd044")]
+[node name="ACT_ABI_Label" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=2000494667 instance=ExtResource("7_pd044")]
 layout_mode = 0
-offset_right = 365.0
-offset_bottom = 23.0
+offset_left = 47.0
+offset_top = 47.0
+offset_right = 412.0
+offset_bottom = 65.0
 horizontal_alignment = 1
 
-[node name="PAS_ABI_Label" parent="InvPanel/AbiContent/AbiScroll" unique_id=2108117407 instance=ExtResource("8_gmqj4")]
+[node name="PAS_ABI_Label" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=2108117407 instance=ExtResource("8_gmqj4")]
 layout_mode = 0
 offset_left = 385.0
+offset_top = 47.0
 offset_right = 750.0
-offset_bottom = 23.0
+offset_bottom = 70.0
 horizontal_alignment = 1
+
+[node name="StatsContent" type="Control" parent="InvPanel/MarginContainer" unique_id=182895318]
+visible = false
+layout_mode = 2
+
+[node name="AbiTitle" type="Label" parent="InvPanel/MarginContainer/StatsContent" unique_id=1229549372]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.01
+anchor_right = 0.5
+anchor_bottom = 0.01
+offset_left = -109.0
+offset_top = 5.0
+offset_right = 109.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 22
+text = "STATS  (I to close)"
 
 [node name="TabInvBtn" type="Button" parent="InvPanel" unique_id=957084013]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 58.0
-offset_right = 150.0
-offset_bottom = 89.0
+offset_left = 15.0
+offset_top = 100.0
+offset_right = 155.0
+offset_bottom = 132.0
+theme = ExtResource("3_pydgx")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Inventories"
+icon = ExtResource("19_dlptc")
 
 [node name="TabAbiBtn" type="Button" parent="InvPanel" unique_id=375718476]
 layout_mode = 0
-offset_left = 160.0
-offset_top = 58.0
-offset_right = 270.0
-offset_bottom = 89.0
+offset_left = 15.0
+offset_top = 135.0
+offset_right = 155.0
+offset_bottom = 167.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Abilities"
+icon = ExtResource("20_dlptc")
+
+[node name="TabStatsBtn" type="Button" parent="InvPanel" unique_id=1202047828]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 170.0
+offset_right = 155.0
+offset_bottom = 202.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Stats"
+icon = ExtResource("21_iub3o")
 
 [node name="VendorWindow" type="Control" parent="." unique_id=33604593]
 visible = false
@@ -763,6 +915,6 @@ offset_top = 27.5
 offset_right = -860.0
 offset_bottom = -572.5
 
-[connection signal="mouse_item_hover" from="InvPanel/InvContent/WpnSlot" to="." method="_on_slot_mouse_item_hover"]
-[connection signal="mouse_item_hover" from="InvPanel/InvContent/ArmSlot" to="." method="_on_slot_mouse_item_hover"]
-[connection signal="mouse_item_hover" from="InvPanel/InvContent/AccSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="InvPanel/MarginContainer/InvContent/WpnSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="InvPanel/MarginContainer/InvContent/ArmSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="InvPanel/MarginContainer/InvContent/AccSlot" to="." method="_on_slot_mouse_item_hover"]

@@ -96,8 +96,10 @@ func remove_item_quantity_at_index(quantityCounter : QuantitySlot,remove_index: 
 
 func findItem(item: QuantitySlot) -> int:
 	for i in range(items.size()):
-		if items[i].item == item.item:
-			return i
+		if items[i] != null:
+			if items[i].item != null:
+				if items[i].item == item.item:
+					return i
 	return -1
 
 func findItemFrom(item: QuantitySlot, startIdx: int = 0) -> int:
@@ -105,8 +107,9 @@ func findItemFrom(item: QuantitySlot, startIdx: int = 0) -> int:
 		return -1
 	for i in range(startIdx,items.size()):
 		if items[i] != null:
-			if items[i].item == item.item:
-				return i
+			if items[i].item != null:
+				if items[i].item == item.item:
+					return i
 	return -1
 
 func is_full() -> bool:

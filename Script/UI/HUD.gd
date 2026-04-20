@@ -24,6 +24,10 @@ func _ready() -> void:
 	Input.set_custom_mouse_cursor(default_cursor, Input.CURSOR_ARROW,Vector2(7, 6))
 	Input.set_custom_mouse_cursor(default_cursor, Input.CURSOR_CAN_DROP,Vector2(7, 6))
 	Input.set_custom_mouse_cursor(cross_cursor, Input.CURSOR_FORBIDDEN,Vector2(7, 6))
+	if inv_panel.visible:
+		inv_panel.visible = false
+	if vendor_panel.visible:
+		vendor_panel.visible = false
 
 func _process(_delta:float) -> void:
 	if tooltip.visible:

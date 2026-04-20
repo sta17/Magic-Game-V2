@@ -21,24 +21,25 @@ var _active_tab: int = 0
 
 #region Scene node references
 
-@onready var _tab_inv_btn: Button          = $TabInvBtn
-@onready var _tab_abi_btn: Button          = $TabAbiBtn
-@onready var _inv_content: Control         = $InvContent
-@onready var _abi_content: Control         = $AbiContent
+@onready var _tab_inv_btn: Button				= $TabInvBtn
+@onready var _tab_abi_btn: Button				= $TabAbiBtn
+@onready var _tab_stats_btn: Button				= $TabStatsBtn
 
-@onready var _eq_weapon_slot: InventorySlot    = $InvContent/WpnSlot
-@onready var _eq_armor_slot: InventorySlot     = $InvContent/ArmSlot
-@onready var _eq_accessory_slot: InventorySlot = $InvContent/AccSlot
-@onready var _count_label: Label           = $InvContent/InvCountLabel
-@onready var _grid_root: Control           = $InvContent/GridRoot
-@onready var _use_btn: Button              = $InvContent/UseBtn
-@onready var _drop_btn: Button             = $InvContent/DropBtn
+@onready var _eq_weapon_slot: InventorySlot		= $MarginContainer/InvContent/WpnSlot
+@onready var _eq_armor_slot: InventorySlot		= $MarginContainer/InvContent/ArmSlot
+@onready var _eq_accessory_slot: InventorySlot	= $MarginContainer/InvContent/AccSlot
+@onready var _count_label: Label				= $MarginContainer/InvContent/InvCountLabel
+@onready var _grid_root: Control				= $MarginContainer/InvContent/GridRoot
+@onready var _use_btn: Button					= $MarginContainer/InvContent/UseBtn
+@onready var _drop_btn: Button					= $MarginContainer/InvContent/DropBtn
 
-@onready var _second_inventory_label: Label = $InvContent/InvCountLabel2
-@onready var _grid2_root: Control           = $InvContent/GridRoot2
+@onready var _second_inventory_label: Label		= $MarginContainer/InvContent/InvCountLabel2
+@onready var _grid2_root: Control				= $MarginContainer/InvContent/GridRoot2
 
-@onready var passive_hotbar: PassiveHotbar = $AbiContent/AbiScroll/PassiveHotbar
-@onready var _abilities_container: Control = $AbiContent/AbiScroll/AbilitiesContainer
+@onready var passive_hotbar: PassiveHotbar		= $MarginContainer/AbiContent/AbiScroll/PassiveHotbar
+@onready var _abilities_container: Control		= $MarginContainer/AbiContent/AbiScroll/AbilitiesContainer
+
+@export var tabList: Array[Control] = []
 
 #endregion
 
@@ -58,6 +59,7 @@ func init(player: Player) -> void:
 
 	_tab_inv_btn.pressed.connect(func() -> void: _set_tab(0))
 	_tab_abi_btn.pressed.connect(func() -> void: _set_tab(1))
+	_tab_stats_btn.pressed.connect(func() -> void: _set_tab(2))
 
 	_eq_weapon_slot.slot_clicked.connect(_on_slot_clicked)
 	_eq_armor_slot.slot_clicked.connect(_on_slot_clicked)
@@ -70,6 +72,9 @@ func init(player: Player) -> void:
 
 	_ability_list = player.ability_list
 	_ability_list.changed.connect(_rebuild_abilities)
+
+	for i in range(tabList.size()):
+		tabList[i].visible = false
 
 	_build_grid(_grid_root,_grid_slots,_inventory,InventorySlot.SlotType.ANY)
 	_rebuild_abilities()
@@ -145,14 +150,15 @@ func set_hotbar(h: HotbarUI) -> void:
 
 #region Tab switching
 
-func _set_tab(idx: int) -> void:
-	_active_tab          = idx
-	_inv_content.visible = (idx == 0)
-	_abi_content.visible = (idx == 1)
+func _set_tab(newIdx: int) -> void:
 	var gold := Color(1.0, 0.84, 0.0)
-	var grey := Color(0.5, 0.5, 0.5)
-	_tab_inv_btn.add_theme_color_override("font_color", gold if idx == 0 else grey)
-	_tab_abi_btn.add_theme_color_override("font_color", gold if idx == 1 else grey)
+	var white := Color(1.0, 1.0, 1.0, 1.0)
+	
+	tabList[_active_tab].visible = false
+	tabList[_active_tab].add_theme_color_override("font_color", white)
+	_active_tab = newIdx
+	tabList[_active_tab].visible = true
+	tabList[_active_tab].add_theme_color_override("font_color", gold)
 
 #endregion
 
@@ -252,13 +258,15 @@ func _on_use_pressed() -> void:
 
 func _on_drop_pressed() -> void:
 	if _selected_slot and _selected_slot.item:
-		var item: ItemData = _selected_slot.item as ItemData
-		if _equipment.is_equipped(item):
-			match item.item_type:
+		var itemQ: QuantitySlot = _selected_slot.itemQuantity
+		
+		if _equipment.is_equipped_wrapper(itemQ):
+			match itemQ.item.item_type:
 				ItemData.ItemType.WEAPON:    _equipment.unequip_weapon()
 				ItemData.ItemType.ARMOR:     _equipment.unequip_armor()
 				ItemData.ItemType.ACCESSORY: _equipment.unequip_accessory()
-		_inventory.remove_item(_selected_slot.itemQuantity)
+		if _inventory.remove_item(itemQ):
+			_player.drop_item(itemQ)
 	_clear_selection()
 
 func _clear_selection() -> void:
