@@ -128,7 +128,7 @@ func _on_slot_clicked(slot: InventorySlot) -> void:
 		var moneyWrapper: QuantitySlot = QuantitySlot.new()
 		moneyWrapper.item = _money
 		moneyWrapper.quantity = tempitem.item.value
-		if _player_inventory.remove_item_quantity(moneyWrapper):
+		if _player_inventory.remove_item(moneyWrapper):
 			_player_inventory.add_item(tempitem)
 		_clear_selection()
 

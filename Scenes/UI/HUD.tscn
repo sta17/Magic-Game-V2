@@ -20,10 +20,13 @@
 [ext_resource type="Texture2D" uid="uid://ccaj4xok252fj" path="res://Assets/Icons/Buch's RPG Items/Frame 8.png" id="12_yd1yt"]
 [ext_resource type="PackedScene" uid="uid://201eymim8evx" path="res://Scenes/UI/DialogOption.tscn" id="13_18ujm"]
 [ext_resource type="Texture2D" uid="uid://dtsgj8kb41ews" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/shield.png" id="13_pd044"]
+[ext_resource type="Script" uid="uid://dwc2fafyudbrs" path="res://Script/UI/transferWindow.gd" id="14_cg6gh"]
 [ext_resource type="LabelSettings" uid="uid://ua2wtx0vujwu" path="res://GodotSettings/LabelSettings/BlackAndWhite10px.tres" id="14_gmqj4"]
 [ext_resource type="PackedScene" uid="uid://csfwqxs7p2o2c" path="res://Scenes/UI/tooltip.tscn" id="16_gmqj4"]
 [ext_resource type="Texture2D" uid="uid://cdgl6luud165n" path="res://Assets/Icons/Buch's RPG Items/Frame 9.png" id="16_yd1yt"]
+[ext_resource type="Script" uid="uid://caahscqerjn72" path="res://Script/UI/invWindow.gd" id="17_iub3o"]
 [ext_resource type="Script" uid="uid://cu5alnpb73cmj" path="res://Script/UI/LootWindow.gd" id="18_dds1n"]
+[ext_resource type="Script" uid="uid://bbwyhup5lt46w" path="res://Script/UI/abiWindow.gd" id="18_eedsi"]
 [ext_resource type="Texture2D" uid="uid://35vpwbvgpbf4" path="res://Assets/Textures/Mine/Frame 10 (2).png" id="19_5h4o4"]
 [ext_resource type="Texture2D" uid="uid://bt37cxhjxagut" path="res://Assets/Icons/Mine/icon_bag.png" id="19_dlptc"]
 [ext_resource type="Texture2D" uid="uid://bvx8k76p7ksan" path="res://Assets/Icons/Mine/icon_projectile.png" id="20_dlptc"]
@@ -241,9 +244,306 @@ patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="InvContent" type="Control" parent="InvPanel/MarginContainer" unique_id=863085535]
+[node name="TransferContent" type="Control" parent="InvPanel/MarginContainer" unique_id=1051128501]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_pydgx")
+script = ExtResource("14_cg6gh")
+
+[node name="InvTitle" type="Label" parent="InvPanel/MarginContainer/TransferContent" unique_id=1461005834]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.01
+anchor_right = 0.5
+anchor_bottom = 0.01
+offset_left = -122.0
+offset_top = 4.9999995
+offset_right = 122.0
+offset_bottom = 36.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.8392157, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 22
+text = "INVENTORY TRANSFER (I to close)"
+
+[node name="InvCountLabel" type="Label" parent="InvPanel/MarginContainer/TransferContent" unique_id=1427153283]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 160.0
+offset_right = 121.0
+offset_bottom = 178.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "INVENTORY"
+
+[node name="InvCountLabel2" type="Label" parent="InvPanel/MarginContainer/TransferContent" unique_id=782030549]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 160.0
+offset_right = 538.0
+offset_bottom = 178.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 13
+text = "INVENTORY"
+
+[node name="GridRoot" type="GridContainer" parent="InvPanel/MarginContainer/TransferContent" unique_id=1277385666]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 185.0
+offset_right = 447.0
+offset_bottom = 470.0
+columns = 5
+
+[node name="GR1Slot" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=568371529 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot2" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1231215478 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot3" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1081642878 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot4" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=873044757 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot5" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=816390678 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot6" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1930217479 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot7" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1127200679 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot8" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=442589659 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot9" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=74312113 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot10" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=2068758173 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot11" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1042678851 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot12" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=2034008166 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot13" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1194436084 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot14" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=425367179 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot15" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1851718369 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot16" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1478762629 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot17" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1416087042 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot18" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=36128521 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot19" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=530145145 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR1Slot20" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=569847243 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GridRoot2" type="GridContainer" parent="InvPanel/MarginContainer/TransferContent" unique_id=1391019189]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 185.0
+offset_right = 864.0
+offset_bottom = 470.0
+columns = 5
+
+[node name="GR2Slot" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=370320921 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot2" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=2113015355 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot3" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=47924233 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot4" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1137147453 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot5" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=351629110 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot6" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=309190081 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot7" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=692998518 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot8" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=70221721 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot9" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1868117097 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot10" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1128691152 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot11" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1291563033 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot12" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1682315008 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot13" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=13157463 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot14" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=381573396 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot15" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=799303954 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot16" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=212389861 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot17" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1757258565 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot18" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=495382685 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot19" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1197843313 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="GR2Slot20" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=69463605 instance=ExtResource("6_jt2rc")]
+layout_mode = 2
+slot_type = 1
+frameTexture = ExtResource("12_yd1yt")
+
+[node name="VendorContent" type="GridContainer" parent="InvPanel/MarginContainer/TransferContent" unique_id=136720327]
+visible = false
+layout_mode = 0
+offset_left = 464.0
+offset_top = 185.0
+offset_right = 864.0
+offset_bottom = 470.0
+columns = 5
+
+[node name="UseBtn" type="Button" parent="InvPanel/MarginContainer/TransferContent" unique_id=721833705]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 480.0
+offset_right = 147.0
+offset_bottom = 516.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Use"
+
+[node name="DropBtn" type="Button" parent="InvPanel/MarginContainer/TransferContent" unique_id=237431500]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 480.0
+offset_right = 250.0
+offset_bottom = 516.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Drop"
+
+[node name="InvContent" type="Control" parent="InvPanel/MarginContainer" unique_id=863085535]
+visible = false
+layout_mode = 2
+theme = ExtResource("3_pydgx")
+script = ExtResource("17_iub3o")
 
 [node name="InvTitle" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=1267627619]
 layout_mode = 1
@@ -287,7 +587,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
 text = "WEAPON"
 
-[node name="WpnSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=568371529 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=1200473127 instance=ExtResource("6_jt2rc")]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 89.0
@@ -341,19 +641,6 @@ frameTexture = ExtResource("12_yd1yt")
 
 [node name="InvCountLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=902609520]
 layout_mode = 0
-offset_left = 47.0
-offset_top = 160.0
-offset_right = 121.0
-offset_bottom = 178.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 13
-text = "INVENTORY"
-
-[node name="InvCountLabel2" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=1250560419]
-visible = false
-layout_mode = 0
 offset_left = 464.0
 offset_top = 160.0
 offset_right = 538.0
@@ -366,9 +653,9 @@ text = "INVENTORY"
 
 [node name="GridRoot" type="GridContainer" parent="InvPanel/MarginContainer/InvContent" unique_id=1336032394]
 layout_mode = 0
-offset_left = 47.0
+offset_left = 464.0
 offset_top = 185.0
-offset_right = 447.0
+offset_right = 864.0
 offset_bottom = 470.0
 columns = 5
 
@@ -472,22 +759,6 @@ layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GridRoot2" type="Control" parent="InvPanel/MarginContainer/InvContent" unique_id=16281444]
-visible = false
-anchors_preset = 0
-offset_left = 464.0
-offset_top = 185.0
-offset_right = 864.0
-offset_bottom = 470.0
-
-[node name="VendorContent" type="Control" parent="InvPanel/MarginContainer/InvContent" unique_id=52316713]
-visible = false
-anchors_preset = 0
-offset_left = 464.0
-offset_top = 185.0
-offset_right = 864.0
-offset_bottom = 470.0
-
 [node name="UseBtn" type="Button" parent="InvPanel/MarginContainer/InvContent" unique_id=663776435]
 layout_mode = 0
 offset_left = 47.0
@@ -511,9 +782,9 @@ theme_override_constants/outline_size = 2
 text = "Drop"
 
 [node name="AbiContent" type="Control" parent="InvPanel/MarginContainer" unique_id=651199067]
-visible = false
 layout_mode = 2
 theme = ExtResource("3_pydgx")
+script = ExtResource("18_eedsi")
 
 [node name="AbiTitle" type="Label" parent="InvPanel/MarginContainer/AbiContent" unique_id=1363244720]
 layout_mode = 1
@@ -527,7 +798,7 @@ offset_top = 5.0
 offset_right = 109.0
 offset_bottom = 31.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
+theme_override_colors/font_color = Color(1, 0.8392157, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
@@ -588,7 +859,7 @@ offset_top = 5.0
 offset_right = 109.0
 offset_bottom = 31.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
+theme_override_colors/font_color = Color(1, 0.8392157, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
