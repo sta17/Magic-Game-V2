@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="4_287tu"]
 [ext_resource type="PackedScene" uid="uid://u30gxjut1u5o" path="res://Scenes/enemy_attack.tscn" id="5_0830c"]
 [ext_resource type="Material" uid="uid://b8lq5j7d6ek4a" path="res://GodotSettings/Materials/Placeholder Red.tres" id="6_ghaa6"]
+[ext_resource type="PackedScene" uid="uid://djgp2nrg21j2g" path="res://Scenes/Components/health_component.tscn" id="7_1dp5w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_287tu"]
 radius = 0.25
@@ -27,10 +28,11 @@ material = ExtResource("6_ghaa6")
 radius = 0.25
 height = 0.5
 
-[node name="Enemy" type="CharacterBody3D" unique_id=640505128]
+[node name="Enemy" type="CharacterBody3D" unique_id=640505128 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_afpow")
+health_component = NodePath("Components/HealthComponent")
 _ranged_icon = ExtResource("2_0830c")
 _melee_icon = ExtResource("3_ghaa6")
 GRAVITY = -9.8
@@ -64,3 +66,8 @@ mesh = SubResource("CylinderMesh_auwsv")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D2" unique_id=468250495]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.86311173, -0.0024362803)
 mesh = SubResource("SphereMesh_8uf12")
+
+[node name="Components" type="Node" parent="." unique_id=1690135248]
+
+[node name="HealthComponent" parent="Components" unique_id=1349117062 instance=ExtResource("7_1dp5w")]
+health_max = 50.0

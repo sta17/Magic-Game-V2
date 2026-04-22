@@ -69,7 +69,7 @@ func use_selected() -> void:
 	if data is AbilityData:
 		data.execute(_player)
 	else:
-		_player.use_item(data)
+		_inventory.use_item(data)
 
 ## Remove the assignment for a specific slot (called when dragging out to inventory).
 func unassign_slot(slot: InventorySlot) -> void:

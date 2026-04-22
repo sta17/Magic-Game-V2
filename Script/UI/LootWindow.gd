@@ -2,22 +2,22 @@
 extends Control
 class_name LootWindow
 
+signal mouse_slot_hover(status: bool, currentSlot:Slot)
+
 const _SLOT_SCENE := preload("res://scenes/UI/inventorySlot.tscn")
 
 var _inventory: Inventory = null
 var _secondary_inventory: Inventory = null
 var _grid_slots: Array[InventorySlot] = []
 var _selected_slot: InventorySlot = null
-var _player: Player = null
 
 @onready var _second_inventory_label: Label = $NinePatchRect/MarginContainer/VBoxContainer/inv_title_text_label
 @onready var _grid_root: GridContainer           = $NinePatchRect/MarginContainer/VBoxContainer/GridRoot
 
 #region Setup
 
-func init(player: Player) -> void:
-	_player    = player
-	_inventory = player.inventory
+func init(inventory: Inventory) -> void:
+	_inventory = inventory
 
 func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inventory, type: InventorySlot.SlotType) -> void:
 	for n in _root.get_children(): n.queue_free()
@@ -30,7 +30,7 @@ func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inven
 		@warning_ignore("integer_division")
 		slot.position  = Vector2((i % cols) * step, (i / cols) * step)
 		slot.slot_clicked.connect(_on_slot_clicked)
-		slot.mouse_item_hover.connect((self.get_parent() as HUD)._on_slot_mouse_item_hover)
+		slot.mouse_item_hover.connect(_on_slot_mouse_item_hover)
 		slot.index = i
 		_root.add_child(slot)
 		_slots.append(slot)
@@ -74,8 +74,8 @@ func _on_slot_clicked(slot: InventorySlot) -> void:
 		handle_drop(slot, null)
 
 func _on_use_pressed() -> void:
-	if _selected_slot and _selected_slot.itemQuantity and _player:
-		_player.use_item(_selected_slot.itemQuantity)
+	if _selected_slot and _selected_slot.itemQuantity:
+		_inventory.use_item(_selected_slot.itemQuantity)
 	_clear_selection()
 
 func _on_drop_pressed() -> void:
@@ -120,5 +120,8 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 
 	_refresh_grid_slots()
 	_clear_selection()
+
+func _on_slot_mouse_item_hover(currentSlot: Slot, status: bool) -> void:
+	mouse_slot_hover.emit(currentSlot,status)
 
 #endregion

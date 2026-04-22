@@ -2,17 +2,16 @@
 extends Control
 class_name TransferWindow
 
+signal mouse_slot_hover(status: bool, currentSlot:Slot)
+
 const _SLOT_SCENE := preload("res://scenes/UI/inventorySlot.tscn")
 
 var _inventory: Inventory = null
 var _secondary_inventory: Inventory = null
 var _grid_slots: Array[InventorySlot] = []
 var _grid_slots2: Array[InventorySlot] = []
-var _player: Player = null
 var _hotbar: HotbarUI = null
 var _selected_slot: InventorySlot = null
-
-var _invPanel: InventoryUI = null
 
 #region Scene node references
 
@@ -30,10 +29,9 @@ var _invPanel: InventoryUI = null
 
 #region Setup
 
-func init(player: Player, invPanel: InventoryUI) -> void:
-	_player    = player
-	_inventory = player.inventory
-	_invPanel = invPanel
+func init(inventory: Inventory, h: HotbarUI) -> void:
+	_inventory = inventory
+	_hotbar = h
 
 	_inventory.inventory_changed.connect(_rebuild)
 
@@ -56,7 +54,7 @@ func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inven
 		@warning_ignore("integer_division")
 		slot.position  = Vector2((i % cols) * step, (i / cols) * step)
 		slot.slot_clicked.connect(_on_slot_clicked)
-		slot.mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
+		slot.mouse_item_hover.connect(_on_slot_mouse_item_hover)
 		slot.index = i
 		_root.add_child(slot)
 		_slots.append(slot)
@@ -80,13 +78,6 @@ func ShowHide_Inventory_Box(interactble_entity: Box) -> void:
 	else:
 		_secondary_inventory.inventory_changed.disconnect(_rebuild)
 		_secondary_inventory = null
-
-#endregion
-
-#region Hotbars and Ability
-
-func set_hotbar(h: HotbarUI) -> void:
-	_hotbar = h
 
 #endregion
 
@@ -123,8 +114,8 @@ func _on_slot_clicked(slot: InventorySlot) -> void:
 	_selected_slot = slot
 
 func _on_use_pressed() -> void:
-	if _selected_slot and _selected_slot.itemQuantity and _player:
-		_player.use_item(_selected_slot.itemQuantity)
+	if _selected_slot and _selected_slot.itemQuantity:
+		_inventory.use_item(_selected_slot.itemQuantity)
 	_clear_selection()
 
 func _on_drop_pressed() -> void:
@@ -132,7 +123,7 @@ func _on_drop_pressed() -> void:
 		var itemQ: QuantitySlot = _selected_slot.itemQuantity
 		
 		if _inventory.remove_item(itemQ):
-			_player.drop_item(itemQ)
+			_inventory.drop_item(itemQ)
 	_clear_selection()
 
 func _clear_selection() -> void:
@@ -178,7 +169,7 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 
 #region Slot type helpers
 
-func getHUD() -> HUD:
-	return _invPanel.getHUD()
+func _on_slot_mouse_item_hover(currentSlot: Slot, status: bool) -> void:
+	mouse_slot_hover.emit(currentSlot,status)
 
 #endregion

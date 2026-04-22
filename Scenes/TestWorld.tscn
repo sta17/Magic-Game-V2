@@ -163,45 +163,45 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.521862, 0, -55.06993)
 [node name="PickUps" type="Node" parent="." unique_id=362136868]
 
 [node name="PickUpItem7" parent="PickUps" unique_id=2079250956 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.312, 1, -8.447)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.312, 0, -8.447)
 item = ExtResource("3_rdsav")
 
 [node name="PickUpItem2" parent="PickUps" unique_id=1115689084 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -10.930335)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.175, 0, -10.93)
 item = ExtResource("4_rdsav")
 
 [node name="PickUpItem3" parent="PickUps" unique_id=421350946 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -13.990257)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.175, 0, -13.99)
 item = ExtResource("5_7oy3y")
 
 [node name="PickUpItem6" parent="PickUps" unique_id=191530703 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -16.882881)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.175, 0, -16.883)
 item = ExtResource("6_4e6cy")
 
 [node name="PickUpItem10" parent="PickUps" unique_id=769346798 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.174559, 1, -23.44956)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.175, 0, -23.45)
 item = ExtResource("11_5f2ua")
 
 [node name="PickUpItem8" parent="PickUps" unique_id=1090549397 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4870143, 1, -16.882881)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.487, 0, -16.883)
 item = ExtResource("9_1jowa")
 
 [node name="PickUpItem9" parent="PickUps" unique_id=1140355328 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.8856187, 1, -16.882881)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.886, 0, -16.883)
 item = ExtResource("9_1jowa")
 
 [node name="PickUpItem4" parent="PickUps" unique_id=847800547 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.297807, 1, -7.8397417)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.298, 0, -7.84)
 item = ExtResource("5_g0pj6")
 amount = 3
 
 [node name="PickUpItem5" parent="PickUps" unique_id=226722985 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.297807, 1, -10.917204)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.298, 0, -10.917)
 item = ExtResource("5_g0pj6")
 amount = 2
 
 [node name="PickUpItem11" parent="PickUps" unique_id=81372938 instance=ExtResource("2_se0eo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.312, 1, -5.85)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.312, 0, -5.85)
 item = ExtResource("3_rdsav")
 
 [node name="NPCs" type="Node" parent="." unique_id=1468007137]

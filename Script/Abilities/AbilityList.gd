@@ -1,4 +1,4 @@
-extends Node
+extends Resource
 class_name AbilityList
 
 ## Holds the player's unlocked abilities. Add or remove entries at any time;
@@ -6,14 +6,38 @@ class_name AbilityList
 
 var abilities: Array[AbilityData] = []
 
-signal changed
+
+signal changeAdded(ability: AbilityData)
+signal changeRemoved(ability: AbilityData)
 
 func add_ability(ability: AbilityData) -> void:
 	if not abilities.has(ability):
 		abilities.append(ability)
-		changed.emit()
+		changeAdded.emit(ability)
 
 func remove_ability(ability: AbilityData) -> void:
 	if abilities.has(ability):
 		abilities.erase(ability)
-		changed.emit()
+		changeRemoved.emit(ability)
+
+## Passive stat aggregation — queried by player every physics frame.
+func get_passive_speed_bonus() -> float:
+	var total := 0.0
+	for ab:Slot in abilities:
+		if ab is AbilityData:
+			total += ab.get_speed_bonus()
+	return total
+
+func get_passive_damage_bonus() -> float:
+	var total := 0.0
+	for ab:Slot in abilities:
+		if ab is AbilityData:
+			total += ab.get_damage_bonus()
+	return total
+
+func get_passive_health_regen() -> float:
+	var total := 0.0
+	for ab:Slot in abilities:
+		if ab is AbilityData:
+			total += ab.get_health_regen()
+	return total

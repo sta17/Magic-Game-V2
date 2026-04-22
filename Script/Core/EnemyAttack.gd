@@ -31,8 +31,8 @@ func _do_ranged_attack(_Muzzle: Marker3D) -> void:
 	bullet.shooter   = attacker
 
 func _do_melee_attack() -> void:
-	if _player and _player.has_method("take_damage"):
-		_player.take_damage(melee_attack_damage)
+	if _player:
+		_player.health_component.take_damage(melee_attack_damage)
 	# Lunge visual: quick position shift
 	var original: Vector3 = attacker.global_position
 	var tween: Tween = create_tween()

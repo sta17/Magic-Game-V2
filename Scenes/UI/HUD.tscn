@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://ckai2wns8hetp" path="res://Script/UI/fpsmeter.gd" id="2_yenib"]
 [ext_resource type="Texture2D" uid="uid://dudfl4lg8754n" path="res://Assets/Icons/Unity Assets/Cursors 64/Arrow_Cross_Smaller.png" id="3_dds1n"]
 [ext_resource type="Theme" uid="uid://diunbmd80jn4m" path="res://GodotSettings/Themes/Standard.tres" id="3_pydgx"]
-[ext_resource type="Script" uid="uid://cala1yfb72t6l" path="res://Script/UI/InventoryUI.gd" id="4_eebq5"]
+[ext_resource type="Script" uid="uid://cala1yfb72t6l" path="res://Script/UI/player_UI.gd" id="4_eebq5"]
 [ext_resource type="LabelSettings" uid="uid://cnekhifyltla2" path="res://GodotSettings/LabelSettings/BlackAndWhite13px.tres" id="6_55bpt"]
 [ext_resource type="PackedScene" uid="uid://dn78qsnrb4iyx" path="res://Scenes/UI/inventorySlot.tscn" id="6_jt2rc"]
 [ext_resource type="Texture2D" uid="uid://o4niaxfjps4w" path="res://Assets/Textures/Mine/HPPlate2.png" id="6_yd1yt"]
@@ -188,7 +188,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 
-[node name="InvPanel" type="Panel" parent="." unique_id=653791917 node_paths=PackedStringArray("tabList")]
+[node name="player_UI_Menu" type="Panel" parent="." unique_id=653791917 node_paths=PackedStringArray("tabList")]
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -199,7 +199,7 @@ theme = ExtResource("3_pydgx")
 script = ExtResource("4_eebq5")
 tabList = [NodePath("MarginContainer/InvContent"), NodePath("MarginContainer/AbiContent"), NodePath("MarginContainer/StatsContent")]
 
-[node name="NinePatchRect" type="NinePatchRect" parent="InvPanel" unique_id=656711777]
+[node name="NinePatchRect" type="NinePatchRect" parent="player_UI_Menu" unique_id=656711777]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -215,7 +215,7 @@ patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="InvPanel" unique_id=893094166]
+[node name="MarginContainer" type="MarginContainer" parent="player_UI_Menu" unique_id=893094166]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -228,12 +228,12 @@ theme_override_constants/margin_top = 100
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 90
 
-[node name="TextureRect" type="TextureRect" parent="InvPanel/MarginContainer" unique_id=393174313]
+[node name="TextureRect" type="TextureRect" parent="player_UI_Menu/MarginContainer" unique_id=393174313]
 layout_mode = 2
 texture = ExtResource("9_yd1yt")
 expand_mode = 2
 
-[node name="NinePatchRect2" type="NinePatchRect" parent="InvPanel/MarginContainer" unique_id=550679858]
+[node name="NinePatchRect2" type="NinePatchRect" parent="player_UI_Menu/MarginContainer" unique_id=550679858]
 layout_mode = 2
 texture = ExtResource("19_5h4o4")
 region_rect = Rect2(0, 0, 32, 32)
@@ -244,13 +244,13 @@ patch_margin_bottom = 4
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="TransferContent" type="Control" parent="InvPanel/MarginContainer" unique_id=1051128501]
+[node name="TransferContent" type="Control" parent="player_UI_Menu/MarginContainer" unique_id=1051128501]
 visible = false
 layout_mode = 2
 theme = ExtResource("3_pydgx")
 script = ExtResource("14_cg6gh")
 
-[node name="InvTitle" type="Label" parent="InvPanel/MarginContainer/TransferContent" unique_id=1461005834]
+[node name="InvTitle" type="Label" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=1461005834]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -268,7 +268,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
 text = "INVENTORY TRANSFER (I to close)"
 
-[node name="InvCountLabel" type="Label" parent="InvPanel/MarginContainer/TransferContent" unique_id=1427153283]
+[node name="InvCountLabel" type="Label" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=1427153283]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 160.0
@@ -280,7 +280,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
 text = "INVENTORY"
 
-[node name="InvCountLabel2" type="Label" parent="InvPanel/MarginContainer/TransferContent" unique_id=782030549]
+[node name="InvCountLabel2" type="Label" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=782030549]
 layout_mode = 0
 offset_left = 464.0
 offset_top = 160.0
@@ -292,7 +292,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
 text = "INVENTORY"
 
-[node name="GridRoot" type="GridContainer" parent="InvPanel/MarginContainer/TransferContent" unique_id=1277385666]
+[node name="GridRoot" type="GridContainer" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=1277385666]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 185.0
@@ -300,107 +300,107 @@ offset_right = 447.0
 offset_bottom = 470.0
 columns = 5
 
-[node name="GR1Slot" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=568371529 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=568371529 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot2" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1231215478 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot2" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1231215478 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot3" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1081642878 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot3" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1081642878 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot4" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=873044757 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot4" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=873044757 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot5" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=816390678 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot5" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=816390678 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot6" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1930217479 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot6" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1930217479 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot7" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1127200679 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot7" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1127200679 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot8" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=442589659 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot8" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=442589659 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot9" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=74312113 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot9" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=74312113 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot10" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=2068758173 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot10" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=2068758173 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot11" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1042678851 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot11" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1042678851 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot12" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=2034008166 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot12" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=2034008166 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot13" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1194436084 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot13" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1194436084 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot14" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=425367179 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot14" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=425367179 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot15" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1851718369 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot15" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1851718369 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot16" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1478762629 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot16" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1478762629 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot17" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=1416087042 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot17" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=1416087042 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot18" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=36128521 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot18" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=36128521 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot19" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=530145145 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot19" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=530145145 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR1Slot20" parent="InvPanel/MarginContainer/TransferContent/GridRoot" unique_id=569847243 instance=ExtResource("6_jt2rc")]
+[node name="GR1Slot20" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot" unique_id=569847243 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GridRoot2" type="GridContainer" parent="InvPanel/MarginContainer/TransferContent" unique_id=1391019189]
+[node name="GridRoot2" type="GridContainer" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=1391019189]
 layout_mode = 0
 offset_left = 464.0
 offset_top = 185.0
@@ -408,107 +408,107 @@ offset_right = 864.0
 offset_bottom = 470.0
 columns = 5
 
-[node name="GR2Slot" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=370320921 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=370320921 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot2" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=2113015355 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot2" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=2113015355 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot3" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=47924233 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot3" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=47924233 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot4" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1137147453 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot4" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=1137147453 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot5" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=351629110 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot5" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=351629110 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot6" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=309190081 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot6" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=309190081 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot7" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=692998518 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot7" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=692998518 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot8" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=70221721 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot8" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=70221721 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot9" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1868117097 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot9" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=1868117097 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot10" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1128691152 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot10" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=1128691152 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot11" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1291563033 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot11" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=1291563033 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot12" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1682315008 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot12" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=1682315008 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot13" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=13157463 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot13" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=13157463 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot14" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=381573396 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot14" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=381573396 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot15" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=799303954 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot15" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=799303954 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot16" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=212389861 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot16" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=212389861 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot17" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1757258565 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot17" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=1757258565 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot18" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=495382685 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot18" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=495382685 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot19" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=1197843313 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot19" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=1197843313 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="GR2Slot20" parent="InvPanel/MarginContainer/TransferContent/GridRoot2" unique_id=69463605 instance=ExtResource("6_jt2rc")]
+[node name="GR2Slot20" parent="player_UI_Menu/MarginContainer/TransferContent/GridRoot2" unique_id=69463605 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="VendorContent" type="GridContainer" parent="InvPanel/MarginContainer/TransferContent" unique_id=136720327]
+[node name="VendorContent" type="GridContainer" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=136720327]
 visible = false
 layout_mode = 0
 offset_left = 464.0
@@ -517,7 +517,7 @@ offset_right = 864.0
 offset_bottom = 470.0
 columns = 5
 
-[node name="UseBtn" type="Button" parent="InvPanel/MarginContainer/TransferContent" unique_id=721833705]
+[node name="UseBtn" type="Button" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=721833705]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 480.0
@@ -528,7 +528,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Use"
 
-[node name="DropBtn" type="Button" parent="InvPanel/MarginContainer/TransferContent" unique_id=237431500]
+[node name="DropBtn" type="Button" parent="player_UI_Menu/MarginContainer/TransferContent" unique_id=237431500]
 layout_mode = 0
 offset_left = 150.0
 offset_top = 480.0
@@ -539,13 +539,13 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Drop"
 
-[node name="InvContent" type="Control" parent="InvPanel/MarginContainer" unique_id=863085535]
+[node name="InvContent" type="Control" parent="player_UI_Menu/MarginContainer" unique_id=863085535]
 visible = false
 layout_mode = 2
 theme = ExtResource("3_pydgx")
 script = ExtResource("17_iub3o")
 
-[node name="InvTitle" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=1267627619]
+[node name="InvTitle" type="Label" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=1267627619]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -563,7 +563,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
 text = "INVENTORY  (I to close)"
 
-[node name="EqHint" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=1672798095]
+[node name="EqHint" type="Label" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=1672798095]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 45.0
@@ -575,7 +575,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
 text = "EQUIPPED  —  drag items from inventory or click Equip"
 
-[node name="WpnLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=560588694]
+[node name="WpnLabel" type="Label" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=560588694]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 70.0
@@ -587,7 +587,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
 text = "WEAPON"
 
-[node name="WpnSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=1200473127 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=1200473127 instance=ExtResource("6_jt2rc")]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 89.0
@@ -597,7 +597,7 @@ slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 emptyTexture = SubResource("CompressedTexture2D_dlptc")
 
-[node name="ArmLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=615396826]
+[node name="ArmLabel" type="Label" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=615396826]
 layout_mode = 0
 offset_left = 113.0
 offset_top = 70.0
@@ -609,7 +609,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
 text = "ARMOR"
 
-[node name="ArmSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=2049383572 instance=ExtResource("6_jt2rc")]
+[node name="ArmSlot" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=2049383572 instance=ExtResource("6_jt2rc")]
 layout_mode = 0
 offset_left = 113.0
 offset_top = 89.0
@@ -618,7 +618,7 @@ offset_bottom = 153.0
 slot_type = 2
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="AccLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=824059576]
+[node name="AccLabel" type="Label" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=824059576]
 layout_mode = 0
 offset_left = 179.0
 offset_top = 70.0
@@ -630,7 +630,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 11
 text = "ACCESSORY"
 
-[node name="AccSlot" parent="InvPanel/MarginContainer/InvContent" unique_id=1570301448 instance=ExtResource("6_jt2rc")]
+[node name="AccSlot" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=1570301448 instance=ExtResource("6_jt2rc")]
 layout_mode = 0
 offset_left = 179.0
 offset_top = 89.0
@@ -639,7 +639,7 @@ offset_bottom = 153.0
 slot_type = 3
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="InvCountLabel" type="Label" parent="InvPanel/MarginContainer/InvContent" unique_id=902609520]
+[node name="InvCountLabel" type="Label" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=902609520]
 layout_mode = 0
 offset_left = 464.0
 offset_top = 160.0
@@ -651,7 +651,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 13
 text = "INVENTORY"
 
-[node name="GridRoot" type="GridContainer" parent="InvPanel/MarginContainer/InvContent" unique_id=1336032394]
+[node name="GridRoot" type="GridContainer" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=1336032394]
 layout_mode = 0
 offset_left = 464.0
 offset_top = 185.0
@@ -659,107 +659,107 @@ offset_right = 864.0
 offset_bottom = 470.0
 columns = 5
 
-[node name="WpnSlot" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1465377923 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=1465377923 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot2" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=215355256 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot2" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=215355256 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot3" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1768263654 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot3" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=1768263654 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot4" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=458431937 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot4" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=458431937 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot5" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=240103951 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot5" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=240103951 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot6" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1374982674 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot6" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=1374982674 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot7" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1095158828 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot7" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=1095158828 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot8" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=635929334 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot8" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=635929334 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot9" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=866657833 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot9" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=866657833 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot10" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1234321044 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot10" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=1234321044 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot11" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=326792161 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot11" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=326792161 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot12" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=734633817 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot12" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=734633817 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot13" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=349081735 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot13" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=349081735 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot14" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=939532354 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot14" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=939532354 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot15" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=2081171013 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot15" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=2081171013 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot16" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=605472758 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot16" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=605472758 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot17" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=862486770 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot17" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=862486770 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot18" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=423016735 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot18" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=423016735 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot19" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1381779227 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot19" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=1381779227 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="WpnSlot20" parent="InvPanel/MarginContainer/InvContent/GridRoot" unique_id=1876120766 instance=ExtResource("6_jt2rc")]
+[node name="WpnSlot20" parent="player_UI_Menu/MarginContainer/InvContent/GridRoot" unique_id=1876120766 instance=ExtResource("6_jt2rc")]
 layout_mode = 2
 slot_type = 1
 frameTexture = ExtResource("12_yd1yt")
 
-[node name="UseBtn" type="Button" parent="InvPanel/MarginContainer/InvContent" unique_id=663776435]
+[node name="UseBtn" type="Button" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=663776435]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 480.0
@@ -770,7 +770,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Use"
 
-[node name="DropBtn" type="Button" parent="InvPanel/MarginContainer/InvContent" unique_id=611986333]
+[node name="DropBtn" type="Button" parent="player_UI_Menu/MarginContainer/InvContent" unique_id=611986333]
 layout_mode = 0
 offset_left = 150.0
 offset_top = 480.0
@@ -781,12 +781,13 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 text = "Drop"
 
-[node name="AbiContent" type="Control" parent="InvPanel/MarginContainer" unique_id=651199067]
+[node name="AbiContent" type="Control" parent="player_UI_Menu/MarginContainer" unique_id=651199067]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_pydgx")
 script = ExtResource("18_eedsi")
 
-[node name="AbiTitle" type="Label" parent="InvPanel/MarginContainer/AbiContent" unique_id=1363244720]
+[node name="AbiTitle" type="Label" parent="player_UI_Menu/MarginContainer/AbiContent" unique_id=1363244720]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -804,7 +805,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
 text = "ABILITIES  (I to close)"
 
-[node name="AbiScroll" type="Control" parent="InvPanel/MarginContainer/AbiContent" unique_id=941729171]
+[node name="AbiScroll" type="Control" parent="player_UI_Menu/MarginContainer/AbiContent" unique_id=941729171]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -812,14 +813,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PassiveHotbar" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=2084387450 instance=ExtResource("10_pydgx")]
+[node name="PassiveHotbar" parent="player_UI_Menu/MarginContainer/AbiContent/AbiScroll" unique_id=2084387450 instance=ExtResource("10_pydgx")]
 layout_mode = 1
 offset_left = 385.0
 offset_top = 72.0
 offset_right = -35.0
 offset_bottom = -408.0
 
-[node name="AbilitiesContainer" type="Control" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=1302358118]
+[node name="AbilitiesContainer" type="Control" parent="player_UI_Menu/MarginContainer/AbiContent/AbiScroll" unique_id=1302358118]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 47.0
@@ -827,7 +828,7 @@ offset_top = 70.0
 offset_right = 47.0
 offset_bottom = 70.0
 
-[node name="ACT_ABI_Label" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=2000494667 instance=ExtResource("7_pd044")]
+[node name="ACT_ABI_Label" parent="player_UI_Menu/MarginContainer/AbiContent/AbiScroll" unique_id=2000494667 instance=ExtResource("7_pd044")]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 47.0
@@ -835,7 +836,7 @@ offset_right = 412.0
 offset_bottom = 65.0
 horizontal_alignment = 1
 
-[node name="PAS_ABI_Label" parent="InvPanel/MarginContainer/AbiContent/AbiScroll" unique_id=2108117407 instance=ExtResource("8_gmqj4")]
+[node name="PAS_ABI_Label" parent="player_UI_Menu/MarginContainer/AbiContent/AbiScroll" unique_id=2108117407 instance=ExtResource("8_gmqj4")]
 layout_mode = 0
 offset_left = 385.0
 offset_top = 47.0
@@ -843,11 +844,11 @@ offset_right = 750.0
 offset_bottom = 70.0
 horizontal_alignment = 1
 
-[node name="StatsContent" type="Control" parent="InvPanel/MarginContainer" unique_id=182895318]
+[node name="StatsContent" type="Control" parent="player_UI_Menu/MarginContainer" unique_id=182895318]
 visible = false
 layout_mode = 2
 
-[node name="AbiTitle" type="Label" parent="InvPanel/MarginContainer/StatsContent" unique_id=1229549372]
+[node name="AbiTitle" type="Label" parent="player_UI_Menu/MarginContainer/StatsContent" unique_id=1229549372]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -865,7 +866,7 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 22
 text = "STATS  (I to close)"
 
-[node name="TabInvBtn" type="Button" parent="InvPanel" unique_id=957084013]
+[node name="TabInvBtn" type="Button" parent="player_UI_Menu" unique_id=957084013]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 100.0
@@ -878,7 +879,7 @@ theme_override_constants/outline_size = 2
 text = "Inventories"
 icon = ExtResource("19_dlptc")
 
-[node name="TabAbiBtn" type="Button" parent="InvPanel" unique_id=375718476]
+[node name="TabAbiBtn" type="Button" parent="player_UI_Menu" unique_id=375718476]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 135.0
@@ -890,7 +891,7 @@ theme_override_constants/outline_size = 2
 text = "Abilities"
 icon = ExtResource("20_dlptc")
 
-[node name="TabStatsBtn" type="Button" parent="InvPanel" unique_id=1202047828]
+[node name="TabStatsBtn" type="Button" parent="player_UI_Menu" unique_id=1202047828]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 170.0
@@ -1186,6 +1187,6 @@ offset_top = 27.5
 offset_right = -860.0
 offset_bottom = -572.5
 
-[connection signal="mouse_item_hover" from="InvPanel/MarginContainer/InvContent/WpnSlot" to="." method="_on_slot_mouse_item_hover"]
-[connection signal="mouse_item_hover" from="InvPanel/MarginContainer/InvContent/ArmSlot" to="." method="_on_slot_mouse_item_hover"]
-[connection signal="mouse_item_hover" from="InvPanel/MarginContainer/InvContent/AccSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="player_UI_Menu/MarginContainer/InvContent/WpnSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="player_UI_Menu/MarginContainer/InvContent/ArmSlot" to="." method="_on_slot_mouse_item_hover"]
+[connection signal="mouse_item_hover" from="player_UI_Menu/MarginContainer/InvContent/AccSlot" to="." method="_on_slot_mouse_item_hover"]

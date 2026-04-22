@@ -44,7 +44,11 @@ func _physics_process(delta: float) -> void:
 	var hit := space.intersect_ray(query)
 	if hit:
 		_done = true
-		if hit.collider.has_method("take_damage"):
+		
+		if hit.collider is Player:
+			var temp: Player = hit.collider
+			temp.health_component.take_damage(damage)
+		elif hit.collider.has_method("take_damage"):
 			hit.collider.take_damage(damage)
 		global_position = hit.position
 		_spawn_impact()

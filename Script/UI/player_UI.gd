@@ -1,6 +1,8 @@
 @icon("res://Assets/Icons/Pixel-Boy/control/icon_bag.png")
 extends Control
-class_name InventoryUI
+class_name PlayerUIMenu
+
+signal mouse_slot_hover(status: bool, currentSlot:Slot)
 
 var _player: Player = null
 var _hotbar: HotbarUI = null
@@ -23,11 +25,15 @@ var _active_tab: int = 0
 
 #region Setup
 
-func init(player: Player) -> void:
+func init(player: Player, h: HotbarUI) -> void:
 	_player    = player
-	_transfer_window.init(player,self)
-	_inv_window.init(player,self)
-	_abi_window.init(player,self)
+	_hotbar = h
+	_transfer_window.init(player.inventory,_hotbar)
+	_inv_window.init(player.inventory,player.equipment,_hotbar)
+	_abi_window.init(player.ability_list,player.passive_ability_list,_hotbar)
+	_abi_window.mouse_slot_hover.connect(_on_slot_mouse_item_hover)
+	_inv_window.mouse_slot_hover.connect(_on_slot_mouse_item_hover)
+	_transfer_window.mouse_slot_hover.connect(_on_slot_mouse_item_hover)
 
 	_tab_inv_btn.pressed.connect(func() -> void: _set_tab(0))
 	_tab_abi_btn.pressed.connect(func() -> void: _set_tab(1))
@@ -44,35 +50,6 @@ func init(player: Player) -> void:
 
 func ShowHide_Inventory_Box(interactble_entity: Box) -> void:
 	_transfer_window.ShowHide_Inventory_Box(interactble_entity)
-
-#endregion
-
-#region Bonuses
-
-func get_passive_speed_bonus() -> float:
-	return _abi_window.get_passive_speed_bonus()
-
-func get_passive_damage_bonus() -> float:
-	return _abi_window.get_passive_damage_bonus()
-
-func get_passive_health_regen() -> float:
-	return _abi_window.get_passive_health_regen()
-
-#endregion
-
-#region Hotbars and Ability
-
-func auto_add_passive(ability: AbilityData) -> void:
-	_abi_window.auto_add_passive(ability)
-
-func auto_remove_passive(ability: AbilityData) -> void:
-	_abi_window.auto_remove_passive(ability)
-
-func set_hotbar(h: HotbarUI) -> void:
-	_hotbar = h
-	_transfer_window.set_hotbar(_hotbar)
-	_inv_window.set_hotbar(_hotbar)
-	_abi_window.set_hotbar(_hotbar)
 
 #endregion
 
@@ -119,7 +96,7 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 
 #region Slot type helpers
 
-func getHUD() -> HUD:
-	return self.get_parent()
+func _on_slot_mouse_item_hover(currentSlot: Slot, status: bool) -> void:
+	mouse_slot_hover.emit(currentSlot,status)
 
 #endregion

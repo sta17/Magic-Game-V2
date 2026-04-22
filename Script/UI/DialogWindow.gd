@@ -24,7 +24,6 @@ func _ready() -> void:
 	pass
 
 func startChat(c_player: Player, c_otherInteracter: NPC) -> void:
-	
 	player = c_player
 	otherInteracter = c_otherInteracter
 	interact_script = otherInteracter.interact_script
@@ -71,21 +70,19 @@ func buttonPressed(button: Button) -> void:
 	_selected_index = chat_option.index
 	handleOption(chat_option)
 
-func promptLine() -> bool:
-	if currentLine < (currentTextArray.size()-1):
-		currentLine += 1
-		npc_text.text = currentTextArray[currentLine]
-		return true
-	else:
-		return false
-		
-func promptPreviousLine() -> bool:
-	if currentLine > 0:
-		currentLine -= 1
-		npc_text.text = currentTextArray[currentLine]
-		return true
-	else:
-		return false
+func promptLines(direction :int) -> bool:
+	if direction > 0:
+		if currentLine < (currentTextArray.size()-1):
+			currentLine += 1
+		else:
+			return false
+	elif direction < 0:
+		if currentLine > 0:
+			currentLine -= 1
+		else:
+			return false
+	npc_text.text = currentTextArray[currentLine]
+	return true
 
 func sendSelection() -> void:
 	# this is for turning input into options selected

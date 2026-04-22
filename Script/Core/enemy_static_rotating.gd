@@ -4,7 +4,10 @@ class_name EnemyStaticRotating
 
 enum State { IDLE, PATROL, CHASE, DEAD, STAND, ATTACK }
 
-@export var max_health: float      = 50.0
+@export_category("Components")
+@export var health_component: HealthComponent
+
+@export_category("Stats")
 @export var move_speed: float      = 0.8
 @export var state: State = State.IDLE
 @export var melee_attack_damage: float   = 10.0
@@ -17,7 +20,6 @@ enum State { IDLE, PATROL, CHASE, DEAD, STAND, ATTACK }
 @export var _melee_icon: Texture2D
 @export var patrol_radius: float   = 8.0
 
-var health: float
 var _spawn_pos: Vector3
 var _player: Node3D      = null
 var _patrol_target: Vector3
@@ -42,7 +44,6 @@ signal creature_died(drop_position: Vector3)
 
 func _ready() -> void:
 	add_to_group("enemy")
-	health = max_health
 	_spawn_pos     = global_position
 	call_deferred("_find_player")
 	call_deferred("_setup_hp_sprite")
@@ -51,11 +52,19 @@ func _ready() -> void:
 	_enemy_attack.ranged_attack_damage = ranged_attack_damage
 	_enemy_attack.detection_range = ranged_attack_range
 
-func _setup_hp_sprite() -> void:
-	_hp_bar._setup_hp_sprite(health,max_health)
+	health_component.zero_health.connect(_die)
+	health_component.took_damage.connect(update_HP)
 
-func _find_player() -> void:
-	_player = get_tree().get_first_node_in_group("player")
+func _setup_hp_sprite() -> void:
+	_hp_bar._setup_hp_sprite(health_component.health,health_component._max_hp())
+
+func update_HP(amount:float) -> void:
+	if state == State.DEAD:
+		return
+	if state == State.PATROL or state == State.IDLE:
+		state = State.CHASE
+	_hp_bar._update_health_bar(health_component.health,health_component._max_hp())
+	_spawn_damage_number(amount)
 
 func _physics_process(delta: float) -> void:
 	if state == State.DEAD:
@@ -147,17 +156,6 @@ func _face_target(target: Vector3, weight: float) -> void:
 	var target_angle:float = atan2(dir.x, dir.z)
 	rotationPoint.rotation.y = lerp_angle(rotationPoint.rotation.y, target_angle, weight)
 
-func take_damage(amount: float) -> void:
-	if state == State.DEAD:
-		return
-	_hp_bar._update_health_bar(-amount)
-	if _hp_bar._is_damaged():
-		dmgParticles.emitting = true
-	if state == State.PATROL or state == State.IDLE:
-		state = State.CHASE
-	if _hp_bar._is_dead():
-		_die()
-
 func _die() -> void:
 	state = State.DEAD
 	dmgParticles.emitting = false
@@ -169,3 +167,21 @@ func _die() -> void:
 
 func getCenter() -> Marker3D:
 	return _center
+
+func _find_player() -> void:
+	_player = get_tree().get_first_node_in_group("player")
+
+func _spawn_damage_number(amount: float) -> void:
+	var label := Label3D.new()
+	label.text = "-%d" % int(amount)
+	label.font_size = 48
+	label.modulate = Color(1.0, 0.3, 0.1)
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	label.no_depth_test = true
+	get_tree().current_scene.add_child(label)
+	label.global_position = global_position + Vector3(0, 2.4, 0)
+	var tween := get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "global_position", label.global_position + Vector3(0, 1.2, 0), 0.8)
+	tween.tween_property(label, "modulate:a", 0.0, 0.8)
+	tween.tween_callback(label.queue_free).set_delay(0.8)

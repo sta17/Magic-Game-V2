@@ -1,5 +1,5 @@
 @icon("res://Assets/Icons/Pixel-Boy/control/icon_money_bag.png")
-extends Node
+extends Resource
 class_name EquipmentManager
 
 signal weapon_equipped(weapon: QuantitySlot)

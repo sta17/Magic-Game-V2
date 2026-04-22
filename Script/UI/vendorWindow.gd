@@ -8,46 +8,37 @@ class_name VendorUI
 
 #region Scene node references and Variables
 
+signal mouse_slot_hover(status: bool, currentSlot:Slot)
+
 const _SHOP_CARD_SCENE := preload("res://Scenes/UI/shopping_card.tscn")
 const _SLOT_SCENE := preload("res://scenes/UI/inventorySlot.tscn")
 
 var _money: ItemData = preload("res://Resources/items/Money.tres")
 
-var _player_inventory: Inventory = null
-var _player_equipment: EquipmentManager = null
+var _inventory: Inventory = null
 var _shop_inventory: Inventory = null
 var _grid_slots: Array[InventorySlot] = []
-var _player: Player = null
 var _selected_slot: InventorySlot = null
 
 var _shopping_Card: Array[ShoppingCard] = []
 
-#@onready var _vendor_content: Control         = $VendorContent
-
 @onready var _count_label: Label	= $VendorContent/InvCountLabel
 @onready var _grid_root: Control	= $VendorContent/GridRoot
 @onready var tooltop: RichTextLabel	= $VendorContent/Tooltip
-#@onready var tooltop: Tooltip		= $VendorContent/Tooltip
 
 #endregion
 
 #region Setup
 
-func init(player: Player) -> void:
-	_player    = player
-	_player_inventory = player.inventory
-	_player_equipment = player.equipment
+func init(inventory: Inventory) -> void:
+	_inventory = inventory
 
 func Show_Vendor(_otherInteracter: NPC, shoppinglist: Array[QuantitySlot] = []) -> void:
 	_shop_inventory = Inventory.new()
 	_shop_inventory.setList(shoppinglist)
 	_shop_inventory.inventory_changed.connect(refresh_grid_slots)
 
-	#_build_grid(_grid_root,_grid_slots,_shop_inventory,InventorySlot.SlotType.ANY)
-	#_refresh_grid_slots()
 	refresh_Shopping_List()
-
-	#_second_inventory_label.text = interactble_entity.labelText
 
 func hide_vendor() -> void:
 	if _shop_inventory:
@@ -65,7 +56,7 @@ func _build_grid(_root: Control,_slots: Array[InventorySlot],_l_inventory: Inven
 		@warning_ignore("integer_division")
 		slot.position  = Vector2((i % cols) * step, (i / cols) * step)
 		slot.slot_clicked.connect(_on_slot_clicked)
-		slot.mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
+		slot.mouse_item_hover.connect(_on_slot_mouse_item_hover)
 		slot.index = i
 		_root.add_child(slot)
 		_slots.append(slot)
@@ -101,7 +92,7 @@ func refresh_Shopping_List() -> void:
 		var _SHOP_CARD: ShoppingCard = _SHOP_CARD_SCENE.instantiate()
 		_SHOP_CARD.initalise(qs.item)
 		_SHOP_CARD.getSlot().slot_clicked.connect(_on_slot_clicked)
-		_SHOP_CARD.getSlot().mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
+		_SHOP_CARD.getSlot().mouse_item_hover.connect(_on_slot_mouse_item_hover)
 		_grid_root.add_child(_SHOP_CARD)
 		_SHOP_CARD.position = Vector2(left_x, y_left)
 		_shopping_Card.append(_SHOP_CARD)
@@ -128,8 +119,8 @@ func _on_slot_clicked(slot: InventorySlot) -> void:
 		var moneyWrapper: QuantitySlot = QuantitySlot.new()
 		moneyWrapper.item = _money
 		moneyWrapper.quantity = tempitem.item.value
-		if _player_inventory.remove_item(moneyWrapper):
-			_player_inventory.add_item(tempitem)
+		if _inventory.remove_item(moneyWrapper):
+			_inventory.add_item(tempitem)
 		_clear_selection()
 
 func _clear_selection() -> void:
@@ -150,3 +141,6 @@ func handle_drop(from_slot: InventorySlot, _to_slot: InventorySlot) -> void:
 	#_clear_selection()
 
 #endregion
+
+func _on_slot_mouse_item_hover(currentSlot: Slot, status: bool) -> void:
+	mouse_slot_hover.emit(currentSlot,status)

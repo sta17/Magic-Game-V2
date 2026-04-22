@@ -4,12 +4,17 @@ class_name Inventory
 
 signal inventory_changed
 
+const _PickupScene  := preload("res://Scenes/PickUpItem.tscn")
+
 @export var capacity: int = 20
 @export var items: Array[QuantitySlot] = []
 
-func init() -> void:
+var primaryPlayer:Player
+
+func init(player:Player) -> void:
 	for i in range(0,capacity):
 		items.append(null)
+	primaryPlayer = player
 
 #region Add
 
@@ -154,7 +159,31 @@ func append(item: QuantitySlot) -> bool:
 			items[i] = item
 			return true
 	return false
-	
+
+#endregion
+
+#region Use and Drop
+
+func use_item(item: QuantitySlot) -> void:
+	#check for consumable for now
+	if not item.item is ConsumableData:
+		return
+	if item.item is ConsumableData:
+		item.item.granted_ability.execute(primaryPlayer)
+
+		#Being a consumable, it should remove a charge
+		if item.item.stackable and item.quantity > 1:
+			item.quantity -= 1
+			inventory_changed.emit()
+		else:
+			remove_item(item)
+
+func drop_item(quantityCounter : QuantitySlot) -> void:
+	var _PickupItem: PickUpItem = _PickupScene.instantiate()
+	_PickupItem.quantityCounter = quantityCounter
+	primaryPlayer.get_tree().current_scene.add_child(_PickupItem)
+	_PickupItem.position = self.position
+	_PickupItem._setup()
 
 #endregion
 

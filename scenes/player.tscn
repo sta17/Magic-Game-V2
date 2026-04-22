@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://xrp1hjsdghu3" path="res://Script/Core/Player.gd" id="1_rpqav"]
 [ext_resource type="PackedScene" uid="uid://eo30kruldshw" path="res://Scenes/UI/HUD.tscn" id="2_kyqiw"]
+[ext_resource type="PackedScene" uid="uid://djgp2nrg21j2g" path="res://Scenes/Components/health_component.tscn" id="4_5ixxa"]
 [ext_resource type="PackedScene" uid="uid://d273fm43xl6uv" path="res://Assets/Models/Mixamo/kachujin_g_rosales.tscn" id="4_dewec"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
@@ -10,9 +11,10 @@ radius = 0.25
 [sub_resource type="SphereShape3D" id="SphereShape3D_kyqiw"]
 radius = 2.5
 
-[node name="Player" type="CharacterBody3D" unique_id=367495546]
+[node name="Player" type="CharacterBody3D" unique_id=367495546 node_paths=PackedStringArray("health_component")]
 collision_mask = 31
 script = ExtResource("1_rpqav")
+health_component = NodePath("HealthComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=264806240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -40,7 +42,9 @@ shape = SubResource("SphereShape3D_kyqiw")
 [node name="Kachujin G Rosales" parent="." unique_id=2006597735 instance=ExtResource("4_dewec")]
 
 [node name="Marker3D" type="Marker3D" parent="Kachujin G Rosales" unique_id=1669768758]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7798228, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.7798228, 0)
+
+[node name="HealthComponent" parent="." unique_id=1349117062 instance=ExtResource("4_5ixxa")]
 
 [connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_area_entered"]
 [connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_area_exited"]

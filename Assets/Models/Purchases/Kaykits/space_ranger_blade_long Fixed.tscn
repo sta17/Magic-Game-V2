@@ -1,9 +1,24 @@
 [gd_scene format=3 uid="uid://ddydufa6txu3d"]
 
 [ext_resource type="PackedScene" uid="uid://cvcu08qpn54ld" path="res://Assets/Models/Purchases/Kaykits/space_ranger_blade_long.tscn" id="1_8dpjt"]
+[ext_resource type="Script" uid="uid://cw5eibvu576q7" path="res://Script/Core/DamageSource.gd" id="1_n3qt8"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_04sbt"]
+radius = 0.05
+height = 1.25
 
 [node name="Blade" type="Node3D" unique_id=2070786268]
 transform = Transform3D(0.99999994, 0, 0, 0, 1.000001, 0, 0, 0, 1.0000002, 0, 0, 0)
+script = ExtResource("1_n3qt8")
 
 [node name="SpaceRanger_Blade_Long" parent="." unique_id=1219155250 instance=ExtResource("1_8dpjt")]
 transform = Transform3D(0.04341206, 0.49240434, 0, -0.24620196, 0.08682419, 0, 0, 0, 0.25000012, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1825399775]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1469645532]
+transform = Transform3D(0.17364822, 0.98481387, 0, -0.9848077, 0.17364822, 0, 0, 0, 1, 0.4409522, 0.07775167, 0)
+shape = SubResource("CapsuleShape3D_04sbt")

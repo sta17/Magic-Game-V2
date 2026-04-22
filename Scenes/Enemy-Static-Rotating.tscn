@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="5_65qcx"]
 [ext_resource type="Texture2D" uid="uid://bk2l66sy0k1tq" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/bow.png" id="6_1mgsp"]
 [ext_resource type="PackedScene" uid="uid://u30gxjut1u5o" path="res://Scenes/enemy_attack.tscn" id="6_uio17"]
+[ext_resource type="PackedScene" uid="uid://djgp2nrg21j2g" path="res://Scenes/Components/health_component.tscn" id="11_2g52s"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uio17"]
 diffuse_mode = 2
@@ -25,11 +26,11 @@ point_count = 3
 height = 1.7
 radius = 0.4
 
-[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860]
+[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_od0y6")
-max_health = 100.0
+health_component = NodePath("Components/HealthComponent")
 ranged_attack_damage = 10.0
 attack_cooldown = 1.0
 drop_table = Array[ExtResource("2_pnlst")]([ExtResource("3_2g52s")])
@@ -84,3 +85,8 @@ shape = SubResource("CylinderShape3D_65qcx")
 
 [node name="Marker3D" type="Marker3D" parent="." unique_id=1694768916]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50775445, -0.041030407)
+
+[node name="Components" type="Node" parent="." unique_id=1520760578]
+
+[node name="HealthComponent" parent="Components" unique_id=1349117062 instance=ExtResource("11_2g52s")]
+health_max = 50.0

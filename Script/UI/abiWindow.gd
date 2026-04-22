@@ -9,32 +9,31 @@ const _PAS_HOT_SCENE := preload("res://Scenes/UI/PassiveHotbar.tscn")
 const _ABI_CARD_SCENE := preload("res://Scenes/UI/ability_card.tscn")
 
 var _ability_list: AbilityList = null
-var _player: Player = null
+var _passive_ability_list: AbilityList = null
 var _hotbar: HotbarUI = null
 var _selected_slot: InventorySlot = null
-var _invPanel: InventoryUI = null
+
+signal mouse_slot_hover(status: bool, currentSlot:Slot)
 
 #region Scene node references
 
 @onready var passive_hotbar: PassiveHotbar	= $AbiScroll/PassiveHotbar
 @onready var _abilities_container: Control	= $AbiScroll/AbilitiesContainer
 
-@export var tabList: Array[Control] = []
-
 #endregion
 
 #region Setup
 
-func init(player: Player, invPanel: InventoryUI) -> void:
-	_player    = player
-	_invPanel = invPanel
-	passive_hotbar.init(self)
+func init(ability_list: AbilityList, passive_ability_list: AbilityList, h: HotbarUI) -> void:
+	_ability_list = ability_list
+	_ability_list.changeAdded.connect(_rebuild_abilities)
+	_ability_list.changeRemoved.connect(_rebuild_abilities)
+	
+	_passive_ability_list = passive_ability_list
+	passive_hotbar.init(_passive_ability_list)
+	passive_hotbar.mouse_slot_hover.connect(_on_slot_mouse_item_hover)
 
-	_ability_list = player.ability_list
-	_ability_list.changed.connect(_rebuild_abilities)
-
-	for i in range(tabList.size()):
-		tabList[i].visible = false
+	_hotbar = h
 
 	_rebuild_abilities()
 
@@ -53,24 +52,9 @@ func get_passive_health_regen() -> float:
 
 #endregion
 
-#region Hotbars and Ability
-
-func auto_add_passive(ability: AbilityData) -> void:
-	if passive_hotbar:
-		passive_hotbar.auto_add(ability)
-
-func auto_remove_passive(ability: AbilityData) -> void:
-	if passive_hotbar:
-		passive_hotbar.remove_ability_ref(ability)
-
-func set_hotbar(h: HotbarUI) -> void:
-	_hotbar = h
-
-#endregion
-
 #region Refresh
 
-func _rebuild_abilities() -> void:
+func _rebuild_abilities(_ability: AbilityData = null) -> void:
 	# Clear dynamic nodes but keep the persistent passive_hotbar
 	for child in _abilities_container.get_children():
 		child.queue_free()
@@ -88,7 +72,7 @@ func _rebuild_abilities() -> void:
 	for ab: AbilityData in active_abs:
 		var _ABI_CARD := _ABI_CARD_SCENE.instantiate()
 		_ABI_CARD.initalise(ab)
-		_ABI_CARD.getSlot().mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
+		_ABI_CARD.getSlot().mouse_item_hover.connect(_on_slot_mouse_item_hover)
 		_ABI_CARD.position = Vector2(left_x, y_left)
 		_abilities_container.add_child(_ABI_CARD)
 		y_left += stride
@@ -100,7 +84,7 @@ func _rebuild_abilities() -> void:
 	for ab:AbilityData in passive_abs:
 		var _ABI_CARD : AbilityCard = _ABI_CARD_SCENE.instantiate()
 		_ABI_CARD.initalise(ab)
-		_ABI_CARD.getSlot().mouse_item_hover.connect(getHUD()._on_slot_mouse_item_hover)
+		_ABI_CARD.getSlot().mouse_item_hover.connect(_on_slot_mouse_item_hover)
 		_ABI_CARD.position = Vector2(right_x, y_right)
 		_abilities_container.add_child(_ABI_CARD)
 		y_right += stride
@@ -141,7 +125,7 @@ func handle_drop(from_slot: InventorySlot, to_slot: InventorySlot) -> void:
 
 #region Slot type helpers
 
-func getHUD() -> HUD:
-	return _invPanel.getHUD()
+func _on_slot_mouse_item_hover(currentSlot: Slot, status: bool) -> void:
+	mouse_slot_hover.emit(currentSlot,status)
 
 #endregion

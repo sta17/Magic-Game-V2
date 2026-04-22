@@ -8,7 +8,11 @@ enum PlayerState { ACTIVE, UI, DIALOG, UIMINIMAL }
 enum MovingState { GROUNDED, FLOATING }
 enum ActionState { IDLE, MELEE, RANGED }
 
+@export_category("Components")
+@export var health_component: HealthComponent
+
 #region Movement
+@export_category("Movement")
 @export var WALK_SPEED:		float = 10
 @export var SPRINT_SPEED:	float = 15
 @export var JUMP_FORCE:		float = 6
@@ -20,8 +24,6 @@ enum ActionState { IDLE, MELEE, RANGED }
 #endregion
 
 #region Player Stats
-@export var health:		float = 0
-@export var health_max:	float = 100
 var _is_dead: 			bool  = false
 var special_key_pressed:bool  = false
 
@@ -40,14 +42,13 @@ var _shoot_cooldown:	float = 0.0
 @export var inventory: Inventory
 @export var equipment: EquipmentManager
 @export var ability_list: AbilityList
+@export var passive_ability_list: AbilityList
 @export var _equipment_abilities: Dictionary = {}
-@export var inv_ui: InventoryUI
 #endregion
 
 #region Other
 const INTERACT_RANGE: float = 2.2
 var _nearby_pickups: Array[PickUpItem] = []
-signal health_changed(current: float, maximum: float)
 signal player_died
 var interactble_entity: Object
 var AnimPlayer: AnimationPlayer
@@ -56,34 +57,28 @@ var AnimTree: AnimationTree
 
 func _ready() -> void:
 	add_to_group("player")
-	if health == 0:
-		health = health_max
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	inventory = Inventory.new()
-	inventory.init()
-	#add_child(inventory)
-
-	equipment = EquipmentManager.new()
-	add_child(equipment)
-	
+	passive_ability_list = AbilityList.new()
 	ability_list = AbilityList.new()
-	add_child(ability_list)
+	equipment = EquipmentManager.new()
+	inventory = Inventory.new()
+	inventory.init(self)
 	
 	equipment.weapon_equipped.connect(_on_weapon_equipped)
 	equipment.armor_equipped.connect(_on_armor_equipped)
 	equipment.accessory_equipped.connect(_on_accessory_equipped)
 	equipment.slot_cleared.connect(_on_slot_cleared)
 	
+	_hud.init(self)
+	
+	health_component.took_damage.connect(_hud.update_hp)
+	health_component.health_increased.connect(_hud.update_hp)
+	health_component.zero_health.connect(_die)
+	
 	_update_hud_all()
 	
-	(_hud.inv_panel as InventoryUI).init(self)
-	(_hud.vendor_panel as VendorUI).init(self)
-	inv_ui = _hud.inv_panel
-	_hud.hotbar_panel.init(self)
-	(_hud.inv_panel as InventoryUI).set_hotbar(_hud.hotbar_panel)
-	(_hud.loot_window as LootWindow).init(self)
 	AnimPlayer = _model.AnimPlayer
 	AnimTree = _model.AnimTree
 
@@ -100,15 +95,15 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			if PLAYER_STATE == PlayerState.DIALOG:
-				_hud.dialogWindow.scroll(-1)
+				_hud.dialogScroll(-1)
 			else:
-				_hud.hotbar_panel.scroll(-1)
+				_hud.hotbarScroll(-1)
 			get_viewport().set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			if PLAYER_STATE == PlayerState.DIALOG:
-				_hud.dialogWindow.scroll(1)
+				_hud.dialogScroll(1)
 			else:
-				_hud.hotbar_panel.scroll(1)
+				_hud.hotbarScroll(1)
 			get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -129,7 +124,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_Q:
-			_hud.hotbar_panel.use_selected()
+			_hud.hotbarUseSelected()
 
 	if event.is_action_pressed("special Action"):
 		special_key_pressed = true
@@ -184,18 +179,17 @@ func _physics_process(delta: float) -> void:
 		ACTION_STATE = ActionState.IDLE
 	
 	# Health regen from accessory and passive ability slots
-	var regen: float = equipment.get_health_regen() + inv_ui.get_passive_health_regen()
-	if regen > 0.0 and health < _max_hp():
-		health = minf(health + regen * delta, _max_hp())
-		_hud.update_hp(health, _max_hp())
-
+	var regen: float = equipment.get_health_regen() + passive_ability_list.get_passive_health_regen()
+	regen = regen * delta
+	health_component.calculateRegen(regen)
+	
 	if PLAYER_STATE == PlayerState.ACTIVE:
 		_shoot_cooldown -= delta
 		
 		if MOVING_STATE == MovingState.GROUNDED:
 			
 			var spd := SPRINT_SPEED if Input.is_action_pressed("sprint") else WALK_SPEED
-			spd += equipment.get_speed_bonus() + inv_ui.get_passive_speed_bonus()
+			spd += equipment.get_speed_bonus() + passive_ability_list.get_passive_speed_bonus()
 		
 			var inputDir: Vector2 = Input.get_vector("move_right","move_left","move_back","move_forward")
 		
@@ -240,7 +234,6 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 
 func CameraRotate(event: InputEvent) -> void:
-	
 	if !special_key_pressed:
 		rotate_y(-event.relative.x * MOUSE_SENS)
 		_pivot.rotation.y = 0
@@ -306,13 +299,6 @@ func _try_interact() -> void:
 			#_hud.ShowHide_Inventory_Box(interactble_entity)
 			#_hud.ShowHide_Inventory_BoxMinimal(interactble_entity)
 
-func drop_item(quantityCounter : QuantitySlot) -> void:
-	var _PickupItem: PickUpItem = _PickupScene.instantiate()
-	_PickupItem.quantityCounter = quantityCounter
-	get_tree().current_scene.add_child(_PickupItem)
-	_PickupItem.position = self.position
-	_PickupItem._setup()
-
 func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool:
 	if inventory.is_full():
 		_hud.show_notif("Inventory full!", Color.RED)
@@ -320,7 +306,7 @@ func pickup_item_quantiy(quantityCounter : QuantitySlot, autoUse : bool) -> bool
 	if !quantityCounter:
 		return false
 	if autoUse:
-		use_item(quantityCounter)
+		inventory.use_item(quantityCounter)
 		return true
 
 	# Auto-equip empty slots
@@ -380,7 +366,7 @@ func try_ranged(equipped_weapon: WeaponData) -> void:
 		bullet.direction = dir
 		bullet.speed     = equipped_weapon.bullet_speed
 		bullet.damage    = equipped_weapon.damage + equipment.get_damage_bonus() \
-			+ (_hud.inv_panel as InventoryUI).get_passive_damage_bonus()
+			+ passive_ability_list.get_passive_damage_bonus()
 		bullet.shooter   = self
 
 func try_melee(equipped_weapon: WeaponData) -> void:
@@ -401,8 +387,22 @@ func try_melee(equipped_weapon: WeaponData) -> void:
 		var to_enemy: Vector3 = enemy.global_position - global_position
 		# Must be within range and roughly in front (within ~73°)
 		if to_enemy.length() <= equipped_weapon.weapon_range and to_enemy.normalized().dot(forward) > 0.3:
-			if enemy.has_method("take_damage"):
-				enemy.take_damage(equipped_weapon.damage)
+			if enemy is Enemy:
+				var temp: Enemy = enemy
+				temp.health_component.take_damage(equipped_weapon.damage \
+					+ equipment.get_damage_bonus() \
+					+ passive_ability_list.get_passive_damage_bonus())
+				hit_any = true
+			elif enemy is EnemyStaticRotating:
+				var temp: EnemyStaticRotating = enemy
+				temp.health_component.take_damage(equipped_weapon.damage \
+					+ equipment.get_damage_bonus() \
+					+ passive_ability_list.get_passive_damage_bonus())
+				hit_any = true
+			elif enemy.has_method("take_damage"):
+				enemy.take_damage(equipped_weapon.damage \
+					+ equipment.get_damage_bonus() \
+					+ passive_ability_list.get_passive_damage_bonus())
 				hit_any = true
 
 	if hit_any:
@@ -418,16 +418,7 @@ func take_damage(amount: float) -> void:
 	if _is_dead:
 		return
 	var reduced := maxf(0.0, amount - equipment.get_defense())
-	health = maxf(0.0, health - reduced)
-	health_changed.emit(health, _max_hp())
-	_hud.update_hp(health, _max_hp())
-	_hud.flash_damage()
-
-	if health <= 0.0:
-		_die()
-
-func _max_hp() -> float:
-	return health_max #+ equipment.get_health_bonus()
+	health_component.take_damage(reduced)
 
 func _die() -> void:
 	_is_dead = true
@@ -487,14 +478,14 @@ func _update_granted_ability(slot: String, item: QuantitySlot) -> void:
 		ability_list.add_ability(ab)
 		_equipment_abilities[slot] = ab
 		if ab.is_passive:
-			(_hud.inv_panel as InventoryUI).auto_add_passive(ab)
+			passive_ability_list.add_ability(ab)
 
 func _remove_granted_ability(slot: String) -> void:
 	if _equipment_abilities.has(slot):
 		var ab: AbilityData = _equipment_abilities[slot]
 		ability_list.remove_ability(ab)
 		if ab.is_passive:
-			(_hud.inv_panel as InventoryUI).auto_remove_passive(ab)
+			passive_ability_list.remove_ability(ab)
 		_equipment_abilities.erase(slot)
 
 #endregion
@@ -505,7 +496,7 @@ func setState(state: PlayerState) -> void:
 	PLAYER_STATE = state
 
 func _update_hud_all() -> void:
-	_hud.update_hp(health, _max_hp())
+	_hud.update_hp()
 
 func _chat_window(otherInteracter: NPC) -> void:
 	if PLAYER_STATE == PlayerState.DIALOG:
@@ -515,7 +506,7 @@ func _chat_window(otherInteracter: NPC) -> void:
 
 func _vendor_window(otherInteracter: NPC, shoppinglist: Array[QuantitySlot] = []) -> void:
 	if PLAYER_STATE == PlayerState.UI:
-		_hud.Show_Text_Vendor(self,otherInteracter, shoppinglist)
+		_hud.Show_Text_Vendor(otherInteracter, shoppinglist)
 	elif PLAYER_STATE == PlayerState.ACTIVE:
 		_hud.Hide_Text_Vendor()
 
@@ -527,24 +518,11 @@ func ExitDialogeUI() -> void:
 
 #region Consumable use
 
-func use_item(item: QuantitySlot) -> void:
-	#check for consumable for now
-	if not item.item is ConsumableData:
-		return
-		#item.item.granted_ability.execute(self)
-	if item.item is ConsumableData:
-		item.item.granted_ability.execute(self)
-
-		#Being a consumable, it should remove a charge
-		if item.item.stackable and item.quantity > 1:
-			item.quantity -= 1
-			inventory.inventory_changed.emit()
-		else:
-			inventory.remove_item_quantity(item)
-
 func heal(amount: float) -> void:
-	health = minf(health + amount, _max_hp())
-	_hud.update_hp(health, _max_hp())
+	health_component.heal(amount)
 	_hud.show_notif("+%d HP restored" % int(amount), Color(0.3, 1.0, 0.4))
+
+func update_hp() -> void:
+	_hud.update_hp()
 
 #endregion

@@ -9,4 +9,4 @@ func _init() -> void:
 	description  = "Heal: %d HP" % int(heal_amount)
 
 func execute(_player: Player) -> void:
-	_player.heal(heal_amount)
+	_player.health_component.heal(heal_amount)

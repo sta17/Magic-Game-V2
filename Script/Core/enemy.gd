@@ -2,7 +2,10 @@
 extends NPC
 class_name Enemy
 
-@export var max_health: float      = 50.0
+@export_category("Components")
+@export var health_component: HealthComponent
+
+@export_category("Stats")
 @export var melee_attack_damage: float   = 10.0
 @export var ranged_attack_damage: float   = 20.0
 @export var melee_attack_range: float    = 2.2
@@ -18,7 +21,6 @@ const DROP_CHANCE:  float = 0.6
 const _PickupScene := preload("res://Scenes/PickUpItem.tscn")
 const _BulletScene  := preload("res://Scenes/bullet.tscn")
 
-var health: float
 var _attack_timer: float = 0.0
 
 # Visuals — nodes come from enemy.tscn, visible in the editor
@@ -29,7 +31,6 @@ var _attack_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("enemy")
-	health = max_health
 	_spawn_pos     = global_position
 	_patrol_target = global_position
 	call_deferred("_find_player")
@@ -39,9 +40,20 @@ func _ready() -> void:
 	_enemy_attack.melee_attack_damage = melee_attack_damage
 	_enemy_attack.ranged_attack_damage = ranged_attack_damage
 	_enemy_attack.detection_range = detection_range
+	
+	health_component.zero_health.connect(_die)
+	health_component.took_damage.connect(update_HP)
 
 func _setup_hp_sprite() -> void:
-	_hp_bar._setup_hp_sprite(health,max_health)
+	_hp_bar._setup_hp_sprite(health_component.health,health_component._max_hp())
+
+func update_HP(amount:float) -> void:
+	if state == State.DEAD:
+		return
+	if state == State.PATROL or state == State.IDLE:
+		state = State.CHASE
+	_hp_bar._update_health_bar(health_component.health,health_component._max_hp())
+	_spawn_damage_number(amount)
 
 func _find_player() -> void:
 	_player = get_tree().get_first_node_in_group("player")
@@ -99,26 +111,11 @@ func _do_attack(delta: float) -> void:
 	if _attack_timer <= 0.0:
 		_attack_timer = attack_cooldown
 		if (dist <= ranged_attack_range * 1.3) and (dist > melee_attack_range * 1.3):
-			_do_ranged_attack()
+			_head_icon.texture = _ranged_icon
+			_enemy_attack._do_ranged_attack(_muzzle)
 		elif (dist <= melee_attack_range * 1.3) and dist >= 0:
-			_do_melee_attack()
-
-func _do_melee_attack() -> void:
-	_head_icon.texture = _melee_icon
-	_enemy_attack._do_melee_attack()
-
-func _do_ranged_attack() -> void:
-	_head_icon.texture = _ranged_icon
-	_enemy_attack._do_ranged_attack(_muzzle)
-
-func take_damage(amount: float) -> void:
-	if state == State.DEAD:
-		return
-	_hp_bar._update_health_bar(-amount)
-	if state == State.PATROL or state == State.IDLE:
-		state = State.CHASE
-	if _hp_bar._is_dead():
-		_die()
+			_head_icon.texture = _melee_icon
+			_enemy_attack._do_melee_attack()
 
 func _die() -> void:
 	state = State.DEAD
@@ -150,3 +147,18 @@ func _spawn_pickup(item: ItemData) -> void:
 		randf_range(-0.6, 0.6), 0.8, randf_range(-0.6, 0.6)
 	)
 	get_tree().current_scene.add_child(pickup)
+
+func _spawn_damage_number(amount: float) -> void:
+	var label := Label3D.new()
+	label.text = "-%d" % int(amount)
+	label.font_size = 48
+	label.modulate = Color(1.0, 0.3, 0.1)
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	label.no_depth_test = true
+	get_tree().current_scene.add_child(label)
+	label.global_position = global_position + Vector3(0, 2.4, 0)
+	var tween := get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "global_position", label.global_position + Vector3(0, 1.2, 0), 0.8)
+	tween.tween_property(label, "modulate:a", 0.0, 0.8)
+	tween.tween_callback(label.queue_free).set_delay(0.8)
