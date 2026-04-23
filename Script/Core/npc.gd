@@ -129,6 +129,3 @@ func _die() -> void:
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.5)
 	tween.tween_callback(queue_free)
-
-func getCenter() -> Marker3D:
-	return _center

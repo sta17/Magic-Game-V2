@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b1hmolvxn8bcl"]
+
+[ext_resource type="Script" uid="uid://dxgptkdjsknhi" path="res://Script/Core/Components/RangedAttackComponent.gd" id="1_cc8bb"]
+
+[node name="RangedAttackComponent" type="Node3D" unique_id=1063837225]
+script = ExtResource("1_cc8bb")
+attack_damage = 20.0
+attack_range = 4.4

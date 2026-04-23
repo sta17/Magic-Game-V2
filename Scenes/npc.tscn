@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cn07epi3r7mv1" path="res://Script/Core/npc.gd" id="1_acqhf"]
 [ext_resource type="Texture2D" uid="uid://ddcrhlayn5f0n" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/pouch.png" id="2_xxsvc"]
 [ext_resource type="Material" uid="uid://c117inhla135" path="res://GodotSettings/Materials/Placeholder Yellow.tres" id="3_g6unj"]
+[ext_resource type="PackedScene" uid="uid://dbmvilvdc8f8m" path="res://Scenes/Components/DetectionComponent.tscn" id="4_h1ryf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xxsvc"]
 radius = 0.25
@@ -56,3 +57,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5500158, 0.006396055)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0)
 billboard = 1
 texture = ExtResource("2_xxsvc")
+
+[node name="Node3D Components" type="Node3D" parent="." unique_id=402715695]
+
+[node name="DetectionComponent" parent="Node3D Components" unique_id=1056468298 instance=ExtResource("4_h1ryf")]

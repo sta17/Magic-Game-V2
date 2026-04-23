@@ -1,9 +1,9 @@
-Node
+Node3D
 CollisionShape3D
 Area3D
+Node
 GridContainer
 Control
-Node3D
 AnimationPlayer
 MeshInstance3D
 BoneAttachment3D

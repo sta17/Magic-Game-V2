@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b0yj5u6eg52km"]
+
+[ext_resource type="Script" uid="uid://dww036tkuvx0" path="res://Script/Core/Components/DropItemComponent.gd" id="1_osywl"]
+
+[node name="DropItemComponent" type="Node3D" unique_id=1113669536]
+script = ExtResource("1_osywl")

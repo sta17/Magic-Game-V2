@@ -6,11 +6,12 @@
 [ext_resource type="Script" uid="uid://b86t22j8kw6ob" path="res://Script/Items/item_data.gd" id="2_pnlst"]
 [ext_resource type="Resource" uid="uid://b32hg0dpktr7r" path="res://Resources/items/Money.tres" id="3_2g52s"]
 [ext_resource type="PackedScene" uid="uid://bgux8x3ankh0r" path="res://Assets/Models/Public Domain/Kenney/Space/turret_base.tscn" id="3_65qcx"]
-[ext_resource type="Texture2D" uid="uid://dfixyxgw5avsw" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/sword.png" id="3_sqg8p"]
 [ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="5_65qcx"]
 [ext_resource type="Texture2D" uid="uid://bk2l66sy0k1tq" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/bow.png" id="6_1mgsp"]
-[ext_resource type="PackedScene" uid="uid://u30gxjut1u5o" path="res://Scenes/enemy_attack.tscn" id="6_uio17"]
 [ext_resource type="PackedScene" uid="uid://djgp2nrg21j2g" path="res://Scenes/Components/health_component.tscn" id="11_2g52s"]
+[ext_resource type="PackedScene" uid="uid://dbmvilvdc8f8m" path="res://Scenes/Components/DetectionComponent.tscn" id="11_222di"]
+[ext_resource type="PackedScene" uid="uid://b1hmolvxn8bcl" path="res://Scenes/Components/ranged_attack_component.tscn" id="12_222di"]
+[ext_resource type="PackedScene" uid="uid://b0yj5u6eg52km" path="res://Scenes/Components/drop_item_component.tscn" id="12_rt3f8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uio17"]
 diffuse_mode = 2
@@ -26,16 +27,15 @@ point_count = 3
 height = 1.7
 radius = 0.4
 
-[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860 node_paths=PackedStringArray("health_component")]
+[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860 node_paths=PackedStringArray("health_component", "ranged_attack_component", "detection_component", "drop_item_component")]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_od0y6")
 health_component = NodePath("Components/HealthComponent")
-ranged_attack_damage = 10.0
-attack_cooldown = 1.0
+ranged_attack_component = NodePath("Node3D Components/RangedAttackComponent")
+detection_component = NodePath("Node3D Components/DetectionComponent")
+drop_item_component = NodePath("Node3D Components/DropItemComponent")
 drop_table = Array[ExtResource("2_pnlst")]([ExtResource("3_2g52s")])
-_ranged_icon = ExtResource("6_1mgsp")
-_melee_icon = ExtResource("3_sqg8p")
 
 [node name="RotationPoint" type="Node3D" parent="." unique_id=1733392636]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -47,9 +47,6 @@ transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0.09, 0.497, 
 
 [node name="MuzzleB" type="Marker3D" parent="RotationPoint/Muzzles" unique_id=915494829]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 0.497, 0.35)
-
-[node name="EnemyAttack" parent="RotationPoint/Muzzles" unique_id=1063837225 node_paths=PackedStringArray("attacker") instance=ExtResource("6_uio17")]
-attacker = NodePath("../../..")
 
 [node name="turret_top" parent="RotationPoint" unique_id=141937961 instance=ExtResource("1_0hmti")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.35, 0)
@@ -71,8 +68,9 @@ scale_amount_curve = SubResource("Curve_1mgsp")
 
 [node name="turret_base" parent="." unique_id=90820709 instance=ExtResource("3_65qcx")]
 
-[node name="HealthBar" parent="." unique_id=905334040 instance=ExtResource("5_65qcx")]
+[node name="HealthBar" parent="." unique_id=905334040 node_paths=PackedStringArray("health_component") instance=ExtResource("5_65qcx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+health_component = NodePath("../Components/HealthComponent")
 
 [node name="HeadIcon" type="Sprite3D" parent="." unique_id=318419769]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -90,3 +88,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50775445, -0.041030407)
 
 [node name="HealthComponent" parent="Components" unique_id=1349117062 instance=ExtResource("11_2g52s")]
 health_max = 50.0
+
+[node name="Node3D Components" type="Node3D" parent="." unique_id=785779469]
+
+[node name="RangedAttackComponent" parent="Node3D Components" unique_id=1151598261 node_paths=PackedStringArray("attacker") instance=ExtResource("12_222di")]
+attacker = NodePath("../..")
+attack_cooldown = 1.0
+attack_damage = 10.0
+
+[node name="DetectionComponent" parent="Node3D Components" unique_id=1056468298 instance=ExtResource("11_222di")]
+
+[node name="DropItemComponent" parent="Node3D Components" unique_id=1113669536 instance=ExtResource("12_rt3f8")]

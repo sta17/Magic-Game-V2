@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://u30gxjut1u5o"]
-
-[ext_resource type="Script" uid="uid://cnrvwdqr12656" path="res://Script/Core/EnemyAttack.gd" id="1_g0dvh"]
-
-[node name="EnemyAttack" type="Node3D" unique_id=1063837225]
-script = ExtResource("1_g0dvh")

@@ -1,48 +1,62 @@
 @icon("res://Assets/Icons/Pixel-Boy/node_3D/icon_skull.png")
-extends NPC
+extends CharacterBody3D
 class_name Enemy
+
+signal enemy_died(drop_position: Vector3)
+
+enum State { IDLE, PATROL, CHASE, DEAD, STAND, ATTACK }
+
+const DROP_CHANCE:  float = 0.6
+const _PickupScene := preload("res://Scenes/PickUpItem.tscn")
 
 @export_category("Components")
 @export var health_component: HealthComponent
+@export var melee_attack_component: MeleeAttackComponent
+@export var ranged_attack_component: RangedAttackComponent
+@export var detection_component: DetectionComponent
+@export var drop_item_component: DropItemComponent
 
 @export_category("Stats")
-@export var melee_attack_damage: float   = 10.0
-@export var ranged_attack_damage: float   = 20.0
-@export var melee_attack_range: float    = 2.2
-@export var ranged_attack_range: float    = 4.4
-@export var attack_cooldown: float = 1.2
+@export var GRAVITY:		float = ProjectSettings.get_setting("physics/3d/default_gravity")
+@export var move_speed: float = 3.5
+@export var melee_icon: Texture2D
+@export var ranged_icon: Texture2D
 @export var drop_table: Array[ItemData] = []
-@export var bullet_speed: float = 20.0
-@export var _ranged_icon: Texture2D
-@export var _melee_icon: Texture2D
+@export var patrol_radius: float   = 8.0
+@export var state: State = State.IDLE:
+	set(value):
+		state = value
+		if value == State.PATROL:
+			_set_patrol_target()
+			_patrol_wait = 0.0
+		elif value == State.CHASE:
+			setTarget()
+		elif value == State.IDLE:
+			_patrol_wait = 0.0
 
-const DROP_CHANCE:  float = 0.6
-
-const _PickupScene := preload("res://Scenes/PickUpItem.tscn")
-const _BulletScene  := preload("res://Scenes/bullet.tscn")
-
-var _attack_timer: float = 0.0
+var _spawn_pos: Vector3
+var _patrol_target: Vector3
+var _patrol_wait: float  = 0.0
+var current_target: Node3D = null
 
 # Visuals — nodes come from enemy.tscn, visible in the editor
+@onready var _head_icon:	Sprite3D		= $HeadIcon
 @onready var _mesh:			MeshInstance3D	= $MeshInstance3D2
 @onready var _muzzle:		Marker3D		= $Marker3D
 @onready var _hp_bar:		Health_Bar		= $HealthBar
-@onready var _enemy_attack:	Enemy_Attack	= $EnemyAttack
 
 func _ready() -> void:
 	add_to_group("enemy")
 	_spawn_pos     = global_position
-	_patrol_target = global_position
-	call_deferred("_find_player")
 	call_deferred("_setup_hp_sprite")
-	
-	_enemy_attack.attacker = self
-	_enemy_attack.melee_attack_damage = melee_attack_damage
-	_enemy_attack.ranged_attack_damage = ranged_attack_damage
-	_enemy_attack.detection_range = detection_range
-	
+
 	health_component.zero_health.connect(_die)
 	health_component.took_damage.connect(update_HP)
+	
+	melee_attack_component.attacker = self
+	melee_attack_component.detection_range = detection_component.detection_range
+	ranged_attack_component.attacker = self
+	ranged_attack_component.detection_range = detection_component.detection_range
 
 func _setup_hp_sprite() -> void:
 	_hp_bar._setup_hp_sprite(health_component.health,health_component._max_hp())
@@ -52,70 +66,67 @@ func update_HP(amount:float) -> void:
 		return
 	if state == State.PATROL or state == State.IDLE:
 		state = State.CHASE
-	_hp_bar._update_health_bar(health_component.health,health_component._max_hp())
-	_spawn_damage_number(amount)
-
-func _find_player() -> void:
-	_player = get_tree().get_first_node_in_group("player")
+	_hp_bar._update_health_bar(amount)
 
 func _physics_process(delta: float) -> void:
-	if state == State.DEAD:
-		return
+	if state == State.DEAD: return
 
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
-
-	_attack_timer -= delta
 
 	match state:
 		State.IDLE:		_do_idle(delta)
 		State.PATROL:	_do_patrol(delta)
 		State.CHASE:	_do_chase(delta)
 		State.ATTACK:	_do_attack(delta)
-		State.STAND:	super._do_stand(delta)
+		State.STAND:	_do_stand(delta)
 
 	move_and_slide()
 
+func _do_stand(_delta: float) -> void:
+	# Stand Still and Do Nothing
+	pass
+
 func _do_idle(delta: float) -> void:
-	super._do_idle(delta)
-	if _enemy_attack._check_detect():
-		state = State.CHASE
+	velocity.x = 0.0; velocity.z = 0.0
+	_patrol_wait += delta
+	if detection_component._check_detect():
+		state = State.CHASE; return
+	if _patrol_wait > 2.0:
+		state = State.PATROL; return
 
 func _do_patrol(delta: float) -> void:
-	if _enemy_attack._check_detect():
-		state = State.CHASE
-	elif state == State.PATROL:
-		super._do_patrol(delta)
+	if detection_component._check_detect():
+		state = State.CHASE; return
+	_patrol_wait += delta
+	var dist_to_target:float = global_position.distance_to(_patrol_target)
+	if dist_to_target < 0.8:
+		state = State.IDLE; return
+	elif _patrol_wait > 2.0:
+		state = State.IDLE; return
+	_move_toward(_patrol_target, move_speed * 0.6, delta)
 
 func _do_chase(delta: float) -> void:
-	if not _player:
+	if not detection_component._check_detect():
 		state = State.PATROL; return
-	var dist:float = global_position.distance_to(_player.global_position)
-	if dist > detection_range * 1.6:
-		state = State.PATROL; return
-	if dist <= ranged_attack_range or dist <= melee_attack_range:
-		state = State.ATTACK; 
+	
+	if melee_attack_component.is_in_range() or ranged_attack_component.is_in_range():
 		velocity.x = 0.0; velocity.z = 0.0
-		return
-	_move_toward(_player.global_position, move_speed, delta)
+		state = State.ATTACK; return
+	_move_toward(current_target.global_position, move_speed, delta)
 
 func _do_attack(delta: float) -> void:
-	if not _player:
-		state = State.PATROL; return
-	var dist:float = global_position.distance_to(_player.global_position)
-	if dist > ranged_attack_range * 1.3:
+	if not melee_attack_component.is_in_range() and not ranged_attack_component.is_in_range():
 		state = State.CHASE; return
 
-	_face_target(_player.global_position, delta * 8.0)
+	_face_target(current_target.global_position, delta * 8.0)
 
-	if _attack_timer <= 0.0:
-		_attack_timer = attack_cooldown
-		if (dist <= ranged_attack_range * 1.3) and (dist > melee_attack_range * 1.3):
-			_head_icon.texture = _ranged_icon
-			_enemy_attack._do_ranged_attack(_muzzle)
-		elif (dist <= melee_attack_range * 1.3) and dist >= 0:
-			_head_icon.texture = _melee_icon
-			_enemy_attack._do_melee_attack()
+	if melee_attack_component.can_attack():
+		_head_icon.texture = melee_icon
+		melee_attack_component._do_attack([_muzzle])
+	elif(ranged_attack_component.can_attack()):
+		ranged_attack_component._do_attack([_muzzle])
+		_head_icon.texture = ranged_icon
 
 func _die() -> void:
 	state = State.DEAD
@@ -127,38 +138,42 @@ func _die() -> void:
 		mat.albedo_color = Color(0.6, 0.0, 0.0)
 		_mesh.set_surface_override_material(0, mat)
 
-	creature_died.emit(global_position)
-	_try_drop_items()
+	enemy_died.emit(global_position)
+	drop_item_component._try_drop_items()
+	
+	for n in self.get_children():
+		self.remove_child(n)
+		n.queue_free()
+	self.queue_free()
 
-	var tween: Tween = create_tween()
-	tween.tween_interval(1.5)
-	tween.tween_callback(queue_free)
+func setTarget() -> void:
+	current_target = detection_component.getTargets()[0]
+	melee_attack_component.setTarget(current_target)
+	ranged_attack_component.setTarget(current_target)
 
-func _try_drop_items() -> void:
-	for item in drop_table:
-		if randf() < DROP_CHANCE:
-			_spawn_pickup(item.duplicate(true))
-
-func _spawn_pickup(item: ItemData) -> void:
-	var pickup: PickUpItem = _PickupScene.instantiate()
-	pickup.item = item
-	# Set position BEFORE add_child so _ready() captures the correct bob base Y
-	pickup.position = global_position + Vector3(
-		randf_range(-0.6, 0.6), 0.8, randf_range(-0.6, 0.6)
+func _set_patrol_target() -> void:
+	var offset: Vector3 = Vector3(
+		randf_range(-patrol_radius, patrol_radius),
+		0.0,
+		randf_range(-patrol_radius, patrol_radius)
 	)
-	get_tree().current_scene.add_child(pickup)
+	_patrol_target = _spawn_pos + offset
 
-func _spawn_damage_number(amount: float) -> void:
-	var label := Label3D.new()
-	label.text = "-%d" % int(amount)
-	label.font_size = 48
-	label.modulate = Color(1.0, 0.3, 0.1)
-	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	label.no_depth_test = true
-	get_tree().current_scene.add_child(label)
-	label.global_position = global_position + Vector3(0, 2.4, 0)
-	var tween := get_tree().create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(label, "global_position", label.global_position + Vector3(0, 1.2, 0), 0.8)
-	tween.tween_property(label, "modulate:a", 0.0, 0.8)
-	tween.tween_callback(label.queue_free).set_delay(0.8)
+func _move_toward(target: Vector3, speed: float, delta: float) -> void:
+	var flat_dir: Vector3 = (target - global_position)
+	flat_dir.y = 0.0
+	if flat_dir.length() < 0.01:
+		velocity.x = 0.0; velocity.z = 0.0
+		return
+	flat_dir = flat_dir.normalized()
+	velocity.x = flat_dir.x * speed
+	velocity.z = flat_dir.z * speed
+	_face_target(target, delta * 6.0)
+
+func _face_target(target: Vector3, weight: float) -> void:
+	var dir: Vector3 = (target - global_position)
+	dir.y = 0.0
+	if dir.length() < 0.01:
+		return
+	var target_angle:float = atan2(dir.x, dir.z)
+	rotation.y = lerp_angle(rotation.y, target_angle, weight)

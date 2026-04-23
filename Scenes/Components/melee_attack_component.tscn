@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bhupu2ik6bcuf"]
+
+[ext_resource type="Script" uid="uid://ox357bviqdq3" path="res://Script/Core/Components/MeleeAttackComponent.gd" id="1_u4hva"]
+
+[node name="MeleeAttackComponent" type="Node3D" unique_id=1063837225]
+script = ExtResource("1_u4hva")
