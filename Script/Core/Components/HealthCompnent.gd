@@ -16,6 +16,11 @@ func _ready() -> void:
 	if health == 0:
 		health = health_max
 
+func incoming_damage(source: DamageSource) -> void:
+	if not enabled: return
+	var attack_component: AttackComponent = source.attack_component
+	take_damage(attack_component.attack_damage)
+
 func take_damage(amount: float) -> void:
 	if not enabled:
 		return

@@ -3,13 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://6yhm4vdjaldb" path="res://Assets/Models/Public Domain/Kenney/Space/turret_top.tscn" id="1_0hmti"]
 [ext_resource type="Script" uid="uid://c7xhvbumvjnve" path="res://Script/Core/enemy_static_rotating.gd" id="1_od0y6"]
 [ext_resource type="ArrayMesh" uid="uid://doukdg8bsva2y" path="res://Assets/Models/Public Domain/Kenney/Starter Kits/cloud_cloud.res" id="2_od0y6"]
-[ext_resource type="Script" uid="uid://b86t22j8kw6ob" path="res://Script/Items/item_data.gd" id="2_pnlst"]
-[ext_resource type="Resource" uid="uid://b32hg0dpktr7r" path="res://Resources/items/Money.tres" id="3_2g52s"]
 [ext_resource type="PackedScene" uid="uid://bgux8x3ankh0r" path="res://Assets/Models/Public Domain/Kenney/Space/turret_base.tscn" id="3_65qcx"]
-[ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/health_bar.tscn" id="5_65qcx"]
+[ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/Components/health_bar.tscn" id="5_65qcx"]
 [ext_resource type="Texture2D" uid="uid://bk2l66sy0k1tq" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/bow.png" id="6_1mgsp"]
+[ext_resource type="PackedScene" uid="uid://2tpugupb3ytw" path="res://Scenes/Components/movement_component.tscn" id="10_rt3f8"]
 [ext_resource type="PackedScene" uid="uid://djgp2nrg21j2g" path="res://Scenes/Components/health_component.tscn" id="11_2g52s"]
-[ext_resource type="PackedScene" uid="uid://dbmvilvdc8f8m" path="res://Scenes/Components/DetectionComponent.tscn" id="11_222di"]
+[ext_resource type="PackedScene" uid="uid://dbmvilvdc8f8m" path="res://Scenes/Components/detection_component.tscn" id="11_222di"]
 [ext_resource type="PackedScene" uid="uid://b1hmolvxn8bcl" path="res://Scenes/Components/ranged_attack_component.tscn" id="12_222di"]
 [ext_resource type="PackedScene" uid="uid://b0yj5u6eg52km" path="res://Scenes/Components/drop_item_component.tscn" id="12_rt3f8"]
 
@@ -27,7 +26,7 @@ point_count = 3
 height = 1.7
 radius = 0.4
 
-[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860 node_paths=PackedStringArray("health_component", "ranged_attack_component", "detection_component", "drop_item_component")]
+[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860 node_paths=PackedStringArray("health_component", "ranged_attack_component", "detection_component", "drop_item_component", "movement_component")]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_od0y6")
@@ -35,7 +34,7 @@ health_component = NodePath("Components/HealthComponent")
 ranged_attack_component = NodePath("Node3D Components/RangedAttackComponent")
 detection_component = NodePath("Node3D Components/DetectionComponent")
 drop_item_component = NodePath("Node3D Components/DropItemComponent")
-drop_table = Array[ExtResource("2_pnlst")]([ExtResource("3_2g52s")])
+movement_component = NodePath("Components/MovementComponent")
 
 [node name="RotationPoint" type="Node3D" parent="." unique_id=1733392636]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -89,13 +88,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50775445, -0.041030407)
 [node name="HealthComponent" parent="Components" unique_id=1349117062 instance=ExtResource("11_2g52s")]
 health_max = 50.0
 
+[node name="MovementComponent" parent="Components" unique_id=236478447 node_paths=PackedStringArray("rotationPoint") instance=ExtResource("10_rt3f8")]
+rotationPoint = NodePath("../..")
+
 [node name="Node3D Components" type="Node3D" parent="." unique_id=785779469]
 
 [node name="RangedAttackComponent" parent="Node3D Components" unique_id=1151598261 node_paths=PackedStringArray("attacker") instance=ExtResource("12_222di")]
+no_minimum_range = true
 attacker = NodePath("../..")
 attack_cooldown = 1.0
 attack_damage = 10.0
 
-[node name="DetectionComponent" parent="Node3D Components" unique_id=1056468298 instance=ExtResource("11_222di")]
+[node name="DetectionComponent" parent="Node3D Components" unique_id=1056468298 node_paths=PackedStringArray("parent") instance=ExtResource("11_222di")]
+parent = NodePath("../..")
 
 [node name="DropItemComponent" parent="Node3D Components" unique_id=1113669536 instance=ExtResource("12_rt3f8")]

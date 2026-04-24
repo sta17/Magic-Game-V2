@@ -2,14 +2,16 @@
 extends CharacterBody3D
 class_name Player
 
-const _BulletScene  := preload("res://Scenes/bullet.tscn")
-const _PickupScene  := preload("res://Scenes/PickUpItem.tscn")
+const _BulletScene  := preload("res://Scenes/Bullets and Effects/bullet.tscn")
 enum PlayerState { ACTIVE, UI, DIALOG, UIMINIMAL }
 enum MovingState { GROUNDED, FLOATING }
 enum ActionState { IDLE, MELEE, RANGED }
 
 @export_category("Components")
 @export var health_component: HealthComponent
+@export var melee_attack_component: MeleeAttackComponent
+@export var ranged_attack_component: RangedAttackComponent
+@export var hitbox_component: HitboxComponent
 
 #region Movement
 @export_category("Movement")
@@ -77,6 +79,12 @@ func _ready() -> void:
 	health_component.health_increased.connect(_hud.update_hp)
 	health_component.zero_health.connect(_die)
 	
+	hitbox_component.detection_enabled = true
+	hitbox_component.damage_source_hit.connect(health_component.incoming_damage)
+	
+	melee_attack_component.attacker = self
+	ranged_attack_component.attacker = self
+	
 	_update_hud_all()
 	
 	AnimPlayer = _model.AnimPlayer
@@ -135,14 +143,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if PLAYER_STATE == PlayerState.ACTIVE:
 			_try_interact()
 		elif PLAYER_STATE == PlayerState.DIALOG:
-			if !_hud.dialogWindow.promptLine():
+			if !_hud.dialogPromptLine():
 				#_try_interact()
 				pass
 		elif PLAYER_STATE == PlayerState.UIMINIMAL:
 			_try_interact()
 	if event.is_action_pressed("next_page"):
 		if PLAYER_STATE == PlayerState.DIALOG:
-			_hud.dialogWindow.promptLine()
+			_hud.dialogPromptLine()
 	if event.is_action_pressed("previous_page"):
 		if PLAYER_STATE == PlayerState.DIALOG:
 			_hud.dialogWindow.promptPreviousLine()
@@ -355,9 +363,9 @@ func try_ranged(equipped_weapon: WeaponData) -> void:
 		var spread := equipped_weapon.bullet_spread *  2.0
 		#var dir := -_cam.global_transform.basis.z
 		var dir := -_muzzle.global_transform.basis.z
-		dir += Vector3(randf_range(-spread, spread),
-					   randf_range(-spread, spread),
-					   randf_range(-spread, spread))
+		#dir += Vector3(randf_range(-spread, spread),
+		#			   randf_range(-spread, spread),
+		#			   randf_range(-spread, spread))
 		dir = dir.normalized()
 
 		#bullet.global_position = _muzzle.global_position
@@ -387,22 +395,17 @@ func try_melee(equipped_weapon: WeaponData) -> void:
 		var to_enemy: Vector3 = enemy.global_position - global_position
 		# Must be within range and roughly in front (within ~73°)
 		if to_enemy.length() <= equipped_weapon.weapon_range and to_enemy.normalized().dot(forward) > 0.3:
-			if enemy is Enemy:
-				var temp: Enemy = enemy
-				temp.health_component.take_damage(equipped_weapon.damage \
+			var damage: float = equipped_weapon.damage \
 					+ equipment.get_damage_bonus() \
-					+ passive_ability_list.get_passive_damage_bonus())
+					+ passive_ability_list.get_passive_damage_bonus()
+			if enemy is Enemy:
+				#(enemy as Enemy).health_component.take_damage(damage)
 				hit_any = true
 			elif enemy is EnemyStaticRotating:
-				var temp: EnemyStaticRotating = enemy
-				temp.health_component.take_damage(equipped_weapon.damage \
-					+ equipment.get_damage_bonus() \
-					+ passive_ability_list.get_passive_damage_bonus())
+				(enemy as EnemyStaticRotating).health_component.take_damage(damage)
 				hit_any = true
 			elif enemy.has_method("take_damage"):
-				enemy.take_damage(equipped_weapon.damage \
-					+ equipment.get_damage_bonus() \
-					+ passive_ability_list.get_passive_damage_bonus())
+				enemy.take_damage(damage)
 				hit_any = true
 
 	if hit_any:
@@ -438,7 +441,13 @@ func UpdatePhysicalWeaponEquipment(w: QuantitySlot) -> void:
 	var temp: PackedScene = w.item.item_equipped_model
 	if temp != null:
 		var model: Node3D = temp.instantiate()
-		_model.RightHand.add_child(model)
+		for child in model.get_children():
+			if child is DamageSource: 
+				var damageSource: DamageSource = child	
+				damageSource.entity = self
+				damageSource.attack_component = melee_attack_component
+				damageSource.can_damage = true
+				_model.RightHand.add_child(model)
 
 func UpdatePhysicalArmorEquipment(_a: QuantitySlot) -> void:
 	pass
@@ -453,6 +462,12 @@ func _on_weapon_equipped(w: QuantitySlot) -> void:
 	UpdatePhysicalWeaponEquipment(w)
 	_update_granted_ability("weapon", w)
 	_update_hud_all()
+	
+	var wd: WeaponData = equipment.equipped_weapon
+	if wd.get_weapon_type_name() == "Melee":
+		melee_attack_component.detection_range = wd.weapon_range
+	elif wd.get_weapon_type_name() == "Ranged":
+		ranged_attack_component.detection_range = wd.weapon_range
 
 func _on_armor_equipped(a: QuantitySlot) -> void:
 	UpdatePhysicalArmorEquipment(a)

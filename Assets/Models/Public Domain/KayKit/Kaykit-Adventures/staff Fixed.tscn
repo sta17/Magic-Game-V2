@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b5cbsuquf3h5"]
+
+[ext_resource type="PackedScene" uid="uid://m14gbfejmm1l" path="res://Assets/Models/Public Domain/KayKit/Kaykit-Adventures/Staff Elongated.fbx" id="1_c8vkq"]
+[ext_resource type="PackedScene" uid="uid://bx3arjp62ugau" path="res://Scenes/DamageSource.tscn" id="2_8s0hn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1cqxg"]
+radius = 0.05
+height = 0.915
+
+[node name="Staff Elongated" unique_id=461660423 instance=ExtResource("1_c8vkq")]
+
+[node name="staff" parent="." index="0" unique_id=2012177003]
+transform = Transform3D(4.3412056, 24.620193, 0, -24.620193, 4.3412056, 0, 0, 0, 25, 0, 0, 0)
+
+[node name="DamageSource" parent="." index="1" unique_id=2040592263 instance=ExtResource("2_8s0hn")]
+
+[node name="CollisionShape3D" parent="DamageSource" index="0" unique_id=1082627472]
+transform = Transform3D(0.17364822, 0.98481387, 0, -0.9848077, 0.17364822, 0, 0, 0, 1, 0.009, 0.004, 0)
+shape = SubResource("CapsuleShape3D_1cqxg")
+
+[editable path="DamageSource"]

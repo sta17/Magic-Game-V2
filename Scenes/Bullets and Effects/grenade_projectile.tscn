@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bwbysqla1nloc"]
 
 [ext_resource type="Script" uid="uid://nxqeiq2pw4io" path="res://Script/GamePlay/grenade_projectile.gd" id="1_efpdh"]
+[ext_resource type="PackedScene" uid="uid://6cdsj4g03di3" path="res://Scenes/Bullets and Effects/grenade_projectile_vfx.tscn" id="2_lvhn1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xucj6"]
 radius = 0.14
@@ -20,6 +21,7 @@ height = 0.28
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("1_efpdh")
+VFX = ExtResource("2_lvhn1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1158141283]
 shape = SubResource("SphereShape3D_xucj6")

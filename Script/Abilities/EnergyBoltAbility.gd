@@ -8,7 +8,7 @@ class_name EnergyBoltAbility
 @export var speed:        float = 28.0
 @export var cooldown_sec: float = 0.6
 
-const _BulletScene := preload("res://scenes/bullet.tscn")
+const _BulletScene := preload("res://Scenes/Bullets and Effects/bullet.tscn")
 
 var _last_use_ms: int = -999999
 

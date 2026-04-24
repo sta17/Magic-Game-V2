@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://cn07epi3r7mv1" path="res://Script/Core/npc.gd" id="1_acqhf"]
 [ext_resource type="Texture2D" uid="uid://ddcrhlayn5f0n" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/pouch.png" id="2_xxsvc"]
 [ext_resource type="Material" uid="uid://c117inhla135" path="res://GodotSettings/Materials/Placeholder Yellow.tres" id="3_g6unj"]
-[ext_resource type="PackedScene" uid="uid://dbmvilvdc8f8m" path="res://Scenes/Components/DetectionComponent.tscn" id="4_h1ryf"]
+[ext_resource type="PackedScene" uid="uid://dbmvilvdc8f8m" path="res://Scenes/Components/detection_component.tscn" id="4_h1ryf"]
+[ext_resource type="PackedScene" uid="uid://2tpugupb3ytw" path="res://Scenes/Components/movement_component.tscn" id="5_1ig1v"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xxsvc"]
 radius = 0.25
@@ -28,10 +29,12 @@ material = ExtResource("3_g6unj")
 radius = 0.25
 height = 0.5
 
-[node name="NPC" type="CharacterBody3D" unique_id=2124289884]
+[node name="NPC" type="CharacterBody3D" unique_id=2124289884 node_paths=PackedStringArray("movement_component", "detection_component")]
 collision_layer = 16
 collision_mask = 23
 script = ExtResource("1_acqhf")
+movement_component = NodePath("Components/MovementComponent")
+detection_component = NodePath("Node3D Components/DetectionComponent")
 _overhead_icon = ExtResource("2_xxsvc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=399558641]
@@ -60,4 +63,11 @@ texture = ExtResource("2_xxsvc")
 
 [node name="Node3D Components" type="Node3D" parent="." unique_id=402715695]
 
-[node name="DetectionComponent" parent="Node3D Components" unique_id=1056468298 instance=ExtResource("4_h1ryf")]
+[node name="DetectionComponent" parent="Node3D Components" unique_id=1056468298 node_paths=PackedStringArray("parent") instance=ExtResource("4_h1ryf")]
+parent = NodePath("../..")
+
+[node name="Components" type="Node" parent="." unique_id=793001068]
+
+[node name="MovementComponent" parent="Components" unique_id=236478447 node_paths=PackedStringArray("movementPoint", "rotationPoint") instance=ExtResource("5_1ig1v")]
+movementPoint = NodePath("../..")
+rotationPoint = NodePath("../..")

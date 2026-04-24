@@ -57,13 +57,13 @@ func hotbarScroll(direction: int) -> void:
 func dialogScroll(direction: int) -> void:
 	dialogWindow.scroll(direction)
 
-func dialogPromptLine() -> void:
+func dialogPromptLine() -> bool:
 	#dialogWindow.promptLine()
-	dialogWindow.promptLines(1)
+	return dialogWindow.promptLines(1)
 
-func dialogPromptPreviousLine() -> void:
+func dialogPromptPreviousLine() -> bool:
 	#dialogWindow.promptPreviousLine()
-	dialogWindow.promptLines(-1)
+	return dialogWindow.promptLines(-1)
 
 func dialogSendSelection() -> void:
 	dialogWindow.sendSelection()

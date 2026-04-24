@@ -3,7 +3,7 @@
 extends AbilityData
 class_name PowerPunchAbility
 
-const _GrenadeVFX  := preload("res://Scenes/grenade_projectile_vfx.tscn")
+const _GrenadeVFX  := preload("res://Scenes/Bullets and Effects/grenade_projectile_vfx.tscn")
 
 @export var damage:			float = 80.0
 @export var radius:			float = 5.0

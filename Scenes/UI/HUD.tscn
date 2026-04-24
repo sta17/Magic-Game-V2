@@ -189,6 +189,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 
 [node name="player_UI_Menu" type="Panel" parent="." unique_id=653791917 node_paths=PackedStringArray("tabList")]
+visible = false
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0

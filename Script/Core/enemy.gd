@@ -6,23 +6,21 @@ signal enemy_died(drop_position: Vector3)
 
 enum State { IDLE, PATROL, CHASE, DEAD, STAND, ATTACK }
 
-const DROP_CHANCE:  float = 0.6
-const _PickupScene := preload("res://Scenes/PickUpItem.tscn")
-
 @export_category("Components")
 @export var health_component: HealthComponent
 @export var melee_attack_component: MeleeAttackComponent
 @export var ranged_attack_component: RangedAttackComponent
 @export var detection_component: DetectionComponent
 @export var drop_item_component: DropItemComponent
+@export var movement_component: MovementComponent
+@export var hitbox_component: HitboxComponent
 
 @export_category("Stats")
-@export var GRAVITY:		float = ProjectSettings.get_setting("physics/3d/default_gravity")
+@export var GRAVITY: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var move_speed: float = 3.5
 @export var melee_icon: Texture2D
 @export var ranged_icon: Texture2D
-@export var drop_table: Array[ItemData] = []
-@export var patrol_radius: float   = 8.0
+@export var patrol_radius: float = 8.0
 @export var state: State = State.IDLE:
 	set(value):
 		state = value
@@ -53,26 +51,30 @@ func _ready() -> void:
 	health_component.zero_health.connect(_die)
 	health_component.took_damage.connect(update_HP)
 	
+	detection_component.detection_enabled = true
+	hitbox_component.detection_enabled = true
+	hitbox_component.damage_source_hit.connect(health_component.incoming_damage)
 	melee_attack_component.attacker = self
 	melee_attack_component.detection_range = detection_component.detection_range
 	ranged_attack_component.attacker = self
 	ranged_attack_component.detection_range = detection_component.detection_range
+	movement_component.movementPoint = self
 
 func _setup_hp_sprite() -> void:
 	_hp_bar._setup_hp_sprite(health_component.health,health_component._max_hp())
 
 func update_HP(amount:float) -> void:
-	if state == State.DEAD:
-		return
+	if state == State.DEAD: return
 	if state == State.PATROL or state == State.IDLE:
-		state = State.CHASE
+		if detection_component._check_detect():
+			state = State.CHASE
 	_hp_bar._update_health_bar(amount)
 
 func _physics_process(delta: float) -> void:
 	if state == State.DEAD: return
 
 	if not is_on_floor():
-		velocity.y += GRAVITY * delta
+		velocity.y += (GRAVITY * -1) * delta
 
 	match state:
 		State.IDLE:		_do_idle(delta)
@@ -104,7 +106,7 @@ func _do_patrol(delta: float) -> void:
 		state = State.IDLE; return
 	elif _patrol_wait > 2.0:
 		state = State.IDLE; return
-	_move_toward(_patrol_target, move_speed * 0.6, delta)
+	movement_component._move_toward(_patrol_target, move_speed * 0.6, delta)
 
 func _do_chase(delta: float) -> void:
 	if not detection_component._check_detect():
@@ -113,13 +115,13 @@ func _do_chase(delta: float) -> void:
 	if melee_attack_component.is_in_range() or ranged_attack_component.is_in_range():
 		velocity.x = 0.0; velocity.z = 0.0
 		state = State.ATTACK; return
-	_move_toward(current_target.global_position, move_speed, delta)
+	movement_component._move_toward(current_target.global_position, move_speed, delta)
 
 func _do_attack(delta: float) -> void:
 	if not melee_attack_component.is_in_range() and not ranged_attack_component.is_in_range():
 		state = State.CHASE; return
 
-	_face_target(current_target.global_position, delta * 8.0)
+	movement_component._face_target(current_target.global_position, delta * 8.0)
 
 	if melee_attack_component.can_attack():
 		_head_icon.texture = melee_icon
@@ -158,22 +160,3 @@ func _set_patrol_target() -> void:
 		randf_range(-patrol_radius, patrol_radius)
 	)
 	_patrol_target = _spawn_pos + offset
-
-func _move_toward(target: Vector3, speed: float, delta: float) -> void:
-	var flat_dir: Vector3 = (target - global_position)
-	flat_dir.y = 0.0
-	if flat_dir.length() < 0.01:
-		velocity.x = 0.0; velocity.z = 0.0
-		return
-	flat_dir = flat_dir.normalized()
-	velocity.x = flat_dir.x * speed
-	velocity.z = flat_dir.z * speed
-	_face_target(target, delta * 6.0)
-
-func _face_target(target: Vector3, weight: float) -> void:
-	var dir: Vector3 = (target - global_position)
-	dir.y = 0.0
-	if dir.length() < 0.01:
-		return
-	var target_angle:float = atan2(dir.x, dir.z)
-	rotation.y = lerp_angle(rotation.y, target_angle, weight)

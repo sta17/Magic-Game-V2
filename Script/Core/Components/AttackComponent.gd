@@ -5,8 +5,6 @@ class_name AttackComponent
 signal attack_ready
 signal attack_cooldown_start
 
-const _BulletScene  := preload("res://Scenes/bullet.tscn")
-
 @export_category("Nodes")
 @export var target: Node3D = null
 @export var attacker: Node3D = null

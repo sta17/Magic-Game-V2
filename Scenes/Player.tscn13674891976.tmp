@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://d273fm43xl6uv" path="res://Assets/Models/Mixamo/kachujin_g_rosales.tscn" id="4_dewec"]
 [ext_resource type="PackedScene" uid="uid://bhupu2ik6bcuf" path="res://Scenes/Components/melee_attack_component.tscn" id="5_nn08x"]
 [ext_resource type="PackedScene" uid="uid://b1hmolvxn8bcl" path="res://Scenes/Components/ranged_attack_component.tscn" id="6_52ee3"]
-[ext_resource type="PackedScene" uid="uid://r0681hnf846e" path="res://Scenes/Components/hitbox_component.tscn" id="7_52ee3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
 radius = 0.25
@@ -14,13 +13,12 @@ radius = 0.25
 [sub_resource type="SphereShape3D" id="SphereShape3D_kyqiw"]
 radius = 2.5
 
-[node name="Player" type="CharacterBody3D" unique_id=367495546 node_paths=PackedStringArray("health_component", "melee_attack_component", "ranged_attack_component", "hitbox_component")]
+[node name="Player" type="CharacterBody3D" unique_id=367495546 node_paths=PackedStringArray("health_component", "melee_attack_component", "ranged_attack_component")]
 collision_mask = 31
 script = ExtResource("1_rpqav")
 health_component = NodePath("Component/HealthComponent")
 melee_attack_component = NodePath("Node3D Component/MeleeAttackComponent")
 ranged_attack_component = NodePath("Node3D Component/RangedAttackComponent")
-hitbox_component = NodePath("Node3D Component/HitboxComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=264806240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -59,12 +57,6 @@ transform = Transform3D(-0.9999322, 0.011553869, -0.0013274457, 0.011516288, 0.9
 [node name="MeleeAttackComponent" parent="Node3D Component" unique_id=1063837225 instance=ExtResource("5_nn08x")]
 
 [node name="RangedAttackComponent" parent="Node3D Component" unique_id=1455317532 instance=ExtResource("6_52ee3")]
-
-[node name="HitboxComponent" parent="Node3D Component" unique_id=575089864 node_paths=PackedStringArray("parent") instance=ExtResource("7_52ee3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-parent = NodePath("../..")
-radius = 0.25
-detection_enabled = false
 
 [connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_area_entered"]
 [connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_area_exited"]

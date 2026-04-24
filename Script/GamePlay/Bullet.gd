@@ -46,8 +46,11 @@ func _physics_process(delta: float) -> void:
 		_done = true
 		
 		if hit.collider is Player:
-			var temp: Player = hit.collider
-			temp.health_component.take_damage(damage)
+			(hit.collider as Player).health_component.take_damage(damage)
+		elif hit.collider is Enemy:
+			(hit.collider as Enemy).health_component.take_damage(damage)
+		elif hit.collider is EnemyStaticRotating:
+			(hit.collider as EnemyStaticRotating).health_component.take_damage(damage)
 		elif hit.collider.has_method("take_damage"):
 			hit.collider.take_damage(damage)
 		global_position = hit.position

@@ -2,11 +2,12 @@
 extends RigidBody3D
 class_name GrenadeProjectile
 
-const _GrenadeVFX  := preload("res://Scenes/grenade_projectile_vfx.tscn")
+#const _GrenadeVFX  := preload("res://Scenes/grenade_projectile_vfx.tscn")
 
 @export var damage: float = 80.0
 @export var radius: float = 5.0
 @export var fuse_time: float = 1.5
+@export var VFX: PackedScene
 
 var _timer: float = 0.0
 var _exploded: bool = false
@@ -36,7 +37,7 @@ func _explode() -> void:
 	queue_free()
 
 func _spawn_explosion_vfx() -> void:
-	var vfx: GrenadeProjectileVFX = _GrenadeVFX.instantiate()
+	var vfx: GrenadeProjectileVFX = VFX.instantiate()
 	vfx.radius = radius
 	vfx._startVFX()
 

@@ -33,10 +33,10 @@ animation = &"Sword and Shield/Sword And Shield Slash"
 animation = &"Sword and Shield/Sword And Shield Run BWD"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i6l45"]
-animation = &"Sword and Shield/Sword And Shield Strafe Run L"
+animation = &"Sword and Shield/Sword And Shield Strafe Run R"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5l06v"]
-animation = &"Sword and Shield/Sword And Shield Strafe Run R"
+animation = &"Sword and Shield/Sword And Shield Strafe Run L"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lq6q5"]
 animation = &"Sword and Shield/Sword And Shield Run FWD"
@@ -85,7 +85,7 @@ blend_point_4/node = SubResource("AnimationNodeAnimation_410pt")
 blend_point_4/pos = Vector2(0, -1)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_uwiml"]
-graph_offset = Vector2(-480.90637, -138.43033)
+graph_offset = Vector2(-302.4456, -90.36139)
 nodes/output/position = Vector2(720, -40)
 "nodes/Moving Armed/node" = SubResource("AnimationNodeBlendSpace2D_h21tg")
 "nodes/Moving Armed/position" = Vector2(0, 20)
@@ -178,4 +178,4 @@ states/Jump_Start/position = Vector2(230, -37)
 "states/Moving Tree/position" = Vector2(646, 117)
 states/Start/position = Vector2(230, 117)
 transitions = ["Jump_Start", "Jump_Idle", SubResource("AnimationNodeStateMachineTransition_w0l4r"), "Jump_Idle", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_pmags"), "Attack_Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_ewpvh"), "Attack", "Attack_Idle", SubResource("AnimationNodeStateMachineTransition_d4sh0"), "Jump_Land", "Idle", SubResource("AnimationNodeStateMachineTransition_msb3o"), "Idle", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_mopt3"), "Idle", "Attack_Idle", SubResource("AnimationNodeStateMachineTransition_572hw"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_i7pd2"), "Attack_Idle", "Idle", SubResource("AnimationNodeStateMachineTransition_es7b8"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ocu0e"), "Idle", "Moving Tree", SubResource("AnimationNodeStateMachineTransition_6unxu"), "Moving Tree", "Idle", SubResource("AnimationNodeStateMachineTransition_410pt"), "Moving Tree", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_qg5eh")]
-graph_offset = Vector2(28, -63)
+graph_offset = Vector2(-56, -123)

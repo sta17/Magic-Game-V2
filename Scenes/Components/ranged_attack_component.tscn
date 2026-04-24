@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://b1hmolvxn8bcl"]
 
 [ext_resource type="Script" uid="uid://dxgptkdjsknhi" path="res://Script/Core/Components/RangedAttackComponent.gd" id="1_cc8bb"]
+[ext_resource type="PackedScene" uid="uid://bknf08i1rpmg6" path="res://Scenes/Bullets and Effects/bullet.tscn" id="2_plnxq"]
 
 [node name="RangedAttackComponent" type="Node3D" unique_id=1063837225]
 script = ExtResource("1_cc8bb")
+bulletScene = ExtResource("2_plnxq")
 attack_damage = 20.0
 attack_range = 4.4

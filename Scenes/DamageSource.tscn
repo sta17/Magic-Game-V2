@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bx3arjp62ugau"]
+
+[ext_resource type="Script" uid="uid://cw5eibvu576q7" path="res://Script/Core/DamageSource.gd" id="1_ipx21"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2jgkh"]
+radius = 0.05
+height = 1.25
+
+[node name="DamageSource" type="Area3D" unique_id=2040592263]
+collision_layer = 3
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_ipx21")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1082627472]
+transform = Transform3D(0.17364822, 0.98481387, 0, -0.9848077, 0.17364822, 0, 0, 0, 1, 0.4409522, 0.07775167, 0)
+shape = SubResource("CapsuleShape3D_2jgkh")
