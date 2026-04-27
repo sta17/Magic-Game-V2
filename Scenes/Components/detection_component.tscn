@@ -6,8 +6,8 @@
 radius = 8.0
 
 [node name="DetectionComponent" type="Area3D" unique_id=1056468298 node_paths=PackedStringArray("collision")]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 0
+collision_mask = 27
 script = ExtResource("1_kd1gd")
 detection_enabled = false
 collision = NodePath("CollisionShape3D")

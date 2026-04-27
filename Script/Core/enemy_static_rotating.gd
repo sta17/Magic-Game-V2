@@ -12,6 +12,7 @@ enum State { IDLE, PATROL, CHASE, DEAD, STAND, ATTACK }
 @export var detection_component: DetectionComponent
 @export var drop_item_component: DropItemComponent
 @export var movement_component: MovementComponent
+@export var hitbox_component: HitboxComponent
 
 @export_category("Stats")
 @export var rotation_speed: float = 0.8
@@ -49,7 +50,8 @@ func _ready() -> void:
 
 	health_component.zero_health.connect(_die)
 	health_component.took_damage.connect(update_HP)
-	
+	hitbox_component.detection_enabled = true
+	hitbox_component.damage_source_hit.connect(health_component.incoming_damage)
 	detection_component.detection_enabled = true
 	ranged_attack_component.attacker = self
 	ranged_attack_component.detection_range = detection_component.detection_range

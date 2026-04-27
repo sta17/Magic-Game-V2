@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://2tpugupb3ytw" path="res://Scenes/Components/movement_component.tscn" id="10_rt3f8"]
 [ext_resource type="PackedScene" uid="uid://djgp2nrg21j2g" path="res://Scenes/Components/health_component.tscn" id="11_2g52s"]
 [ext_resource type="PackedScene" uid="uid://dbmvilvdc8f8m" path="res://Scenes/Components/detection_component.tscn" id="11_222di"]
+[ext_resource type="PackedScene" uid="uid://r0681hnf846e" path="res://Scenes/Components/hitbox_component.tscn" id="12_22n12"]
 [ext_resource type="PackedScene" uid="uid://b1hmolvxn8bcl" path="res://Scenes/Components/ranged_attack_component.tscn" id="12_222di"]
 [ext_resource type="PackedScene" uid="uid://b0yj5u6eg52km" path="res://Scenes/Components/drop_item_component.tscn" id="12_rt3f8"]
 
@@ -26,7 +27,7 @@ point_count = 3
 height = 1.7
 radius = 0.4
 
-[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860 node_paths=PackedStringArray("health_component", "ranged_attack_component", "detection_component", "drop_item_component", "movement_component")]
+[node name="Enemy-Turret" type="StaticBody3D" unique_id=1191795860 node_paths=PackedStringArray("health_component", "ranged_attack_component", "detection_component", "drop_item_component", "movement_component", "hitbox_component")]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_od0y6")
@@ -35,6 +36,7 @@ ranged_attack_component = NodePath("Node3D Components/RangedAttackComponent")
 detection_component = NodePath("Node3D Components/DetectionComponent")
 drop_item_component = NodePath("Node3D Components/DropItemComponent")
 movement_component = NodePath("Components/MovementComponent")
+hitbox_component = NodePath("Node3D Components/HitboxComponent")
 
 [node name="RotationPoint" type="Node3D" parent="." unique_id=1733392636]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -103,3 +105,7 @@ attack_damage = 10.0
 parent = NodePath("../..")
 
 [node name="DropItemComponent" parent="Node3D Components" unique_id=1113669536 instance=ExtResource("12_rt3f8")]
+
+[node name="HitboxComponent" parent="Node3D Components" unique_id=575089864 node_paths=PackedStringArray("parent") instance=ExtResource("12_22n12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72260404, 0)
+parent = NodePath("../..")

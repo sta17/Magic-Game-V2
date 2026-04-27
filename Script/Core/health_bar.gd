@@ -20,7 +20,8 @@ func _setup_hp_sprite(s_health: float, s_max_health: float) -> void:
 func _update_health_bar(amount: float) -> void:
 	if not _hp_bar:
 		return
-	_hp_bar.value = (health_component.health / health_component._max_hp()) * 100.0
+	#_hp_bar.value = (health_component.health / health_component._max_hp()) * 100.0
+	_hp_bar.value = health_component.health
 	
 	if _hp_bar.value == _hp_bar.max_value:
 		_hp_bar.visible = false

@@ -51,7 +51,7 @@ func is_target_valid(object: Node3D) -> bool:
 	if object == self: return false
 	if object is DetectionComponent: return false
 	if object is HitboxComponent: return false
-	if object == DamageSource: 
+	if object is DamageSource: 
 		if (object as DamageSource).entity == parent:
 			return false
 		elif (object as DamageSource).entity == NPC:
@@ -69,6 +69,7 @@ func _on_area_entered(area: Area3D) -> void:
 func _on_area_exited(area: Area3D) -> void:
 	if area in _damage_sources_in_hitbox:
 		_damage_sources_in_hitbox.erase(area)
+		_successful_hits.erase(area)
 
 func _on_body_entered(body: Node3D) -> void:
 	if is_target_valid(body):
@@ -77,3 +78,4 @@ func _on_body_entered(body: Node3D) -> void:
 func _on_body_exited(body: Node3D) -> void:
 	if body in _damage_sources_in_hitbox:
 		_damage_sources_in_hitbox.erase(body)
+		_successful_hits.erase(body)

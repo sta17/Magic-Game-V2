@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b56pfs6mglmgg" path="res://Script/Core/enemy.gd" id="1_afpow"]
 [ext_resource type="Texture2D" uid="uid://dfixyxgw5avsw" path="res://Assets/Icons/Kenney/kenney_board-game-icons/PNG/sword.png" id="3_ghaa6"]
 [ext_resource type="PackedScene" uid="uid://b220tjburyhsl" path="res://Scenes/Components/health_bar.tscn" id="4_287tu"]
+[ext_resource type="PackedScene" uid="uid://ci1cuvflct6y" path="res://Assets/Models/Quaternius/Universal Animation Library 2[Source]/Unreal-Godot/ual_2.tscn" id="4_m4x7e"]
 [ext_resource type="PackedScene" uid="uid://2tpugupb3ytw" path="res://Scenes/Components/movement_component.tscn" id="6_56vhr"]
 [ext_resource type="Material" uid="uid://b8lq5j7d6ek4a" path="res://GodotSettings/Materials/Placeholder Red.tres" id="6_ghaa6"]
 [ext_resource type="PackedScene" uid="uid://djgp2nrg21j2g" path="res://Scenes/Components/health_component.tscn" id="7_1dp5w"]
@@ -36,7 +37,7 @@ height = 0.5
 
 [node name="Enemy" type="CharacterBody3D" unique_id=640505128 node_paths=PackedStringArray("health_component", "melee_attack_component", "ranged_attack_component", "detection_component", "drop_item_component", "movement_component", "hitbox_component")]
 collision_layer = 2
-collision_mask = 7
+collision_mask = 23
 script = ExtResource("1_afpow")
 health_component = NodePath("Components/HealthComponent")
 melee_attack_component = NodePath("Node3D Components/MeleeAttackComponent")
@@ -61,6 +62,9 @@ texture = ExtResource("3_ghaa6")
 [node name="HealthBar" parent="." unique_id=905334040 node_paths=PackedStringArray("health_component") instance=ExtResource("4_287tu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 health_component = NodePath("../Components/HealthComponent")
+
+[node name="UAL2" parent="." unique_id=746179598 instance=ExtResource("4_m4x7e")]
+visible = false
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=500523651]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6871959, 0)
@@ -92,7 +96,7 @@ attacker = NodePath("../..")
 attacker = NodePath("../..")
 
 [node name="DetectionComponent" parent="Node3D Components" unique_id=1056468298 node_paths=PackedStringArray("parent") instance=ExtResource("9_8uf12")]
-collision_layer = 2
+monitorable = false
 parent = NodePath("../..")
 
 [node name="DropItemComponent" parent="Node3D Components" unique_id=1113669536 instance=ExtResource("9_po0sg")]
@@ -100,6 +104,7 @@ drop_table = Array[ExtResource("10_haro7")]([ExtResource("11_56vhr")])
 
 [node name="HitboxComponent" parent="Node3D Components" unique_id=575089864 node_paths=PackedStringArray("parent") instance=ExtResource("13_ta2yt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+collision_layer = 2
 parent = NodePath("../..")
 radius = 0.25
 height = 1.8

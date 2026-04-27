@@ -28,7 +28,6 @@ func take_damage(amount: float) -> void:
 	if not is_alive():
 		return
 	health = maxf(0.0, health - amount)
-	health_increased.emit()
 	flash_damage()
 
 	took_damage.emit(amount)

@@ -2,3 +2,5 @@
 .godot/
 /android/
 /Assets/Textures/Mine/Reference
+*.blend
+*.blend1

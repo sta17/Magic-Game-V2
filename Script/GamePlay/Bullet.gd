@@ -2,6 +2,10 @@
 extends Area3D
 class_name Bullet
 
+@export var entity: CharacterBody3D
+@export var can_damage: bool = false
+@export var attack_component: AttackComponent
+
 var direction: Vector3 = Vector3.FORWARD
 var speed:     float   = 100.0
 var damage:    float   = 15.0

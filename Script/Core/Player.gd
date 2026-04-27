@@ -360,13 +360,7 @@ func try_ranged(equipped_weapon: WeaponData) -> void:
 		var bullet: Bullet = _BulletScene.instantiate()
 		get_tree().current_scene.add_child(bullet)
 
-		var spread := equipped_weapon.bullet_spread *  2.0
-		#var dir := -_cam.global_transform.basis.z
-		var dir := -_muzzle.global_transform.basis.z
-		#dir += Vector3(randf_range(-spread, spread),
-		#			   randf_range(-spread, spread),
-		#			   randf_range(-spread, spread))
-		dir = dir.normalized()
+		var dir := -_muzzle.global_transform.basis.z.normalized()
 
 		#bullet.global_position = _muzzle.global_position
 		bullet.position = _muzzle.global_position
@@ -376,6 +370,9 @@ func try_ranged(equipped_weapon: WeaponData) -> void:
 		bullet.damage    = equipped_weapon.damage + equipment.get_damage_bonus() \
 			+ passive_ability_list.get_passive_damage_bonus()
 		bullet.shooter   = self
+		bullet.entity = self
+		bullet.attack_component = ranged_attack_component
+		bullet.can_damage = true
 
 func try_melee(equipped_weapon: WeaponData) -> void:
 	ACTION_STATE = ActionState.MELEE

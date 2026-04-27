@@ -147,6 +147,7 @@ previous_page={
 3d_physics/layer_3="World"
 3d_physics/layer_4="Interactable"
 3d_physics/layer_5="NPCs"
+3d_physics/layer_6="Damage Sources"
 
 [physics]
 
